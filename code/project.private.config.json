@@ -1,0 +1,114 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/MyZone/MyZone",
+                    "pathName": "pages/MyZone/MyZone",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/login/login",
+                    "pathName": "pages/login/login",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/EditInfo/EditInfo",
+                    "pathName": "pages/EditInfo/EditInfo",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/Release/Release",
+                    "pathName": "pages/Release/Release",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/footprint/footprint",
+                    "pathName": "pages/footprint/footprint",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/travel/travel",
+                    "pathName": "pages/travel/travel",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/index/index",
+                    "pathName": "pages/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/OtherZone/OtherZone",
+                    "pathName": "pages/OtherZone/OtherZone",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/ReleasePal/ReleasePal",
+                    "pathName": "pages/ReleasePal/ReleasePal",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/Pal/Pal",
+                    "pathName": "pages/Pal/Pal",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/Notification/Notification",
+                    "pathName": "pages/Notification/Notification",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/contract/contract",
+                    "pathName": "pages/contract/contract",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/AboutUs/AboutUs",
+                    "pathName": "pages/AboutUs/AboutUs",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/Location/Location",
+                    "pathName": "pages/Location/Location",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/EditInfo/EditInfo",
+                    "pathName": "pages/EditInfo/EditInfo",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/Release/Release",
+                    "pathName": "pages/Release/Release",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}
