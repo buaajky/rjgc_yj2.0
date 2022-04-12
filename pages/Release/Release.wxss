@@ -1,0 +1,82 @@
+.cover_img {
+  width: 100%;
+}
+
+.title_view {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.title_input {
+  height: auto;
+  font-weight: bold;
+  font-size: 150%;
+}
+
+.divline{
+  width: 94%;
+  border-bottom:solid 4rpx rgb(248, 248, 248);
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  margin-left: 3%;
+}
+
+.content_view {
+  padding: 6%;
+}
+
+.content_textarea {
+  width: 100%;
+  margin-bottom: 100rpx;
+  font-size: 120%;
+}
+
+.image_view {
+  padding: 6%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image{
+  width:31%;
+  height: 100px;
+  padding: 2px
+}
+
+.moment_img{
+  width: 98px;
+  height: 98px;
+}
+
+.btns_view {
+  padding: 6%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.add_location{
+  width: 100% !important;
+  height: 35px;
+  margin-bottom: 10rpx;
+  font-size: 14px;
+  font-family: serif;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.send{
+  margin-top: 100rpx;
+  background-color: rgb(199, 231, 255);
+}
+
+.img{
+  height: 30px;
+  width: 30px;
+}

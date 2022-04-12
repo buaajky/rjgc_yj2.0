@@ -232,7 +232,6 @@
   margin-bottom: 10rpx;
   margin-left: 1%;
 }
-<<<<<<< HEAD
 
 .card-dot {
   width: 18rpx;
@@ -317,5 +316,3 @@
 .airplane_ticket_item{
   background-color: #3963bc;
 }
-=======
->>>>>>> 181ad8745e40788e93ddc79eebef1c143c7973a7

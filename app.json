@@ -1,8 +1,6 @@
 {
   "entryPagePath": "pages/index/index",
-
   "pages": [
-
     "pages/index/index",
     "pages/logs/logs",
     "pages/login/login",
@@ -26,7 +24,6 @@
     "pages/Advertisement/Advertisement",
     "pages/Outweb/Outweb",
     "pages/AboutUs/AboutUs",
-    
     "pages/Cropper/Cropper",
     "pages/AirplaneSearch/AirplaneSearch"
   ],
@@ -36,7 +33,6 @@
     "navigationBarTitleText": "游迹",
     "navigationBarTextStyle": "black"
   },
-
   "sitemapLocation": "sitemap.json",
   "useExtendedLib": {
     "weui": true
@@ -46,6 +42,4 @@
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   }
-
 }
-

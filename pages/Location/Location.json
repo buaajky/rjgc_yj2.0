@@ -1,10 +1,6 @@
 {
-<<<<<<< HEAD
   "usingComponents": {
     "l-card":"/miniprogram_npm/lin-ui/card/index"
   },
-=======
-  "usingComponents": {},
->>>>>>> 181ad8745e40788e93ddc79eebef1c143c7973a7
   "navigationBarTitleText": "地点详情"
 }

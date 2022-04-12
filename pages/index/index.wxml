@@ -1,0 +1,236 @@
+<view style="overflow-x:hidden;width:100%;" class="page">
+    <view class = "searchbox_notificaionbox">
+        <view class = "searchbox">
+            <view class = "search_icon">
+                <image src = "{{server_imagename}}/magnifier.png" mode = 'widthFix' class = "search_icon_pic">
+                </image>
+            </view>
+            <input class = "input_box" value = "{{input_value}}" confirm-type="search" bindconfirm="navigate2SearchResult" bindtap="clearDefault">
+            </input>
+            <view class = "clear_icon">
+                <image src ="{{server_imagename}}/clear.png" mode = 'widthFix' class = "clear_icon_pic" bindtap = "clear">
+                
+                </image>
+             </view>
+        </view>
+        <view class = 'notificationbox' bindtap = 'navigate2Notification'>
+            <view class = "notification_icon">
+                <image src = "{{server_imagename}}/notification.png" mode = 'widthFix' class = "notification_icon_pic">
+                </image>
+                <mp-badge wx:if="{{notification}}" class="badge"/>
+            </view>
+        </view>
+    </view>
+    <view class = "ad_box">
+        <swiper class = "ad_swpier" indicator-dots="true" interval="5000" autoplay = "true" duration = "500" circular="true" indicator-active-color="black">
+            <swiper-item wx:for = "{{ad_ids}}" class = "ad" bindtap = "navigate2Ad" wx:key="index">
+                <image class ="ad_pic" src = "{{ad_covers[index]}}" mode = "widthFix" id = "{{index}}">
+                
+                </image>
+                <!-- <cover-view class = "ad_title">
+                    {{ad_titles[index]}}
+                </cover-view> -->
+            </swiper-item>
+        </swiper>
+    </view>
+    <!-- <view class = "hot_places_box">
+        <view class = "hot_places_head">
+            <view class = "hot_places_head_text">
+                热搜
+            </view>
+        </view>
+        <view class = "hot_places_names_box">
+            <view class = "hot_places_icon">
+                <image class = "hot_places_icon_pic" src = "{{server_imagename}}/fire.png" mode = "widthFix"></image>
+            </view>
+            <view class = "hot_places_names">
+                <view  wx:for="{{hotPlacesNames}}" wx:key="item" class = "hot_places_names_text">
+                    {{item}}
+                </view>
+            </view>
+        </view>
+    </view> -->
+    <view class="swiper_box">
+        <view class="swiper_tab_bar">
+            <view class="swiper_tab_navigator">
+                <view wx:for="{{tab.tabitem}}" wx:key="item"
+                bindtap="setTab" data-tabindex="{{index}}" 
+                class="swiper_tab_item">
+                    <view wx:if="{{showtab == index}}" class = "swiper_tab_item_text" animation="{{big_animation}}">
+                            <view>{{item.text}}</view>
+                    </view>
+                    <view wx:if="{{showtab != index}}" class = "swiper_tab_item_text" >
+                        <view>{{item.text}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view>
+            <view class="swiper_tab_line" 
+            style="width:{{100/tab.tabnum}}%;transform:translateX({{100*showtab}}%);">
+            </view>
+        </view> 
+        <view class = "fly_icon_box" 
+        animation = "{{fly_animation}}">
+            <image class = "fly_icon_pic" src = "{{server_imagename}}/plane.png"></image>
+        </view>
+
+        <swiper current="{{currentTab}}" class="swiper_content" duration="500" bindchange="bindChange"
+            style="--pageSize--:{{pageSize}}rpx">
+            
+            <swiper-item>
+                <view class = "travelRecords">
+                <view wx:for="{{travel_ids}}" wx:if="{{index < travel_num}}" class = 'travelRecord' id="{{index}}" bindtap="navigate2Travel" wx:key="item">
+                        <view class = "trCover">
+                            <image class = 'trCoverPic' src = '{{travel_covers[index]}}' mode="aspectFill" ></image>
+                        </view>
+                        <view class = "tr_title">
+                            {{travel_titles[index]}}
+                        </view>
+                        <view class = "tr_protrait_nickname_like">
+                            <view class = "tr_protrait">
+                                <image class = "tr_protrait_pic" src = "{{travel_icons[index]}}" mode = "scaleToFill"> </image>
+                            </view>
+                            <view class = "tr_nickname">
+                                <text style = "font-weight:bolder">{{travel_nicknames[index]}}</text>
+                            </view>
+                            <view class = "tr_like">
+                                <image wx:if="{{travel_liked_now[index]==true}}"  src="{{server_imagename}}/likes.png" class = "tr_like_pic" mode = "aspectFit"  id = "{{index}}" catchtap="disThumbsUp"></image>
+                                <image wx:else src="{{server_imagename}}/like_grey.png" class = "tr_like_pic" mode = "aspectFit"  id = "{{index}}" catchtap="thumbsUp"></image>
+                                <view wx:if="{{travel_liked_now[index]==true}}" class = "tr_text">{{travel_likes[index]+(travel_liked[index]==false)}}</view>
+                                <view wx:else class = "tr_text">{{travel_likes[index]-(travel_liked[index]==true)}}</view>
+                            </view>
+                        </view>
+                        <view class = "trLocBox">
+                            <image class = "trLocIcon" src = "{{server_imagename}}/location.png" mode = "widthFix"></image>
+                            <view class = "trLocText">
+                                <text space="ensp">{{travel_names[index]}} </text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </swiper-item>
+
+            <swiper-item>
+                <view class = "peer_activity_box">
+                    <view wx:for = "{{pal_ids}}" class = "peer_activity" wx:key="item" id="{{index}}" bindtap="navigate2Pal">
+                        <view class = "activity_owner">
+                            <view class = "activity_owner_protrait" >
+                                <image class = "activity_owner_protrait_pic" src= "{{pal_icons[index]}}" mode = "scaleToFill">
+                                </image>
+                            </view>
+                            <view class = "activity_owner_info">
+                                <view class = "activity_owner_nickname">
+                                    {{pal_nicknames[index]}}
+                                </view>
+                                <view class = "activity_owner_gender">
+                                    <image wx:if = "{{pal_genders[index]==0}}"class = "activity_owner_gender_pic" src= "{{server_imagename}}/male.png" mode = "heightFix"></image>
+                                    <image wx:else class = "activity_owner_gender_pic" src= "{{server_imagename}}/female.png" mode = "heightFix"></image>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="divline"></view>
+                        <view class = "activity_detail">
+                            <view class = "activity_detail_item">
+                                <view class = "activity_subject">
+                                    <text space="ensp"> {{pal_titles[index]}} </text>
+                                </view>
+                            </view>
+                            <view class = "activity_detail_item">
+                                <view class = "activity_detail_item_icon">
+                                    <image class = "activity_detail_item_icon_pic" mode = "heightFix" src = "{{server_imagename}}/clock.png">
+                                    </image>
+                                </view>
+                                <view class = "activity_time">
+                                    {{pal_startTimes[index]}} 至 {{pal_endTimes[index]}}
+                                </view>
+                            </view>
+                            <view class = "activity_detail_item">
+                                <view class = "activity_detail_item_icon">
+                                    <image class = "activity_detail_item_icon_pic" mode = "heightFix" src = "{{server_imagename}}/location_ peer.png">
+                                    </image>
+                                </view>
+                                <view class = "activity_loc">
+                                    {{pal_locations[index]}}
+                                </view>
+                            </view>
+                            <view class = "activity_detail_item">
+                                <view class = "activity_detail_item_icon">
+                                    <image class = "activity_detail_item_icon_pic" mode = "heightFix" src = "{{server_imagename}}/mine_grey.png">
+                                    </image>
+                                </view>
+                                <view class = "activity_time">
+                                    {{pal_nums[index]}} / {{pal_capacities[index]}}
+                                </view>
+                            </view>
+                        </view>
+                </view>
+                </view>
+            </swiper-item>
+
+            <swiper-item> 
+                <view class = "loc_box">
+                    <view wx:for="{{loc_ids}}" wx:if="{{index < loc_num}}" class = 'loc' id="{{index}}" bindtap="navigate2Loc" wx:key="item">
+                            <swiper class = "loc_covers" circular="true" indicator-active-color="white" indicator-dots="true"  id="{{index}}" >
+                                <swiper-item wx:for = "{{loc_images[index]}}" wx:for-item="cover_item" wx:key='index'>
+                                    <image  class = 'loc_cover_pic' src = "{{server_hostname}}/api/core/images/{{cover_item}}/data/" mode="widthtFix" ></image>
+                                </swiper-item>
+                            </swiper>
+                        <view class = "divline"></view>
+                        <view class = "loc_info">
+                            <view class = "loc_name">
+                                {{loc_names[index]}}
+                            </view>
+                            <view class = "loc_intro">
+                                {{loc_descriptions[index]}}
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </swiper-item>
+        </swiper>
+    </view>
+</view>
+
+<view id="bottom"></view>
+<!-- 底部的tabbar -->
+<!-- 底部的tabbar有3个组件 -->
+<view wx:if = "{{show}}">
+<cover-view  class="tabbar_cover_view_3" animation = "{{tabbar_3_animation}}" hidden="{{!tabbar_3}}">
+    <cover-view class="tabbar_box">
+        <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text">
+                <cover-image  wx:if = "{{tabbar_homepage}}" class = "tabbar_pic" mode = "widthFix" src = "{{server_imagename}}/homepage_blue.png">
+                </cover-image>
+                <cover-image  wx:else class = "tabbar_pic" mode = "widthFix" src = "{{server_imagename}}/homepage_grey.png" bindtap = "changeTabbarHomepage">
+                </cover-image>
+                <cover-view class = "tabbar_text">
+                主页
+                </cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view class="flex-item_3">
+            <cover-image  class = "tabbar_pic_plus" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release">
+            </cover-image>
+        </cover-view>
+        <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text"> 
+                <cover-image  wx:if = "{{tabbar_mine}}" class = "tabbar_pic" src = "{{server_imagename}}/mine_blue.png" mode = "widthFix"></cover-image>
+                <cover-image  wx:else  class = "tabbar_pic" src = "{{server_imagename}}/mine_grey.png" mode = "widthFix" bindtap="changeTabbarMine"></cover-image>
+                <cover-view class = "tabbar_text">
+                我的
+                </cover-view>
+            </cover-view>
+        </cover-view>
+    </cover-view>
+</cover-view>
+<!-- 底部的tabbar只有1个加号 -->
+<cover-view  class="tabbar_cover_view_1" animation = "{{tabbar_1_animation}}" hidden="{{!tabbar_1}}">
+    <cover-view class="tabbar_box">
+        <cover-view class="flex-item_1" bindtap="navigate2Release">
+            <cover-image  class = "tabbar_pic_plus" src = "{{server_imagename}}/plus_circle_blue.png" mode = "widthFix">
+            </cover-image>
+        </cover-view>
+    </cover-view>
+</cover-view>
+</view>
