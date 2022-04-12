@@ -1,6 +1,6 @@
 {
   "entryPagePath": "pages/index/index",
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/logs/logs",
     "pages/login/login",
@@ -24,15 +24,15 @@
     "pages/Advertisement/Advertisement",
     "pages/Outweb/Outweb",
     "pages/AboutUs/AboutUs",
-    "pages/Cropper/Cropper"
+    "pages/Cropper/Cropper",
+    "pages/PlaneDetail/PlaneDetail"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "游迹",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
-  
   "sitemapLocation": "sitemap.json",
   "useExtendedLib": {
     "weui": true

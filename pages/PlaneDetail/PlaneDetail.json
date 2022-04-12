@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "l-sticky":"/miniprogram_npm/lin-ui/sticky",
+    "l-sticky-item":"/miniprogram_npm/lin-ui/sticky-item",
+    "l-card":"/miniprogram_npm/lin-ui/card",
+    "l-notice-bar":"/miniprogram_npm/lin-ui/notice-bar",
+    "l-tabs":"/miniprogram_npm/lin-ui/tabs",
+    "l-tabpanel":"/miniprogram_npm/lin-ui/tabpanel",
+    "l-button":"/miniprogram_npm/lin-ui/button",
+    "l-radio":"/miniprogram_npm/lin-ui/radio"
+  },
+  "navigationBarTitleText": "航班详情"
+}

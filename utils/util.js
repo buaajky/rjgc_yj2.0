@@ -238,5 +238,15 @@ module.exports = {
         }
       }
     })
+  },
+
+  /*获取日期是星期几 */
+  getWeekByDate: function(dates) {
+    let show_day = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
+    let date = new Date(dates);
+    date.setDate(date.getDate());
+    let day = date.getDay();
+    return show_day[day];
   }
+
 }
