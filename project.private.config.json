@@ -1,0 +1,115 @@
+{
+  "setting": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/MyZone/MyZone",
+          "pathName": "pages/MyZone/MyZone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/EditInfo/EditInfo",
+          "pathName": "pages/EditInfo/EditInfo",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/Release/Release",
+          "pathName": "pages/Release/Release",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/footprint/footprint",
+          "pathName": "pages/footprint/footprint",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/travel/travel",
+          "pathName": "pages/travel/travel",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/OtherZone/OtherZone",
+          "pathName": "pages/OtherZone/OtherZone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/ReleasePal/ReleasePal",
+          "pathName": "pages/ReleasePal/ReleasePal",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/Pal/Pal",
+          "pathName": "pages/Pal/Pal",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/Notification/Notification",
+          "pathName": "pages/Notification/Notification",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/contract/contract",
+          "pathName": "pages/contract/contract",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/AboutUs/AboutUs",
+          "pathName": "pages/AboutUs/AboutUs",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/Location/Location",
+          "pathName": "pages/Location/Location",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/EditInfo/EditInfo",
+          "pathName": "pages/EditInfo/EditInfo",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/Release/Release",
+          "pathName": "pages/Release/Release",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/AirplaneSearch/AirplaneSearch",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "libVersion": "2.23.3"
+}

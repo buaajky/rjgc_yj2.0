@@ -1,0 +1,43 @@
+<view wx:if="{{show}}">
+
+<view class = "cover_view" >
+  <image class = "cover_img" src = "{{cover_url}}" mode = "widthFix" bindtap="chooseCover">
+  </image>
+</view>
+
+<view class="title_view">
+  <input class = "title_input" maxlength="30" placeholder="请输入游记标题"
+  id="title" bindinput="input"></input>
+</view>
+
+<view class = "divline"></view>
+
+<view class="content_view">
+  <textarea class='content_textarea' placeholder="请输入正文" auto-height maxlength="-1"
+  id="content" bindinput="input"></textarea>
+</view>
+
+<view class="image_view">
+    <view class='image' wx:for="{{img_url}}" wx:key="item">
+      <image class="moment_img" src="{{item}}"></image>
+    </view>
+    <view class='image' style='display:{{hideAdd?"none":"block"}}'>
+      <image bindtap="chooseimage" class="moment_img" src='{{server_imagename}}/add.jpg'></image>
+    </view>
+</view>
+
+<view class="btns_view">  
+  <button class="add_location" bindtap="chooseLocation">
+    <image class="img" src='{{server_imagename}}/add_location.jpg'></image>
+    {{(location.latitude == -1)? '添加地点' : location.address.city + " · " + location.name}}
+  </button>
+  <button class="add_location" bindtap="chooseVis">
+    <image class="img" src='{{server_imagename}}/visibility.jpg'></image>
+    {{access_list[access]}}
+  </button>
+  <button bindtap="post" class="send">发布</button>
+</view>
+</view>
+<view wx:else>
+德才兼备
+</view>
