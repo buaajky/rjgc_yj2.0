@@ -1,7 +1,0 @@
-{
-  "usingComponents": {},
-  "enablePullDownRefresh": true,
-  "backgroundTextStyle": "dark",
-  "onReachBottomDistance": 30,
-  "navigationBarTitleText": ""
-}

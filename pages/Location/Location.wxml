@@ -15,6 +15,7 @@
   
   <view class="divview"></view>
 
+<<<<<<< HEAD
   <view>
     <view class="relative_title">廉航推荐</view>
     <swiper class="cheap_airplane-list" indicator-dots>
@@ -54,6 +55,8 @@
 
   <view class="divview"></view>
 
+=======
+>>>>>>> 181ad8745e40788e93ddc79eebef1c143c7973a7
   <view class="relative_view">
     <view class="relative_title">相关推荐</view>
     <view class = "divline"></view>

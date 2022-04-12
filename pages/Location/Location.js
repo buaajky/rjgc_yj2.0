@@ -32,7 +32,10 @@ Page({
 
     travel_num:4,
     next_travel:"init",
+<<<<<<< HEAD
 
+=======
+>>>>>>> 181ad8745e40788e93ddc79eebef1c143c7973a7
   },
 
   /**
