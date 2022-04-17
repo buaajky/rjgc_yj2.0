@@ -23,7 +23,43 @@
               <view class="plan_head_text">{{item.departdate}}出发  {{item.toolname}}</view>
               <button id="{{index}}" class="plan_head_button" bindtap="navigate2detail">查看详情></button>
             </view>
-            <l-steps direction="column" dot="{{true}}" active-index="1">
+            <l-steps wx:if="{{index == 0}}" direction="column" dot="{{true}}" active-index="1" reverse="{{index==0}}">
+              <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
+                <view wx:if="{{index < plans.length - 1}}" class="exchange" slot="describe">
+                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站中转</view>
+                  <view wx:else class="exchange_diff">
+                    <view class="exchange_main">换乘至{{plans[index+1].departport}}</view>
+                    <view wx:if="{{item.type == plans[index+1].type}}" class="exchange_more">{{item.arrivalcity}}中转</view>
+                    <view wx:else class="exchange_more">{{item.arrivalcity}}中转，换乘{{plans[index+1].type == 'a'?'飞机':'列车'}}</view>
+                  </view>
+                </view>
+              </l-step>
+              <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
+                <view class="describe_container" slot="describe">
+                  <view class="describe_text">{{item.costtime}}</view>
+                  <view class="describe_text">{{item.money}}元起</view>    
+                </view>
+              </l-step>
+            </l-steps>
+            <l-steps wx:if="{{index > 0 && index < plans.length - 1}}" direction="column" dot="{{true}}" active-index="2">
+              <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
+                <view class="describe_container" slot="describe">
+                  <view class="describe_text">{{item.costtime}}</view>
+                  <view class="describe_text">{{item.money}}元起</view>    
+                </view>
+              </l-step>
+              <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
+                <view wx:if="{{index < plans.length - 1}}" class="exchange" slot="describe">
+                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站中转</view>
+                  <view wx:else class="exchange_diff">
+                    <view class="exchange_main">换乘至{{plans[index+1].departport}}</view>
+                    <view wx:if="{{item.type == plans[index+1].type}}" class="exchange_more">{{item.arrivalcity}}中转</view>
+                    <view wx:else class="exchange_more">{{item.arrivalcity}}中转，换乘{{plans[index+1].type == 'a'?'飞机':'列车'}}</view>
+                  </view>
+                </view>
+              </l-step>
+            </l-steps>
+            <l-steps wx:if="{{index == plans.length - 1}}" direction="column" dot="{{true}}" active-index="1">
               <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
                 <view class="describe_container" slot="describe">
                   <view class="describe_text">{{item.costtime}}</view>
