@@ -1,5 +1,5 @@
 
-.head_plane_pic {
+.head_train_pic {
   width: 750rpx; 
   /* height: 480rpx;  */
   display: inline-block; 
@@ -7,7 +7,7 @@
 }
 
 .main {
-  margin-top: -50rpx;
+  margin-top: -60rpx;
 }
 
 .header {
@@ -85,11 +85,24 @@
   width: 34%;
 }
 
-.light_arrow {
+.arrow {
   display: inline-block;
   width: 25%;
   height: 50rpx;
-  margin-bottom: 30rpx;
+}
+
+.trainno {
+  text-align: center;
+  font-size: small;
+  color: gray;
+  margin-bottom: -15rpx;
+}
+
+.light_arrow {
+  display: inline-block;
+  width: 110%;
+  height: 50rpx;
+  margin-bottom: 20rpx;
 }
 
 .d2a_a {
@@ -112,7 +125,8 @@
 
 .d2a_port {
   text-align: center;
-  font-size: small;
+  font-size: medium;
+  margin-bottom: 10rpx;
 }
 
 .add2plan {
@@ -125,12 +139,45 @@
   font-weight: bold;
 }
 
-.basic_plane {
+.link {
+  width: 95%;
+  height: 120rpx;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 20rpx;
-  margin-bottom: 20rpx;
-  text-align: center;
-  font-size: small;
-  color: grey;
+  border-radius: 20rpx 20rpx 20rpx 20rpx;
+  box-shadow:0 4rpx 20rpx 0 rgba(212,217,223,.9);
+  vertical-align: top;
+}
+
+.link_icon {
+  display: inline-block;
+  width: 15%;
+  height: 75%;
+  margin-left: 30rpx;
+  margin-top: 20rpx;
+  vertical-align: top;
+}
+
+.link_text {
+  display: inline-block;
+  width: 45%;
+  margin-left: 5%;
+  /* color:#3963bc; */
+  font-weight: bold;
+  vertical-align: top;
+  margin-top: 40rpx;
+}
+
+.link_button {
+  display: inline-block;
+  width: 15%;
+  margin-top: 15rpx;
+  margin-left: 10%;
+  margin-right: 30rpx;
+  background-color: #3963bc;
+  color: #ffffff;
+  vertical-align: top;
 }
 
 .prices {
@@ -142,32 +189,42 @@
   height: 650rpx;
 }
 
-.flight {
+.seat {
   width: 90%;
   height: 120rpx;
   background-color: #ffffff;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5rpx;
-  margin-bottom: 25rpx;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
   padding-top: 15rpx;
   /* border: 2rpx solid black; */
   border-radius: 20rpx 20rpx 20rpx 20rpx;
   box-shadow:0 4rpx 20rpx 0 rgba(212,217,223,.9);
 }
 
-.flight_price {
+.seat_name {
   display: inline-block;
-  width: 45%;
-  font-size: xx-large;
+  width: 25%;
+  margin-left: 30rpx;
+  font-size: large;
+  font-weight: bold;
+  vertical-align: center;
+}
+
+.seat_price {
+  display: inline-block;
+  width: 30%;
+  font-size: x-large;
   margin-left: 30rpx;
   color: #3963bc;
   font-weight: bold;
+  margin-top: 10rpx;
 }
 
-.flight_more {
+.seat_num {
   display: inline-block;
-  width: 45%;
+  width: 30%;
   font-size: small;
   text-align: right;
   margin-right: 10rpx;

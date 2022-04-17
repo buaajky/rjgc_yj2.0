@@ -25,7 +25,10 @@
     "pages/Outweb/Outweb",
     "pages/AboutUs/AboutUs",
     "pages/Cropper/Cropper",
-    "pages/PlaneDetail/PlaneDetail"
+    "pages/PlaneDetail/PlaneDetail",
+    "pages/TrainDetail/TrainDetail",
+    "pages/12306/12306",
+    "pages/ExchangeDetail/ExchangeDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

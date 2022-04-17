@@ -1,5 +1,5 @@
 <!-- 头图 -->
-<image class = "head_plane_pic" src = "/images/plane_detail_head.jpg">
+<image class = "head_train_pic" src = "/images/train_detail_head.jpeg">
  </image>
 <!-- 主体信息卡片 -->
 <view class="main">
@@ -9,30 +9,30 @@
       <view class="basic_inf">
         <view class="basic_header">
           <view class="basic_header_first">
-            <view class="basic_header_graph">航班信息</view>
+            <view class="basic_header_graph">列车信息</view>
           </view>
           <view class="basic_date">{{departdate}} {{departweek}}</view>
           <view class="p2p">
-            {{departcity}}
+            {{startcity}}
             <image class="deep_arrow" src="/images/deep_arrow.png"></image>
-            {{arrivalcity}}
+            {{endcity}}
           </view>
           <view class="basic_time">{{costtime}}</view>
         </view>
         <view class="d2a">
           <view class="d2a_d">
             <view class="d2a_time">{{departtime}}</view>
-            <view class="d2a_port">{{departport}}</view>
+            <view class="d2a_port">{{startstation}}站</view>
           </view>
-          <image class="light_arrow" src="/images/light_arrow.png"></image>
+          <view class="arrow">
+            <view class="trainno">{{typename}} {{trainno}}</view>
+            <image class="light_arrow" src="/images/light_arrow.png"></image>
+          </view>
           <view class="d2a_a">
             <view class="d2a_time">{{arrivaltime}}</view>
-            <view class="d2a_port">{{arrivalport}}</view>
+            <view class="d2a_port">{{endstation}}站</view>
           </view>
           <view class="addtime">{{overdate}}天</view>
-        </view>
-        <view class="basic_plane" >
-          {{flightcom}}{{flightno}} | 到达准点率{{punc}}% | {{foodlist[food]}}餐食 | 机型{{craft}}
         </view>
         <l-button l-class="add2plan" l-label-class="add2plan_label"
          type="default" size="medium" shape="semicircle" plain="{{true}}"
@@ -41,25 +41,20 @@
       <l-notice-bar show="{{true}}" bind:lintap="clickNoticeBar"
           front-icon-color="coral" front-icon-name="warning" front-icon-size="30"
           type="roll" speed="1200">{{notice}}</l-notice-bar>
+      <view class="link">
+      <image src="/images/railway_icon.png" class="link_icon"></image>
+      <view class="link_text">前往12306官网订票</view>
+      <button bindtap="navigateTo12306" class="link_button">订</button>
+      </view>
       <view class="prices">
-        <l-tabs placement="top">
-          <l-tabpanel tab="经济舱" key="one" slot="one">
-            <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
-                <view wx:for="{{jjcPrices}}" wx:key="index" class="flight">
-                    <view class="flight_price">￥{{item.price}}</view>
-                    <view class="flight_more">舱位等级{{item.cabincode}} | 折扣{{item.discount}}元</view>
+          <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
+                <view wx:for="{{prices}}" wx:key="index" class="seat">
+                    <view class="seat_name">{{item.name}}</view>
+                    <view class="seat_price">￥{{item.price}}</view>
+                    <view wx:if="{{item.num == '有' || item.num == '无'}}" class="seat_num">{{item.num}}票</view>
+                    <view wx:else class="seat_num">剩余{{item.num}}张</view>
                 </view>
-            </scroll-view>
-          </l-tabpanel>
-          <l-tabpanel tab="公务舱" key="two" slot="two">
-              <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
-                <view wx:for="{{gwcPrices}}" wx:key="index" class="flight">
-                    <view class="flight_price">￥{{item.price}}</view>
-                    <view class="flight_more">舱位等级{{item.cabincode}} | 折扣{{item.discount}}元</view>
-                </view>
-              </scroll-view>
-          </l-tabpanel>
-        </l-tabs>
+          </scroll-view>
         <view></view>
       </view>
     </view>
@@ -71,6 +66,6 @@
 <page-container  show="{{showNotice}}"	duration="1000" overlay="true"
   position="bottom" round="{{true}}">
     <view class="notice_detail_title">防疫公告</view>
-    <view class="notice_detail_header">抵达{{arrivalcity}}市提醒</view>
+    <view class="notice_detail_header">抵达{{endcity}}市提醒</view>
 		<scroll-view id="notice_detail" scroll-y="true" scroll-with-animation="{{true}}">{{notice}}</scroll-view>
 </page-container>

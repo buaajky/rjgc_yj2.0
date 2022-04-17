@@ -15,7 +15,8 @@ const formatNumber = n => {
 }
 
 const server_hostname = {
-  url: "https://tra-fr-2.zhouyc.cc"
+  //url: "https://tra-fr-2.zhouyc.cc"
+  url: "https://114.116.197.121"
   // url:"http://114.116.53.144"
   // url:"http://localhost"
 }

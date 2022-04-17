@@ -1,0 +1,68 @@
+<!-- 主体信息卡片 -->
+<view class="main">
+    <view class="header" slot="header" style="min-height: {{screen_h}}px;">
+      <view class="basic_inf">
+        <view class="basic_header">
+          <view class="basic_header_first">
+            <view class="basic_header_graph">换乘方案</view>
+          </view>
+          <view class="basic_date">{{departdate}} {{departweek}}</view>
+          <view class="p2p">
+            {{startcity}}
+            <image class="deep_arrow" src="/images/deep_arrow.png"></image>
+            {{endcity}}
+          </view>
+          <view class="basic_time">约{{costtime}}</view>
+        </view>     
+        <!-- 换乘方案 -->
+        <view class="plans">
+          <view wx:for="{{plans}}" wx:key="index" class="plan">
+            <view class="plan_head">
+              <image wx:if="{{item.type == 'a'}}" src="/images/flight_icon.png" class="plan_head_img"></image>
+              <image wx:if="{{item.type == 't'}}" src="/images/railway_icon.png" class="plan_head_img"></image>
+              <view class="plan_head_text">{{item.departdate}}出发  {{item.toolname}}</view>
+              <button id="{{index}}" class="plan_head_button" bindtap="navigate2detail">查看详情></button>
+            </view>
+            <l-steps direction="column" dot="{{true}}" active-index="1">
+              <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
+                <view class="describe_container" slot="describe">
+                  <view class="describe_text">{{item.costtime}}</view>
+                  <view class="describe_text">{{item.money}}元起</view>    
+                </view>
+              </l-step>
+              <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
+                <view wx:if="{{index < plans.length - 1}}" class="exchange" slot="describe">
+                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站中转</view>
+                  <view wx:else class="exchange_diff">
+                    <view class="exchange_main">换乘至{{plans[index+1].departport}}</view>
+                    <view wx:if="{{item.type == plans[index+1].type}}" class="exchange_more">{{item.arrivalcity}}中转</view>
+                    <view wx:else class="exchange_more">{{item.arrivalcity}}中转，换乘{{plans[index+1].type == 'a'?'飞机':'列车'}}</view>
+                  </view>
+                </view>
+              </l-step>
+            </l-steps>
+          </view>
+        </view>
+
+        <l-button l-class="add2plan" l-label-class="add2plan_label"
+         type="default" size="medium" shape="semicircle" plain="{{true}}"
+          bind:lintap="addToPlan">加入我的出行计划</l-button>
+      </view>
+      <l-notice-bar show="{{true}}" bind:lintap="clickNoticeBar"
+          front-icon-color="coral" front-icon-name="warning" front-icon-size="30"
+          type="roll" speed="1200">{{notice}}</l-notice-bar>
+      <view class="link" wx:if="{{hastrain}}">
+      <image src="/images/railway_icon.png" class="link_icon"></image>
+      <view class="link_text">前往12306官网订票</view>
+      <button bindtap="navigateTo12306" class="link_button">订</button>
+      </view>
+    </view>
+</view>
+
+<!-- 防疫公告半弹窗 -->
+<page-container  show="{{showNotice}}"	duration="1000" overlay="true"
+  position="bottom" round="{{true}}">
+    <view class="notice_detail_title">防疫公告</view>
+    <view class="notice_detail_header">抵达{{endcity}}市提醒</view>
+		<scroll-view id="notice_detail" scroll-y="true" scroll-with-animation="{{true}}">{{notice}}</scroll-view>
+</page-container>

@@ -1,8 +1,7 @@
 const { server_imagename } = require("../../utils/util.js");
-// pages/PlaneDetail.js
+// pages/TrainDetail/TrainDetail.js
 const utils = require("../../utils/util.js");
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -14,82 +13,39 @@ Page({
 
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
-    departdate:"2022-04-10",
+    departdate:"2022-04-01",
     departweek:"",
-    arrivaldate:"2022-04-10",
-    departtime:"07:00",
-    arrivaltime:"09:15",
-    departcity:"北京",
-    arrivalcity:"上海",
-    departport:"首都国际机场 T2",
-    arrivalport:"浦东国际机场 T2",
-    costtime:"2h33min",
-    flightno:"HU7613",
-    flightcom:"海南航空",
-    punc:"95",//准点率
-    food:0,
-    foodlist:["无", "有"],
-    craft:"738",
+    startcity:"杭州",
+    endcity:"北京",
+    typename:"高铁",
+
+    startstation:"杭州东",
+    endstation:"北京南",
+    trainno:"G180",
+    departtime:"10:32",
+    arrivaltime:"17:17",
+    costtime:"6h45min",
+    day:0,
     overdate:"",
+    departstation:"宁海",
+    terminalstation:"北京南",
+    isend:1,
 
-    jjcPrices:[
+    prices: [
       {
-        price:780,
-        cabincode:"V",
-        discount:40
+        name:"一等座",
+        price:1007,
+        num:"有",
       },
       {
-        price:880,
-        cabincode:"Y",
-        discount:40
+        name:"二等座",
+        price:538.5,
+        num:1000,
       },
       {
-        price:780,
-        cabincode:"V",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      },
-      {
-        price:780,
-        cabincode:"V",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      }
-    ],
-
-    gwcPrices:[
-      {
-        price:1780,
-        cabincode:"B",
-        discount:440
-      },
-      {
-        price:1880,
-        cabincode:"C",
-        discount:450
-      },
-      {
-        price:1780,
-        cabincode:"B",
-        discount:440
-      },
-      {
-        price:1880,
-        cabincode:"C",
-        discount:450
+        name:"商务座",
+        price:1538.5,
+        num:"无",
       }
     ],
     
@@ -101,24 +57,30 @@ Page({
     scrollTop: undefined
   },
 
-  onPageScroll: function(res) {//监听页面滑动
+  onPageScroll: function(res) {
     this.setData({
-      scrollTop: res.scrollTop//吸顶容器l-sticky
+      scrollTop: res.scrollTop
     })
     this.setTabContentHeight()//自适应改scroll-view的高度
   },
 
-  clickNoticeBar: function() {//弹出 防疫公告
+  clickNoticeBar: function() {
     this.setData({
       showNotice: true
     })
   },
 
-  addToPlan: function() {//加入出行计划 按钮
+  addToPlan: function() {
     console.log("add2plan")
     wx.showToast({
       title: '已加入出行计划',
       duration: 1000
+    })
+  },
+
+  navigateTo12306:function() {
+    wx.navigateTo({
+      url: '/pages/12306/12306',
     })
   },
 
@@ -139,7 +101,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad(options) {
     var app = getApp()
     var show = app.globalData.show
     this.setData({
@@ -158,7 +120,7 @@ Page({
     that.setOverdate()
   },
 
-  setTabContentHeight: function() {//票价滑动 自适应高度
+  setTabContentHeight: function() {
     var that = this
     var query = wx.createSelectorQuery()
     query.select('#tab-content').boundingClientRect()
@@ -171,70 +133,65 @@ Page({
     // console.log(that.data.tab_content_h)
   },
 
-  setOverdate: function() {//计算当天/+x天
+  setOverdate: function() {
     var that = this
-    if (that.data.departdate == that.data.arrivaldate) {
+    if(that.data.day == 0) {
       that.setData({
-        overdate: "当"
+          overdate: "当"
       })
     }else {
-      var d = new Date(that.data.departdate.replace(/-/g, "/") + " 00:00:00")
-      var a = new Date(that.data.arrivaldate.replace(/-/g, "/") + " 00:00:00")
-      console.log(d.getDay)
-      var day = parseInt((a.getTime() - d.getTime())/(1000 * 60 * 60 *24))
-      console.log(day)
       that.setData({
-        overdate: "+" + day
-      })
+        overdate: "+" + that.data.day
+    })
     }
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage() {
 
   }
 })
