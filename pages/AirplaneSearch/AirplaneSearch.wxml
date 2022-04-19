@@ -1,4 +1,5 @@
 <!--pages/AirplaneSearch/AirplaneSearch.wxml-->
+<!--<l-calendar show="{{ true }}" />-->
 <view>
   <view class="section">  
     <picker mode="date" value="{{date}}" start="2022-01-01" end="2023-12-31" field="day" bindchange="bindDateChange">  
@@ -22,7 +23,11 @@
         <image src="/images/{{item.air_company}}.jpg"  mode="widthFix"/>
       </view>
       <view class="info">
-        <view class="number">{{item.air_number}}</view>
+        <view class="number_and_price">
+          <view class="number">{{item.air_number}}</view>
+          <view class="price">￥{{item.air_price}}起</view>
+        </view>
+        
         <view class="date_and_city">
           <view class="date">{{item.air_date}}</view>
           <view class="city">{{item.air_city_start}} —— {{item.air_city_end}}</view>
@@ -40,7 +45,7 @@
         </view>
         
         <view class="num"></view>
-        <view class="price">￥{{item.air_price}}起</view>
+        
       </view>
       <view class="clear"></view>
   </view>

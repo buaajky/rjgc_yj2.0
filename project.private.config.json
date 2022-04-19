@@ -106,6 +106,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/IntegratedQuery/IntegratedQuery",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

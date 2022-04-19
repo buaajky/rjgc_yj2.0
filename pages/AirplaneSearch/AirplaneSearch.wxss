@@ -1,9 +1,13 @@
 /* pages/AirplaneSearch/AirplaneSearch.wxss */
 .section{
-  background:#6991e6;
+  background:#3963bc;
   margin:20rpx;
   padding:20rpx;
   border-radius: 10rpx;
+}
+
+.picker{
+  color: #ffffff;
 }
 
 .divview {
@@ -36,7 +40,7 @@
 .list_item{
   margin-top:10px;
   padding:10px;
-  height:140px;
+  height:110px;
   border-bottom:10rpx solid #E8E8E8;
 }
 .img{
@@ -52,12 +56,12 @@
 .info{
   width:65%;
   float:right;
-  height:130px;
+  height:105px;
   position:relative;
 }
 .number{
   color:#3963bc;
-  margin-left:10px;
+  margin-left:10rpx;
   font-size: 20px;
 }
  
@@ -65,10 +69,14 @@
   color:#3963bc;
   font-size:15px;
   position: absolute;
-  right:40rpx;
-  bottom:10rpx;
+  right:0rpx;
 }
  
+.number_and_price{
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .date_and_city{
   display: flex;
 }

@@ -18,37 +18,19 @@
   <view>
     <view class="relative_title">廉航推荐</view>
     <swiper class="cheap_airplane-list" indicator-dots>
-      <swiper-item class="airplane_ticket_item">
-        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/nh.jpg" title="南航 HBH123456">
+      <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
+        <swiper-item class="airplane_ticket_item">
+        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.air_company}}.jpg" title="{{item.air_number}}">
           <view class="content">
-            4月7号 {{travel_num}}————{{travel_num}}
+            {{item.air_date}}<text decode ="{{true}}" space ="{{true}}"> &nbsp;&nbsp;&nbsp;&nbsp; </text>{{item.air_time_start}}——{{item.air_time_end}}
           </view>
           <view class="content">
-            最低￥{{travel_num}}
-          </view>
-        </l-card>
-      </swiper-item>
-      <swiper-item class="airplane_ticket_item">
-        
-        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/ch.jpg" title="川航 HBH123456">
-          <view class="content">
-            4月7号 {{travel_num}}————{{travel_num}}
-          </view>
-          <view class="content">
-            最低￥333
+            {{item.air_city_start}}-{{item.air_city_end}} 最低￥{{item.air_price}}
           </view>
         </l-card>
       </swiper-item>
-      <swiper-item class="airplane_ticket_item">
-        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/dh.jpg" title="东航 HBH123456">
-          <view class="content">
-            4月7号 {{travel_num}}————{{travel_num}}
-          </view>
-          <view class="content">
-            最低￥333
-          </view>
-        </l-card>
-      </swiper-item>
+      </block>
+      
     </swiper>
   </view>
 

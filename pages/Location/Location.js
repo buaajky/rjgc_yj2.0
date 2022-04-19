@@ -33,6 +33,38 @@ Page({
     travel_num:4,
     next_travel:"init",
 
+    dataList:[
+      {
+        air_company:'dh',
+        air_number:'DH123456',
+        air_date:'2022-4-11',
+        air_time_start:'7:00',
+        air_time_end:'11:00',
+        air_price:'60',
+        air_city_start:'北京',
+        air_city_end:'上海'
+      },
+      {
+        air_company:'nh',
+        air_number:'NH123456',
+        air_date:'2022-4-11',
+        air_time_start:'7:00',
+        air_time_end:'11:00',
+        air_price:'111',
+        air_city_start:'北京',
+        air_city_end:'上海'
+      },
+      {
+        air_company:'ch',
+        air_number:'CH123456',
+        air_date:'2022-4-11',
+        air_time_start:'7:00',
+        air_time_end:'11:00',
+        air_price:'60',
+        air_city_start:'北京',
+        air_city_end:'上海'
+      }
+    ]
   },
 
   /**

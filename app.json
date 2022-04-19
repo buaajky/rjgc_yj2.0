@@ -25,7 +25,8 @@
     "pages/Outweb/Outweb",
     "pages/AboutUs/AboutUs",
     "pages/Cropper/Cropper",
-    "pages/AirplaneSearch/AirplaneSearch"
+    "pages/AirplaneSearch/AirplaneSearch",
+    "pages/IntegratedQuery/IntegratedQuery"
   ],
   "window": {
     "backgroundTextStyle": "light",
