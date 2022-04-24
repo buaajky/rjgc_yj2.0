@@ -14,40 +14,40 @@ Page({
 
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
-    departdate:"2022-04-11",
+    departdate:"2022-04-24",
     departweek:"",
-    startcity:"杭州",
-    endcity:"上海",
-    costtime:"22h44min",
+    startcity:"北京",
+    endcity:"广州",
+    costtime:"9h23min",
 
     plans: [
       {
-        type:"t",
-        toolname:"高铁G180",
-        departdate:"2022-04-10",
-        day:1,
-        departtime:"10:32",
-        arrivaltime:"5:17",
-        departcity:"杭州",
-        arrivalcity:"北京",
-        departport:"杭州东",
-        arrivalport:"北京西",
-        costtime:"18h45min",
-        money:586
+        type:"a",
+        toolname:"东航MU2452",
+        departdate:"2022-04-24",
+        day:0,
+        departtime:"11:40",
+        arrivaltime:"14:10",
+        departcity:"北京",
+        arrivalcity:"武汉",
+        departport:"大兴国际机场",
+        arrivalport:"天河机场 T3",
+        costtime:"2h30min",
+        money:780
       },
       {
-        type:"a",
-        toolname:"海南航空HU7613",
-        departdate:"2022-04-11",
+        type:"t",
+        toolname:"高铁G2055",
+        departdate:"2022-04-24",
         day:0,
-        departtime:"07:00",
-        arrivaltime:"09:15",
-        departcity:"北京",
-        arrivalcity:"上海",
-        departport:"首都国际机场 T2",
-        arrivalport:"浦东国际机场 T2",
-        costtime:"2h33min",
-        money:780
+        departtime:"16:43",
+        arrivaltime:"21:03",
+        departcity:"武汉",
+        arrivalcity:"广州",
+        departport:"武汉",
+        arrivalport:"广州南",
+        costtime:"4h20min",
+        money:538.5
       }
     ],
 
@@ -87,6 +87,26 @@ Page({
   navigateTo12306:function() {
     wx.navigateTo({
       url: '/pages/12306/12306',
+    })
+  },
+
+  navigate2map: function() {//在地图上查看
+    var that = this;
+    var tmp = [];
+    for(var i in that.data.plans) {
+      var extra = "";
+      if (that.data.plans[i].type == "t") extra = "站";
+      tmp.push({
+        type: that.data.plans[i].type,
+        city1: that.data.plans[i].departcity,
+        city2: that.data.plans[i].arrivalcity,
+        port1: that.data.plans[i].departport.split(' ')[0] + extra,
+        port2: that.data.plans[i].arrivalport.split(' ')[0] + extra,
+      })
+    }
+
+    wx.navigateTo({
+      url: '/pages/TransportMap/TransportMap?plans=' + JSON.stringify(tmp),
     })
   },
 

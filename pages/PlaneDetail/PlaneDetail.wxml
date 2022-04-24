@@ -34,6 +34,7 @@
         <view class="basic_plane" >
           {{flightcom}}{{flightno}} | 到达准点率{{punc}}% | {{foodlist[food]}}餐食 | 机型{{craft}}
         </view>
+        <button class="seemap" bindtap="navigate2map">在地图上查看</button>
         <l-button l-class="add2plan" l-label-class="add2plan_label"
          type="default" size="medium" shape="semicircle" plain="{{true}}"
           bind:lintap="addToPlan">加入我的出行计划</l-button>

@@ -129,8 +129,25 @@
   margin-bottom: 10rpx;
 }
 
+.seemap {
+  display: inline-block;
+  width: 50%;
+  font-size: xx-small;
+  text-align: left;
+  text-decoration: underline;
+  color: #3963bc;
+  background-color: white;
+  vertical-align: top;
+  padding:1 0 0 0 !important;
+}
+
+button::after {
+  border: 0 none;
+}
+
 .add2plan {
-  margin-left: 60%;
+  display: inline-block;
+  margin-left: 10%;
   margin-bottom: 10rpx;
   width: 35%;
 }

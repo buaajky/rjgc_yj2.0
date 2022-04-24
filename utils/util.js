@@ -25,7 +25,7 @@ module.exports = {
   formatTime,
   server_hostname: server_hostname.url,
   server_imagename: server_hostname.url + '/media',
-  subkey:'UMABZ-NKAKX-ILH4J-TFRB2-5EVZV-PWBIJ',
+  subkey:'F5PBZ-OEJK4-PEFUZ-D4MXI-MKQYS-V4FYQ',
 
   loginExpired:function() {
     wx.navigateTo({

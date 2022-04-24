@@ -14,18 +14,18 @@ Page({
 
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
-    departdate:"2022-04-10",
+    departdate:"2022-04-24",
     departweek:"",
-    arrivaldate:"2022-04-10",
-    departtime:"07:00",
-    arrivaltime:"09:15",
+    arrivaldate:"2022-04-24",
+    departtime:"11:40",
+    arrivaltime:"14:10",
     departcity:"北京",
-    arrivalcity:"上海",
-    departport:"首都国际机场 T2",
-    arrivalport:"浦东国际机场 T2",
-    costtime:"2h33min",
-    flightno:"HU7613",
-    flightcom:"海南航空",
+    arrivalcity:"武汉",
+    departport:"大兴国际机场",
+    arrivalport:"天河机场 T2",
+    costtime:"2h30min",
+    flightno:"MU2452",
+    flightcom:"东航",
     punc:"95",//准点率
     food:0,
     foodlist:["无", "有"],
@@ -119,6 +119,20 @@ Page({
     wx.showToast({
       title: '已加入出行计划',
       duration: 1000
+    })
+  },
+
+  navigate2map: function() {//在地图上查看
+    var that = this;
+    var tmp = [{
+      type:"a",
+      city1: that.data.departcity,
+      city2: that.data.arrivalcity,
+      port1: that.data.departport.split(' ')[0],
+      port2: that.data.arrivalport.split(' ')[0],
+    }];
+    wx.navigateTo({
+      url: '/pages/TransportMap/TransportMap?plans=' + JSON.stringify(tmp),
     })
   },
 

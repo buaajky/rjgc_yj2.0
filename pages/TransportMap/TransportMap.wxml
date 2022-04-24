@@ -1,0 +1,10 @@
+<map class="map" id ="mymap" name="map" subkey = "F5PBZ-OEJK4-PEFUZ-D4MXI-MKQYS-V4FYQ" layer-style="1"
+show-compass="true" enable-3D="true" skew="25" enable-overlooking = "true" 
+markers="{{markers}}" polyline="{{polyline}}"
+longitude="{{(longitude == null)? 116.397827 : longitude}}" latitude="{{(latitude == null)? 39.90374 : latitude}}" 
+scale="{{scale}}"
+>
+</map>
+
+
+

@@ -13,22 +13,22 @@ Page({
 
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
-    departdate:"2022-04-01",
+    departdate:"2022-04-24",
     departweek:"",
-    startcity:"杭州",
-    endcity:"北京",
+    startcity:"武汉",
+    endcity:"广州",
     typename:"高铁",
 
-    startstation:"杭州东",
-    endstation:"北京南",
-    trainno:"G180",
-    departtime:"10:32",
-    arrivaltime:"17:17",
-    costtime:"6h45min",
+    startstation:"武汉",
+    endstation:"广州南",
+    trainno:"G2055",
+    departtime:"16:43",
+    arrivaltime:"21:03",
+    costtime:"4h20min",
     day:0,
     overdate:"",
-    departstation:"宁海",
-    terminalstation:"北京南",
+    departstation:"济南西",
+    terminalstation:"江门",
     isend:1,
 
     prices: [
@@ -81,6 +81,20 @@ Page({
   navigateTo12306:function() {
     wx.navigateTo({
       url: '/pages/12306/12306',
+    })
+  },
+
+  navigate2map: function() {//在地图上查看
+    var that = this;
+    var tmp = [{
+      type:"t",
+      city1: that.data.startcity,
+      city2: that.data.endcity,
+      port1: that.data.startstation.split(' ')[0] + "站",
+      port2: that.data.endstation.split(' ')[0] + "站",
+    }];
+    wx.navigateTo({
+      url: '/pages/TransportMap/TransportMap?plans=' + JSON.stringify(tmp),
     })
   },
 

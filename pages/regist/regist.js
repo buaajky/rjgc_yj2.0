@@ -74,7 +74,8 @@ Page({
     // 向服务器发送注册信息
     wx.login({
       success: res => {
-        // console.log(res.code)
+        console.log(res.code)
+
         wx.request({
           url: utils.server_hostname + "/api/core/users/",
           data: {
