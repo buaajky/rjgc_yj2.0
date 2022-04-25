@@ -137,6 +137,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/TransportCompare/TransportCompare",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

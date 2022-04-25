@@ -1,0 +1,156 @@
+.head {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30rpx;
+  margin-bottom: 20rpx;
+  /* background:-webkit-gradient(linear, 0 0, right 0, from(#bebebe), to(rgb(255, 255, 255, 1)), color-stop(80%,rgb(255, 255, 255, 1))); */
+  border-bottom: double 10rpx #3963bc;
+}
+
+.head_city_left {
+  display: inline-block;
+  width: 20%;
+  font-size: medium;
+  font-weight: bold;
+  text-align: right;
+}
+
+.head_city_right {
+  display: inline-block;
+  width: 20%;
+  font-size: medium;
+  font-weight: bold;
+  text-align: left;
+}
+
+.deep_arrow {
+  display: inline-block;
+  width: 100rpx;
+  height:60rpx;
+  vertical-align: bottom;
+}
+
+.head_date {
+  display: inline-block;
+  width: 45%;
+  font-size: medium;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table {
+  width:90%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 50rpx;
+  border-bottom: solid 4rpx #3963bc;
+  border-left: solid 4rpx rgba(212,217,223,.9);
+  border-radius: 0rpx 0rpx 25rpx 25rpx;
+  box-shadow:12rpx 15rpx 5rpx 0 rgba(212,217,223,.9);
+  margin-bottom: 30rpx;
+}
+
+.colname {
+  display: table-cell;
+  width: 20%;
+  vertical-align: middle;
+  margin-left: 10rpx;
+  padding-right: 8rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  text-align: center;
+  border-right: solid 4rpx #3963bc;
+}
+
+.plans {
+  display: table;
+  width: 99%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25rpx;
+  border-bottom: solid 3rpx #3963bc;
+}
+
+[class^="plan1"] {
+  display: table-cell;
+  width: 38%;
+  border-right: dotted 4rpx #3963bc;
+  text-align: center;
+}
+
+[class^="plan1_"] {
+  font-size: 30rpx;
+  padding-top: 25rpx;
+  padding-bottom: 25rpx;
+}
+
+[class^=plan2] {
+  display: table-cell;
+  width: 38%;
+  text-align: center;
+}
+
+[class^="plan2_"] {
+  font-size: 30rpx;
+  padding-top: 25rpx;
+  padding-bottom: 25rpx;
+}
+
+.icon {
+  display: inline-block;
+  width: 50rpx;
+  height: 50rpx;
+  margin-left: 5rpx;
+}
+
+.toolname {
+  display: inline-block;
+  width: 75%;
+  vertical-align: top;
+  margin-left: 5rpx;
+}
+
+.exchange {
+  text-align: center;
+}
+
+.exchange_icon {
+  display: inline-block;
+  width: 30rpx;
+  height: 30rpx;
+}
+
+.exchange_text {
+  display: inline-block;
+  width: 40%;
+  text-align: left;
+  vertical-align: top;
+  font-size: x-small;
+  color: #3963bc;
+  font-weight: bold;
+}
+
+[class^="row"] {
+  display: table;
+  width: 99%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row_departtime {
+  background-color: rgba(212,217,223,.5);
+}
+
+.row_departport {
+  background-color: rgba(212,217,223,.5);
+}
+
+.row_costtime {
+  background-color: rgba(212,217,223,.5);
+}
+
+.row_exchange {
+  background-color: rgba(212,217,223,.5);
+}
+

@@ -1,0 +1,128 @@
+<view class="head">
+  <view class="head_city_left">{{departcity}}</view>
+  <image class="deep_arrow" src="/images/deep_arrow.png"></image>
+  <view class="head_city_right">{{arrivalcity}}</view>
+  <view class="head_date">{{departdate}} 出发</view>
+</view>
+
+<view class="table">
+
+<view class="plans">
+  <view class="colname">交通方案</view>
+  <view class="plan1">
+    <view wx:for="{{plan1}}" wx:key="index" class="plan_item">
+      <image wx:if="{{item.type == 'a'}}" class="icon" src="/images/flight_icon.png"></image>
+      <image wx:if="{{item.type == 't'}}" class="icon" src="/images/railway_icon.png"></image>
+      <view class="toolname">{{item.company}}{{item.no}}</view>
+      <view wx:if="{{index != plan1.length - 1}}" class="exchange">
+        <image class="exchange_icon" src="/images/exchange_icon.png"></image>
+        <view>{{item.arrivalcity}}中转</view>
+    </view>
+  </view>
+    
+  </view>
+  <view class="plan2">
+    <view wx:for="{{plan2}}" wx:key="index">
+      <image wx:if="{{item.type == 'a'}}" class="icon" src="/images/flight_icon.png"></image>
+      <image wx:if="{{item.type == 't'}}" class="icon" src="/images/railway_icon.png"></image>
+      <view class="toolname">{{item.company}}{{item.no}}</view>
+      <view wx:if="{{index != plan2.length - 1}}" class="exchange">
+        <image class="exchange_icon" src="/images/exchange_icon.png"></image>
+        <view class="exchange_text">{{item.arrivalcity}}中转</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="row_departtime">
+  <view class="colname">出发时间</view>
+  <view wx:if="{{plan1_departtime < plan2_departtime}}" class="plan1_dt" style="color:green">
+    <view>{{plan1_departtime}}</view>
+    <view style="font-size: 25rpx;">出发早</view>
+  </view>
+  <view wx:if="{{plan1_departtime > plan2_departtime}}" class="plan1_dt" style="color:#3963bc">
+    <view>{{plan1_departtime}}</view>
+    <view style="font-size: 25rpx;">出发晚</view>
+  </view>
+  <view wx:if="{{plan1_departtime == plan2_departtime}}"  class="plan1_dt">{{plan1_departtime}}</view>
+  <view wx:if="{{plan1_departtime > plan2_departtime}}" class="plan2_dt" style="color:green">
+    <view>{{plan2_departtime}}</view>
+    <view style="font-size: 25rpx;">出发早</view>
+  </view>
+  <view wx:if="{{plan1_departtime < plan2_departtime}}" class="plan2_dt" style="color:#3963bc">
+    <view>{{plan2_departtime}}</view>
+    <view style="font-size: 25rpx;">出发晚</view>
+  </view>
+  <view wx:if="{{plan1_departtime == plan2_departtime}}" class="plan2_dt">{{plan2_departtime}}</view>
+</view>
+
+<view class="row_arrivaltime">
+  <view class="colname">抵达时间</view>
+  <view wx:if="{{plan1_arrivaltime < plan2_arrivaltime}}" class="plan1_at" style="color:green">
+    <view>{{plan1_arrivaltime}}</view>
+    <view style="font-size: 25rpx;">到达早</view>
+  </view>
+  <view wx:if="{{plan1_arrivaltime > plan2_arrivaltime}}" class="plan1_at" style="color:#3963bc">
+    <view>{{plan1_arrivaltime}}</view>
+    <view style="font-size: 25rpx;">到达晚</view>
+  </view>
+  <view wx:if="{{plan1_arrivaltime == plan2_arrivaltime}}" class="plan1_at">{{plan1_arrivaltime}}</view>
+  <view wx:if="{{plan1_arrivaltime > plan2_arrivaltime}}" class="plan2_at" style="color:green">
+    <view>{{plan2_arrivaltime}}</view>
+    <view style="font-size: 25rpx;">到达早</view>
+  </view>
+  <view wx:if="{{plan1_arrivaltime < plan2_arrivaltime}}" class="plan2_at" style="color:#3963bc">
+    <view>{{plan2_arrivaltime}}</view>
+    <view style="font-size: 25rpx;">到达晚</view>
+  </view>
+  <view wx:if="{{plan1_arrivaltime == plan2_arrivaltime}}" class="plan2_at">{{plan2_arrivaltime}}</view>
+</view>
+
+<view class="row_departport">
+  <view class="colname">出发站点</view>
+  <view class="plan1_dp">{{plan1[0].departport}}</view>
+  <view class="plan2_dp">{{plan2[0].departport}}</view>
+</view>
+
+<view class="row_arrivalport">
+  <view class="colname">抵达站点</view>
+  <view class="plan1_ap">{{plan1[plan1.length-1].arrivalport}}</view>
+  <view class="plan2_ap">{{plan2[plan2.length-1].arrivalport}}</view>
+</view>
+
+<view class="row_costtime">
+  <view class="colname">总时长</view>
+  <view class="plan1_ct" wx:if="{{lesstime == 1}}" style="color:green">
+    <view>{{plan1_costtime}}</view>
+    <view style="font-size: 20rpx;">省时{{lesstime_value}}</view>
+  </view>
+  <view wx:else class="plan1_ct">{{plan1_costtime}}</view>
+  <view class="plan2_ct" wx:if="{{lesstime == 2}}" style="color:green">
+    <view>{{plan2_costtime}}</view>
+    <view style="font-size: 20rpx;">省时{{lesstime_value}}</view>
+  </view>
+  <view wx:else class="plan2_ct">{{plan2_costtime}}</view>
+</view>
+
+<view class="row_cost">
+  <view class="colname">最低价格</view>
+  <view class="plan1_c" wx:if="{{lessprice == 1}}" style="color:green">
+    <view>{{plan1_minprice}}元</view>
+    <view style="font-size: 20rpx;">省{{plan2_minprice-plan1_minprice}}元</view>
+  </view>
+  <view class="plan1_c" wx:else>{{plan1_minprice}}元</view>
+  <view class="plan2_c" wx:if="{{lessprice == 2}}" style="color:green">
+    <view>{{plan2_minprice}}元</view>
+    <view style="font-size: 20rpx;">省{{plan1_minprice-plan2_minprice}}元</view>
+  </view>
+  <view class="plan2_c" wx:else>{{plan2_minprice}}元</view>
+</view>
+
+<view class="row_exchange">
+  <view class="colname">换乘</view>
+  <view wx:if="{{plan1_exchange == '直达'}}" style="color:green" class="plan1_ex">{{plan1_exchange}}</view>
+  <view wx:else class="plan1_ex">{{plan1_exchange}}</view>
+  <view wx:if="{{plan2_exchange == '直达'}}" style="color:green" class="plan2_ex">{{plan2_exchange}}</view>
+  <view wx:else class="plan2_ex">{{plan2_exchange}}</view>
+</view>
+</view>
