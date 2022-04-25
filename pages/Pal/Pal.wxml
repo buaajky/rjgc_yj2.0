@@ -59,6 +59,40 @@
     取消报名
   </button>
 
+  <!--2022.4.23 Start-->
+  <view class = "divline"></view>
+  <view>
+    <view class="relative_title">交通方案推荐</view>
+    <swiper class="cheap_airplane-list" indicator-dots>
+      <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
+        <swiper-item class="airplane_ticket_item">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.traffic_company}}.jpg" title="{{item.traffic_number}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+           <view class="choose"><l-button size="mini" l-class="button_traffic">选择该方案</l-button></view>
+           
+         </l-card>
+       </swiper-item>
+       <!-- <swiper-item class="airplane_ticket_item" wx:elif="{{item.traffic_company!='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.traffic_company}}.jpg" title="{{item.traffic_number}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item> -->
+      </block>
+      
+    </swiper>
+  </view>
+  <!--2022.4.23 End-->
+
   <!-- 报名者信息 -->
   <view class="participant_title" hidden="{{!isEntered && !isMine}}" wx:if="{{pal.forbidden == 0}}">
     <text class="title">报名者</text>

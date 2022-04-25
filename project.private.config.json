@@ -113,6 +113,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/Cropper/Cropper",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

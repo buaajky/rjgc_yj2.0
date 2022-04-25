@@ -1,11 +1,14 @@
 <!--pages/IntegratedQuery/IntegratedQuery.wxml-->
 <view>
   <view class="section">  
-    <picker mode="date" value="{{date}}" start="2022-01-01" end="2023-12-31" field="day" bindchange="bindDateChange">  
+    <picker mode="date" value="{{date}}" start="2022-01-01" end="2023-12-31" field="day" bindchange="bindDateChange" class="time_picker">  
       <view class="picker">  
-        当前查询日期: {{search_date}}  
+        查询日期: {{search_date}}  
       </view>  
     </picker> 
+    <button hidden="{{compare_show}}" class="button_compare_ready" bindtap="compare_ready">方案对比</button>
+    <button hidden="{{!compare_show}}" class="button_compare_cancel" bindtap="compare_cancel">取消选择</button>
+    <button hidden="{{!compare_show}}" class="button_compare_do" bindtap="compare_do">对比</button>
   </view>
 </view>
 
@@ -32,6 +35,10 @@
       <block wx:for="{{airplaneList}}" wx:key="list" wx:for-item="item">
         <view class="list_item">
           <view class="img">
+
+            <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_airplane" data-index="{{index}}"/>
+            <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_airplane" data-index="{{index}}"/>
+
             <image src="/images/{{item.air_company}}.jpg"  mode="widthFix"/>
           </view>
           <view class="info">
@@ -69,6 +76,10 @@
       <block wx:for="{{trainList}}" wx:key="list" wx:for-item="item">
         <view class="list_item">
           <view class="img">
+
+            <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_train" data-index="{{index}}"/>
+            <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_train" data-index="{{index}}"/>
+
             <image src="/images/{{item.train_company}}.jpg"  mode="widthFix"/>
           </view>
           <view class="info">
@@ -104,6 +115,13 @@
   <l-tabpanel tab="换乘方案" key="three" slot="three">
     <view class="list">
       <block wx:for="{{transferList}}" wx:key="list" wx:for-item="item">
+
+        <view class="icon_transfer">
+          <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_transfer" data-index="{{index}}"/>
+          <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_transfer" data-index="{{index}}"/>
+        </view>
+        
+
         <view class="list_item_transfer">
 
           <view class="times">

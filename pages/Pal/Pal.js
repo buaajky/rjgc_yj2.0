@@ -50,7 +50,30 @@ Page({
 
     participants:[],
     comment_list:[],
-    comment_dict:{}
+    comment_dict:{},
+
+    dataList:[
+      {
+        traffic_company:'dh',
+        traffic_number:'MU5193',
+        traffic_date:'2022-4-19',
+        traffic_time_start:'7:25',
+        traffic_time_end:'16:33',
+        traffic_price:'292',
+        traffic_city_start:'北京',
+        traffic_city_end:'上海',
+      },
+      {
+        traffic_company:'zt',
+        traffic_number:'D745',
+        traffic_date:'2022-4-19',
+        traffic_time_start:'16:15',
+        traffic_time_end:'19:51',
+        traffic_price:'62.5',
+        traffic_city_start:'北京',
+        traffic_city_end:'上海',
+      }
+    ]
   },
   
   reply: function(event) {

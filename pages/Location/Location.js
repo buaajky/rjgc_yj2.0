@@ -35,34 +35,24 @@ Page({
 
     dataList:[
       {
-        air_company:'dh',
-        air_number:'DH123456',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_price:'60',
-        air_city_start:'北京',
-        air_city_end:'上海'
+        traffic_company:'dh',
+        traffic_number:'MU5193',
+        traffic_date:'2022-4-19',
+        traffic_time_start:'7:25',
+        traffic_time_end:'16:33',
+        traffic_price:'292',
+        traffic_city_start:'北京',
+        traffic_city_end:'上海',
       },
       {
-        air_company:'nh',
-        air_number:'NH123456',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_price:'111',
-        air_city_start:'北京',
-        air_city_end:'上海'
-      },
-      {
-        air_company:'ch',
-        air_number:'CH123456',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_price:'60',
-        air_city_start:'北京',
-        air_city_end:'上海'
+        traffic_company:'zt',
+        traffic_number:'D745',
+        traffic_date:'2022-4-19',
+        traffic_time_start:'16:15',
+        traffic_time_end:'19:51',
+        traffic_price:'62.5',
+        traffic_city_start:'北京',
+        traffic_city_end:'上海',
       }
     ]
   },

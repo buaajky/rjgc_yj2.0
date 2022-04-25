@@ -1,9 +1,9 @@
 /* pages/IntegratedQuery/IntegratedQuery.wxss */
 .section{
-  background:#3963bc;
+  display: flex;
   margin:20rpx;
   padding:20rpx;
-  border-radius: 10rpx;
+  
 }
 
 .picker{
@@ -56,7 +56,7 @@
 .img{
   float:left;
   width:30%;
-  height:90%;
+  height:100%;
 }
 .img image{
    width:100%;
@@ -82,7 +82,7 @@
 }
  
 .price{
-  color:#3963bc;
+  color:#f15209;
   font-size:15px;
   position: absolute;
   right:5rpx;
@@ -144,14 +144,14 @@
 }
 
 .list_item_transfer{
-  margin-top:10px;
+  
   padding:10px;
   height:130px;
   border-bottom:10rpx solid #E8E8E8;
 }
 
 .transfer_time{
-  font-size:15px;
+  font-size:16px;
 }
 
 .icons{
@@ -237,5 +237,50 @@
 
 .price_transfer{
   color:#f15209;
-  font-size:15px;
+  font-size:30rpx;
+}
+
+.time_picker{
+  background:#3963bc;
+  border-radius: 5rpx;
+  width: 336rpx; 
+  height: 80rpx; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_compare_ready{
+  width: 180rpx; 
+  height: 78rpx; 
+  display: block; 
+  box-sizing: border-box; 
+  left: 76rpx; 
+  position: relative;
+  font-size: 30rpx;
+  color: #ffffff;
+  background-color: #3963bc;
+}
+
+.button_compare_do{
+  position: relative; 
+  left: 32rpx; 
+  font-size: 30rpx;
+  color: #ffffff;
+  background-color: #3963bc;
+}
+
+.button_compare_cancel{
+  position: relative; 
+  left: 16rpx; 
+  width: 186rpx; 
+  height: 78rpx; 
+  display: block; 
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #3963bc;
+}
+
+.icon_transfer{
+  margin-left: 25rpx;
 }

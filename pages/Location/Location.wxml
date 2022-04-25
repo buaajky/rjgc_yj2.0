@@ -16,19 +16,29 @@
   <view class="divview"></view>
 
   <view>
-    <view class="relative_title">廉航推荐</view>
+    <view class="relative_title">交通方案推荐</view>
     <swiper class="cheap_airplane-list" indicator-dots>
       <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
-        <swiper-item class="airplane_ticket_item">
-        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.air_company}}.jpg" title="{{item.air_number}}">
-          <view class="content">
-            {{item.air_date}}<text decode ="{{true}}" space ="{{true}}"> &nbsp;&nbsp;&nbsp;&nbsp; </text>{{item.air_time_start}}——{{item.air_time_end}}
-          </view>
-          <view class="content">
-            {{item.air_city_start}}-{{item.air_city_end}} 最低￥{{item.air_price}}
-          </view>
-        </l-card>
-      </swiper-item>
+        <swiper-item class="airplane_ticket_item" wx:if="{{item.traffic_company=='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.traffic_company}}.jpg" title="{{item.traffic_number}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item>
+       <swiper-item class="airplane_ticket_item" wx:elif="{{item.traffic_company!='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.traffic_company}}.jpg" title="{{item.traffic_number}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item>
       </block>
       
     </swiper>
