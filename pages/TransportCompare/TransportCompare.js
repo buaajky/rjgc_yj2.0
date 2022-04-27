@@ -90,8 +90,8 @@ Page({
       plan2_departtime:that.getTime(plan2[0].departtime),
       plan1_arrivaltime:that.getDate(plan1[plan1.length-1].arrivaldate) + " " + that.getTime(plan1[plan1.length-1].arrivaltime),
        plan2_arrivaltime:that.getDate(plan2[plan2.length-1].arrivaldate) + " " + that.getTime(plan2[plan2.length-1].arrivaltime),
-      plan1_costtime:that.calCosttime(plan1[0].departdate + " " + plan1[0].departtime, plan1[plan1.length-1].arrivaldate + " " + plan1[plan1.length-1].arrivaltime),
-      plan2_costtime:that.calCosttime(plan2[0].departdate + " " + plan2[0].departtime, plan2[plan2.length-1].arrivaldate + " " + plan2[plan2.length-1].arrivaltime),
+      plan1_costtime: utils.calIntervalTime(plan1[0].departdate + " " + plan1[0].departtime, plan1[plan1.length-1].arrivaldate + " " + plan1[plan1.length-1].arrivaltime),
+      plan2_costtime: utils.calIntervalTime(plan2[0].departdate + " " + plan2[0].departtime, plan2[plan2.length-1].arrivaldate + " " + plan2[plan2.length-1].arrivaltime),
       plan1_exchange:that.calExchange(plan1),
       plan2_exchange:that.calExchange(plan2),
       plan1_minprice:that.calMinPrice(plan1),
@@ -113,19 +113,6 @@ Page({
   getTime: function (d) {
     var tmp = d.split(":");
     return tmp[0] + ":" + tmp[1];
-  },
-
-  calCosttime: function(date1, date2) {
-    var d = new Date(date1.replace(/-/g, "/"));
-    var a = new Date(date2.replace(/-/g, "/"));
-    var hour = parseInt((a.getTime() - d.getTime())/(1000 * 60 * 60));
-    var minute = parseInt(((a.getTime() - d.getTime())%(1000 * 60 * 60))/(1000 * 60));
-    // console.log(hour);
-    // console.log(minute);
-    var ans = "";
-    if (hour > 0) ans += hour + "h";
-    if (minute > 0) ans += minute + "min";
-    return ans;
   },
 
   cmpCosttime: function(date1, date2, date3, date4) {

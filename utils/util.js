@@ -248,6 +248,20 @@ module.exports = {
     date.setDate(date.getDate());
     let day = date.getDay();
     return show_day[day];
+  },
+
+  /*输入格式 "yyyy-mm-dd hh:mm:ss"（顺序无关），返回两者相差的时间，输出格式例子："2h30min"、"30min" */
+  calIntervalTime: function(date1, date2) {
+    var d1 = new Date(date1.replace(/-/g, "/"));
+    var d2 = new Date(date2.replace(/-/g, "/"));
+    var hour = parseInt(Math.abs(d1.getTime() - d2.getTime())/(1000 * 60 * 60));
+    var minute = parseInt((Math.abs(d1.getTime() - d2.getTime())%(1000 * 60 * 60))/(1000 * 60));
+    // console.log(hour);
+    // console.log(minute);
+    var ans = "";
+    if (hour > 0) ans += hour + "h";
+    if (minute > 0) ans += minute + "min";
+    return ans;
   }
 
 }

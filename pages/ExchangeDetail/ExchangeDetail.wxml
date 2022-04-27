@@ -26,9 +26,9 @@
             <l-steps wx:if="{{index == 0}}" direction="column" dot="{{true}}" active-index="1" reverse="{{index==0}}">
               <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
                 <view wx:if="{{index < plans.length - 1}}" class="exchange" slot="describe">
-                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站中转</view>
+                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站换乘</view>
                   <view wx:else class="exchange_diff">
-                    <view class="exchange_main">换乘至{{plans[index+1].departport}}</view>
+                    <view class="exchange_main">换乘前往 {{plans[index+1].departport}}{{plans[index+1].type == 't'? '站':''}}</view>
                     <view wx:if="{{item.type == plans[index+1].type}}" class="exchange_more">{{item.arrivalcity}}中转</view>
                     <view wx:else class="exchange_more">{{item.arrivalcity}}中转，换乘{{plans[index+1].type == 'a'?'飞机':'列车'}}</view>
                   </view>
@@ -50,9 +50,9 @@
               </l-step>
               <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
                 <view wx:if="{{index < plans.length - 1}}" class="exchange" slot="describe">
-                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站中转</view>
+                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站换乘</view>
                   <view wx:else class="exchange_diff">
-                    <view class="exchange_main">换乘至{{plans[index+1].departport}}</view>
+                    <view class="exchange_main">换乘前往 {{plans[index+1].departport}}{{plans[index+1].type == 't'?'站':''}}</view>
                     <view wx:if="{{item.type == plans[index+1].type}}" class="exchange_more">{{item.arrivalcity}}中转</view>
                     <view wx:else class="exchange_more">{{item.arrivalcity}}中转，换乘{{plans[index+1].type == 'a'?'飞机':'列车'}}</view>
                   </view>
@@ -68,9 +68,9 @@
               </l-step>
               <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
                 <view wx:if="{{index < plans.length - 1}}" class="exchange" slot="describe">
-                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站中转</view>
+                  <view wx:if="{{item.arrivalport == plans[index+1].departport}}" class="exchange_same">同站换乘</view>
                   <view wx:else class="exchange_diff">
-                    <view class="exchange_main">换乘至{{plans[index+1].departport}}</view>
+                    <view class="exchange_main">换乘前往 {{plans[index+1].departport}}{{plans[index+1].type == 't'? '站':''}}</view>
                     <view wx:if="{{item.type == plans[index+1].type}}" class="exchange_more">{{item.arrivalcity}}中转</view>
                     <view wx:else class="exchange_more">{{item.arrivalcity}}中转，换乘{{plans[index+1].type == 'a'?'飞机':'列车'}}</view>
                   </view>
