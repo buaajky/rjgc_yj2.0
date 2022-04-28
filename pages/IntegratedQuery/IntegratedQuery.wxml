@@ -26,9 +26,6 @@
 
 </l-segment>  
 
-<!-- <l-button width="375" height="60" bindtap="mySort" data-sort_turn="true">价格升序</l-button>
-<l-button width="375" height="60" bindtap="mySort" data-sort_turn="false">价格降序</l-button> -->
-
 <l-tabs bind:linchange="changeTabs" animated="true" l-content-class="tab-item-text" active-key="one">
   <l-tabpanel tab="飞机" key="one" slot="one" >
     <view class="list">
@@ -182,8 +179,3 @@
   </l-tabpanel>
 
 </l-tabs>
-
-
-
-
-
