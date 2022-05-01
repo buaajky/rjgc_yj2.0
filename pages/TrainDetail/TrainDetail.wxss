@@ -227,6 +227,7 @@ button::after {
   font-size: large;
   font-weight: bold;
   vertical-align: center;
+  /* text-align: center; */
 }
 
 .seat_price {
@@ -237,6 +238,7 @@ button::after {
   color: #3963bc;
   font-weight: bold;
   margin-top: 10rpx;
+  /* text-align: center; */
 }
 
 .seat_num {
@@ -277,4 +279,6 @@ button::after {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+  word-wrap:break-word;
+  white-space:pre-line;
 }

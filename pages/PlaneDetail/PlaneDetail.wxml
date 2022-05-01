@@ -49,6 +49,7 @@
                 <view wx:for="{{jjcPrices}}" wx:key="index" class="flight">
                     <view class="flight_price">￥{{item.price}}</view>
                     <view class="flight_more">舱位等级{{item.cabincode}} | 折扣{{item.discount}}元</view>
+                    <!-- <view class="flight_more">折扣{{item.discount}}元</view> -->
                 </view>
             </scroll-view>
           </l-tabpanel>
@@ -57,6 +58,7 @@
                 <view wx:for="{{gwcPrices}}" wx:key="index" class="flight">
                     <view class="flight_price">￥{{item.price}}</view>
                     <view class="flight_more">舱位等级{{item.cabincode}} | 折扣{{item.discount}}元</view>
+                    <!-- <view class="flight_more">折扣{{item.discount}}元</view> -->
                 </view>
               </scroll-view>
           </l-tabpanel>

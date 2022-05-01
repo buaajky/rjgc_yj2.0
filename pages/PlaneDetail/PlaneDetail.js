@@ -115,6 +115,7 @@ Page({
   },
 
   addToPlan: function() {//加入出行计划 按钮
+    //todo
     console.log("add2plan")
     wx.showToast({
       title: '已加入出行计划',
@@ -136,40 +137,65 @@ Page({
     })
   },
 
-  // getNoticeBar(){
-  //   // 模拟 API 获取内容
-  //   let apiContent = wx.request("...");
-  
-  //   this.setData({
-  //     notice: apiContent
-  //   },()=>{
-  //     // 获取 notice-bar 组件实例
-  //     const noticeBarComponent = this.selectComponent("#my-notice-bar");
-  //     // 刷新组件动画
-  //     noticeBarComponent.linFlush();
-  //   });
-  // }
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var app = getApp()
-    var show = app.globalData.show
+    var app = getApp();
+    var show = app.globalData.show;
     this.setData({
       show:show,
       screen_h: wx.getSystemInfoSync().screenHeight,
-    })
+    });
     
     // console.log(options)
-    var that = this
-    that.setData({
-      departweek: utils.getWeekByDate(that.data.departdate)
-    })
-    
-    // console.log(utils.getWeekByDate("2022-04-10"))
-    that.setTabContentHeight()
-    that.setOverdate()
+    var that = this;
+    //todo: 
+    // var id = options.id;
+    var id = options.id? options.id:3993;
+    //获取基本信息
+    wx.request({
+      url: utils.server_hostname + '/api/core/flights/getFlightInfo?flightid=' + id,
+      success:function(res) {
+        var tmp = res.data[0];
+        
+        that.setData({
+          departdate:tmp.departdate,
+          arrivaldate:tmp.arrivaldate,
+          departtime:that.getTime(tmp.departtime),
+          arrivaltime:that.getTime(tmp.arrivaltime),
+          departcity:tmp.city,
+          arrivalcity:tmp.endcity,
+          departport:tmp.departport + " " + tmp.departterminal,
+          arrivalport:tmp.arrivalport + " " + tmp.arrivalterminal,
+          costtime:that.getCosttime(tmp.costtime),
+          flightno:tmp.flightno,
+          flightcom:tmp.airline,
+          punc:tmp.punctualrate,//准点率
+          food:tmp.food == false? 0:1,
+          craft:tmp.craft,
+          departweek: utils.getWeekByDate(tmp.departdate),
+        });
+        
+        that.setTabContentHeight();
+        that.setOverdate();
+        that.getNoticeBar(tmp.endcity);//获取抵达城市防疫公告
+
+        //获取票价
+        wx.request({
+          url: utils.server_hostname + '/api/core/flights/getPriceList?id=' + id,
+          success:function(res) {
+            that.dealPriceList(res.data)
+          },
+          fail:function(err) {
+            console.log(err)
+          }
+        });
+      },
+      fail:function(err) {
+        console.log(err)
+      }
+    });
   },
 
   setTabContentHeight: function() {//票价滑动 自适应高度
@@ -201,6 +227,61 @@ Page({
         overdate: "+" + day
       })
     }
+  },
+
+  getTime: function(time) {
+    var l = time.split(":");
+    return l[0] + ":" + l[1];
+  },
+
+  getCosttime: function(time) {
+    var l = time.split(":");
+    var ans = "";
+    if (l[0] != "0" && l[0] != "00") ans += l[0] + "h";
+    if (l[1] != "00") ans += l[1] + "min";
+    return ans;
+  },
+
+  getNoticeBar(city){
+    var that = this;
+    wx.request({
+      url: utils.server_hostname + '/api/core/epidemicInfo/getInfo?position=' + city + '市',
+      success:function(res) {
+        var tmp = " 暂无防疫信息";
+        if (res.data.length > 0) tmp = res.data[0].description
+        that.setData({
+          notice: tmp,
+        });
+      },
+      fail:function(err) {
+        console.log(err);
+      }
+    })
+  },
+
+  dealPriceList: function(list) {
+    var that = this;
+    var g = [];
+    var j = [];
+    for (var i in list) {
+      if (list[i].cabinname == "经济舱") j.push(list[i]);
+      else if (list[i].cabinname == "公务舱") g.push(list[i])
+    }
+    var hash = {};
+    j = j.reduce((preVal, curVal) => {
+      hash[curVal.price] ? '' : hash[curVal.price] = true && preVal.push(curVal);
+      return preVal}, []);
+    hash = {};
+    g = g.reduce((preVal, curVal) => {
+      hash[curVal.price] ? '' : hash[curVal.price] = true && preVal.push(curVal);
+      return preVal}, []);
+    //价格升序排列
+    j.sort((a, b) => {return a.price - b.price});
+    g.sort((a, b) => {return a.price - b.price});
+    that.setData({
+      jjcPrices: j,
+      gwcPrices: g,
+    })
   },
 
   /**

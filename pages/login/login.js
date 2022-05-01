@@ -114,6 +114,7 @@ Page({
               }
 
               // 登录成功，跳转到个人页面（将用户登陆token存储在缓存中）
+              console.log(data.data.data.token)
               wx.setStorageSync('token', data.data.data.token)
               wx.setStorageSync('id', data.data.data.id)
               wx.navigateBack({
@@ -155,7 +156,7 @@ Page({
           wx.hideLoading({
             success: (res) => {},
           })
-          
+          console.log("here")
           // 用户名或密码错误
           if (data.data.error_code == 600) {
             wx.showToast({
@@ -165,7 +166,8 @@ Page({
             })
             return
           }
-
+          
+          console.log(data.data.data.token)
           // 登录成功，跳转到个人页面（将用户登陆token存储在缓存中）
           wx.setStorageSync('token', data.data.data.token)
           wx.setStorageSync('id', data.data.data.id)

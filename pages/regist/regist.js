@@ -112,7 +112,8 @@ Page({
               })
               return
             }
-
+            
+            console.log(data.data);
             // 注册成功，自动登录并跳转到个人页面（需携带渲染数据）
             wx.setStorageSync('token', data.data.token)
             wx.setStorageSync('id', data.data.id)

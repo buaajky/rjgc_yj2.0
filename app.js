@@ -17,7 +17,7 @@ App({
       method:"GET",
       success: function(res) {
         var code = res.statusCode
-        // console.log(code)
+        //console.log(code)
         if (code != 404){
           that.globalData.show = false
         }else{

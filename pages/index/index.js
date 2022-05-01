@@ -117,6 +117,7 @@ Page({
         method:"GET",
         success: function(res) {
           var code = res.statusCode
+          console.log(code)
           if (code != 404){
             that.setData({
               show:false

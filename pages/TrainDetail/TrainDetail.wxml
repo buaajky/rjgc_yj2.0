@@ -41,7 +41,7 @@
       </view>
       <l-notice-bar show="{{true}}" bind:lintap="clickNoticeBar"
           front-icon-color="coral" front-icon-name="warning" front-icon-size="30"
-          type="roll" speed="1200">{{notice}}</l-notice-bar>
+          type="roll" speed="1000">{{notice}}</l-notice-bar>
       <view class="link">
       <image src="/images/railway_icon.png" class="link_icon"></image>
       <view class="link_text">前往12306官网订票</view>
@@ -50,10 +50,11 @@
       <view class="prices">
           <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
                 <view wx:for="{{prices}}" wx:key="index" class="seat">
-                    <view class="seat_name">{{item.name}}</view>
+                    <view class="seat_name">{{item.type}}</view>
                     <view class="seat_price">￥{{item.price}}</view>
-                    <view wx:if="{{item.num == '有' || item.num == '无'}}" class="seat_num">{{item.num}}票</view>
-                    <view wx:else class="seat_num">剩余{{item.num}}张</view>
+                    <view class="seat_num">余票以官网为准</view>
+                    <!-- <view wx:if="{{item.num == '有' || item.num == '无'}}" class="seat_num">{{item.num}}票</view>
+                    <view wx:else class="seat_num">剩余{{item.num}}张</view> -->
                 </view>
           </scroll-view>
         <view></view>

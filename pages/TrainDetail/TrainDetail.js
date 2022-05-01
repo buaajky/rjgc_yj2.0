@@ -14,6 +14,7 @@ Page({
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
     departdate:"2022-04-24",
+    arrivaldate:"2022-04-24",
     departweek:"",
     startcity:"武汉",
     endcity:"广州",
@@ -25,11 +26,7 @@ Page({
     departtime:"16:43",
     arrivaltime:"21:03",
     costtime:"4h20min",
-    day:0,
     overdate:"",
-    departstation:"济南西",
-    terminalstation:"江门",
-    isend:1,
 
     prices: [
       {
@@ -71,6 +68,7 @@ Page({
   },
 
   addToPlan: function() {
+    //todo:
     console.log("add2plan")
     wx.showToast({
       title: '已加入出行计划',
@@ -98,20 +96,6 @@ Page({
     })
   },
 
-  // getNoticeBar(){
-  //   // 模拟 API 获取内容
-  //   let apiContent = wx.request("...");
-  
-  //   this.setData({
-  //     notice: apiContent
-  //   },()=>{
-  //     // 获取 notice-bar 组件实例
-  //     const noticeBarComponent = this.selectComponent("#my-notice-bar");
-  //     // 刷新组件动画
-  //     noticeBarComponent.linFlush();
-  //   });
-  // }
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -125,13 +109,43 @@ Page({
     
     // console.log(options)
     var that = this
-    that.setData({
-      departweek: utils.getWeekByDate(that.data.departdate)
+    //todo:
+    // var id = options.id;
+    // var city = options.city;
+    // var endcity = options.endcity;
+    var id = options.id? options.id:2;
+    var city = options.city? options.city:"上海";
+    var endcity = options.endcity? options.endcity:"嘉兴";
+    //获取列车信息
+    wx.request({
+      url: utils.server_hostname + '/api/core/trains/getTrainInfo?id=' + id,
+      success:function(res) {
+        console.log(res);
+        var tmp = res.data[0];
+        that.setData({
+          departdate:tmp.departdate,
+          arrivaldate:tmp.arrivaldate,
+          startcity:city,
+          endcity:endcity,
+          typename:tmp.typename,
+          startstation:tmp.station,
+          endstation:tmp.endstation,
+          trainno:tmp.trainno,
+          departtime:that.getTime(tmp.departtime),
+          arrivaltime:that.getTime(tmp.arrivaltime),
+          costtime:that.getCosttime(tmp.costtime),
+          prices:tmp.prices.sort((a, b) => {return a.price - b.price}),
+          departweek: utils.getWeekByDate(tmp.departdate)
+        })
+        
+        that.setTabContentHeight();
+        that.setOverdate();
+        that.getNoticeBar(endcity);//获取抵达城市防疫公告
+      },
+      fail:function(err) {
+        console.log(err);
+      }
     })
-    
-    // console.log(utils.getWeekByDate("2022-04-10"))
-    that.setTabContentHeight()
-    that.setOverdate()
   },
 
   setTabContentHeight: function() {
@@ -147,19 +161,54 @@ Page({
     // console.log(that.data.tab_content_h)
   },
 
-  setOverdate: function() {
+  setOverdate: function() {//计算当天/+x天
     var that = this
-    if(that.data.day == 0) {
+    if (that.data.departdate == that.data.arrivaldate) {
       that.setData({
-          overdate: "当"
+        overdate: "当"
       })
     }else {
+      var d = new Date(that.data.departdate.replace(/-/g, "/") + " 00:00:00")
+      var a = new Date(that.data.arrivaldate.replace(/-/g, "/") + " 00:00:00")
+      console.log(d.getDay)
+      var day = parseInt((a.getTime() - d.getTime())/(1000 * 60 * 60 *24))
+      console.log(day)
       that.setData({
-        overdate: "+" + that.data.day
-    })
+        overdate: "+" + day
+      })
     }
   },
 
+  getTime: function(time) {
+    var l = time.split(":");
+    return l[0] + ":" + l[1];
+  },
+
+  getCosttime: function(t) {
+    var ans = "";
+    var l = t.split("h");
+    if (l[0] != "0") ans += l[0] + "h";
+    var m = l[1].split("m");
+    if (m[0] != "0") ans += m[0] + "min";
+    return ans;
+  },
+
+  getNoticeBar(city){
+    var that = this;
+    wx.request({
+      url: utils.server_hostname + '/api/core/epidemicInfo/getInfo?position=' + city + '市',
+      success:function(res) {
+        var tmp = " 暂无防疫信息";
+        if (res.data.length > 0) tmp = res.data[0].description
+        that.setData({
+          notice: tmp,
+        });
+      },
+      fail:function(err) {
+        console.log(err);
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
