@@ -125,3 +125,7 @@
   position: absolute;
   right: 130rpx;
 }
+
+.no_air{
+  text-align: center;
+}

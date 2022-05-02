@@ -151,7 +151,7 @@
 }
 
 .transfer_time{
-  font-size:16px;
+  font-size:20px;
 }
 
 .icons{
@@ -166,8 +166,8 @@
 }
 
 .arrow_two{
-  width: 172rpx;
-  height: 48rpx;
+  width: 100rpx;
+  height: 30rpx;
 }
 
 .four_stations{
@@ -185,6 +185,7 @@
 .date_and_price{
   margin-top: 10rpx;
   display: flex;
+  margin-bottom: 10rpx;
 }
 
 .total_time{
@@ -283,4 +284,8 @@
 
 .icon_transfer{
   margin-left: 25rpx;
+}
+
+.no_air{
+  text-align: center;
 }

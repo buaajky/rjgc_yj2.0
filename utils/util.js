@@ -15,7 +15,8 @@ const formatNumber = n => {
 }
 
 const server_hostname = {
-  url: "https://tra-fr-2.zhouyc.cc"
+  //url: "https://tra-fr-2.zhouyc.cc"
+  url: "https://114.116.197.121"
   // url:"http://114.116.53.144"
   // url:"http://localhost"
 }
@@ -24,7 +25,7 @@ module.exports = {
   formatTime,
   server_hostname: server_hostname.url,
   server_imagename: server_hostname.url + '/media',
-  subkey:'UMABZ-NKAKX-ILH4J-TFRB2-5EVZV-PWBIJ',
+  subkey:'F5PBZ-OEJK4-PEFUZ-D4MXI-MKQYS-V4FYQ',
 
   loginExpired:function() {
     wx.navigateTo({
@@ -105,17 +106,17 @@ module.exports = {
     });
   },
 
-  navigate2Loc: function(loc_id,loc_name,loc_images,loc_description,loc_cover) {
-    var url = '/pages/Location/Location?'
-    url = url + "loc_id=" + loc_id
-    url = url + "&" + "loc_name=" + loc_name
-    url = url + "&" + "loc_images=" + loc_images
-    url = url + "&" + "loc_description=" + loc_description
-    url = url + "&" + "loc_cover=" + loc_cover
-    wx.navigateTo({
-      url: url,
-    });
-  },
+  navigate2Loc: function(loc_id,loc_name,loc_images,loc_description,loc_cover) {
+    var url = '/pages/Location/Location?'
+    url = url + "loc_id=" + loc_id
+    url = url + "&" + "loc_name=" + loc_name
+    url = url + "&" + "loc_images=" + loc_images
+    url = url + "&" + "loc_description=" + loc_description
+    url = url + "&" + "loc_cover=" + loc_cover
+    wx.navigateTo({
+      url: url,
+    });
+  },
 
   navigate2Release: function() {
     var token = wx.getStorageSync('token')
@@ -238,5 +239,29 @@ module.exports = {
         }
       }
     })
+  },
+
+  /*获取日期是星期几 */
+  getWeekByDate: function(dates) {
+    let show_day = new Array('周日', '周一', '周二', '周三', '周四', '周五', '周六');
+    let date = new Date(dates);
+    date.setDate(date.getDate());
+    let day = date.getDay();
+    return show_day[day];
+  },
+
+  /*输入格式 "yyyy-mm-dd hh:mm:ss"（顺序无关），返回两者相差的时间，输出格式例子："2h30min"、"30min" */
+  calIntervalTime: function(date1, date2) {
+    var d1 = new Date(date1.replace(/-/g, "/"));
+    var d2 = new Date(date2.replace(/-/g, "/"));
+    var hour = parseInt(Math.abs(d1.getTime() - d2.getTime())/(1000 * 60 * 60));
+    var minute = parseInt((Math.abs(d1.getTime() - d2.getTime())%(1000 * 60 * 60))/(1000 * 60));
+    // console.log(hour);
+    // console.log(minute);
+    var ans = "";
+    if (hour > 0) ans += hour + "h";
+    if (minute > 0) ans += minute + "min";
+    return ans;
   }
+
 }

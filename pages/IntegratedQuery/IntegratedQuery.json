@@ -7,5 +7,6 @@
     "l-tag":"/miniprogram_npm/lin-ui/tag/index",
     "l-button":"/miniprogram_npm/lin-ui/button/index"
   },
-  "navigationBarTitleText": "北京 - 上海"
+  "navigationBarTitleText": "北京 - 石家庄",
+  "enablePullDownRefresh": true
 }

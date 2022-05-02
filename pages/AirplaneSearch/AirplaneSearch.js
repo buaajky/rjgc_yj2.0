@@ -1,3 +1,5 @@
+const { server_hostname } = require("../../utils/util")
+
 // pages/AirplaneSearch/AirplaneSearch.js
 Page({
 
@@ -5,64 +7,21 @@ Page({
    * 页面的初始数据
    */
   data: {
-    search_date: '2016-11-08',
-
-    dataList:[
-      {
-        air_company:'dh',
-        air_number:'DH123456',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_city_start:'北京',
-        air_city_end:'上海',
-        air_airport_start:'首都国际机场 T2名字长一点',
-        air_airport_end:'浦东国际机场 T2',
-        air_price:'60'
-      },
-      {
-        air_company:'nh',
-        air_number:'NH123456',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_city_start:'北京',
-        air_city_end:'上海',
-        air_airport_start:'首都国际机场 T2',
-        air_airport_end:'浦东国际机场 T2名字长一点',
-        air_price:'111'
-      },
-      {
-        air_company:'ch',
-        air_number:'CH123456',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_city_start:'北京',
-        air_city_end:'上海',
-        air_airport_start:'首都国际机场 T2',
-        air_airport_end:'浦东国际机场 T2',
-        air_price:'60'
-      },
-      {
-        air_company:'ch',
-        air_number:'CH0000',
-        air_date:'2022-4-11',
-        air_time_start:'7:00',
-        air_time_end:'11:00',
-        air_city_start:'北京',
-        air_city_end:'上海',
-        air_airport_start:'首都国际机场 T2',
-        air_airport_end:'浦东国际机场 T2',
-        air_price:'6000'
-      }
-    ]
+    search_date: '2022-04-15',
+    search_number: '9C8649',//MU6527
+    start_city: '南昌',
+    end_city: '兰州',
+    get_data:false,
+    dataList:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    var that = this
+
+    that.check_date(that.data.search_date)
 
   },
 
@@ -116,9 +75,41 @@ Page({
   },
 
   bindDateChange: function (e) {
+    var that = this
     console.log(e.detail.value)
-   this.setData({
+   that.setData({
     search_date: e.detail.value
    })
+
+   that.check_date(that.data.search_date)
+ },
+
+ check_date: function(date) {
+  var that = this
+  wx.request({
+    url: server_hostname + '/api/core/flights/getFlightNo',
+    method: 'GET',
+    data: {
+      departdate: that.data.search_date,
+      flightno: that.data.search_number,
+      departure: that.data.start_city,
+      arrival: that.data.end_city
+    },
+    success: (result) => {
+      //console.log(result)
+      if (result.data != "") {
+        var tmp = []
+        tmp.push(result.data)
+      //console.log(tmp)
+        this.setData({
+          dataList: tmp,
+          get_data: tmp == false ? false : true
+        })
+      }
+      
+    },
+    fail: (res) => {},
+    complete: (res) => {},
+  })
  }
 })
