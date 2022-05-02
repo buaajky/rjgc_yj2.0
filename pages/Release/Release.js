@@ -40,7 +40,7 @@ Page({
         icon: 'error',
         duration: 1000
       })
-      return
+      return 
     }
 
     var that = this;

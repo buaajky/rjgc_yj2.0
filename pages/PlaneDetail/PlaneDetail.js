@@ -31,67 +31,10 @@ Page({
     foodlist:["无", "有"],
     craft:"738",
     overdate:"",
+    hasAdd:false,//是否已加入用户的出行计划
 
-    jjcPrices:[
-      {
-        price:780,
-        cabincode:"V",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      },
-      {
-        price:780,
-        cabincode:"V",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      },
-      {
-        price:780,
-        cabincode:"V",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      },
-      {
-        price:880,
-        cabincode:"Y",
-        discount:40
-      }
-    ],
-
-    gwcPrices:[
-      {
-        price:1780,
-        cabincode:"B",
-        discount:440
-      },
-      {
-        price:1880,
-        cabincode:"C",
-        discount:450
-      },
-      {
-        price:1780,
-        cabincode:"B",
-        discount:440
-      },
-      {
-        price:1880,
-        cabincode:"C",
-        discount:450
-      }
-    ],
+    jjcPrices:[],
+    gwcPrices:[],
     
     //交互控制
     screen_h: 750,//手机屏幕高度，onLoad中获取
@@ -116,10 +59,114 @@ Page({
 
   addToPlan: function() {//加入出行计划 按钮
     //todo
-    console.log("add2plan")
-    wx.showToast({
-      title: '已加入出行计划',
-      duration: 1000
+    var that = this;
+    if(wx.getStorageSync('token') == '') {
+      wx.navigateTo({
+        url: '/pages/login/login',
+      });
+
+      wx.showToast({
+        title: '未登陆',
+        icon:"error",
+        duration:1000,
+      });
+      return;
+    }
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyPlan/',
+      method:'POST',
+      header:{
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data:{
+        "type":"直达",
+        "id1":String(that.data.id),
+        "type1":"飞机",
+        "from1":that.data.departcity,
+        "to1":that.data.arrivalcity,
+        "id2":null,
+        "type2":null,
+        "from2":null,
+        "to2":null,
+      },
+      success:function(res) {
+        if (res.data == true) {
+          that.setData({
+            hasAdd:true
+          })
+          wx.showToast({
+            title: '已加入出行计划',
+            duration: 1000
+          });
+        }else {
+          wx.showToast({
+            title: '操作失败',
+            duration:1000,
+            icon:"error"
+          })
+        }
+      },
+      fail:function(err) {
+        console.log(err);
+        wx.showToast({
+          title: '操作失败',
+          duration:1000,
+          icon:"error"
+        })
+      }
+    })
+  },
+
+  deleteFromPlan:function() {//删除出行计划  按钮
+    var that = this;
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
+      method:'POST',
+      header:{
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data:{
+        "type":"直达",
+        "id1":String(that.data.id),
+        "type1":"飞机",
+        "from1":that.data.departcity,
+        "to1":that.data.arrivalcity,
+        "id2":null,
+        "type2":null,
+        "from2":null,
+        "to2":null,
+      },
+      success:function(res) {
+        if (res.data == true) {
+          wx.showToast({
+            title: '已删除该出行计划',
+            duration: 1000
+          });
+          that.setData({
+            hasAdd:false
+          })
+        }else {
+          wx.showToast({
+            title: '操作失败',
+            duration:1000,
+            icon:"error"
+          })
+        }
+      },
+      fail:function(err) {
+        console.log(err);
+        wx.showToast({
+          title: '操作失败',
+          duration:1000,
+          icon:"error"
+        })
+      }
     })
   },
 
@@ -182,11 +229,44 @@ Page({
         that.setOverdate();
         that.getNoticeBar(tmp.endcity);//获取抵达城市防疫公告
 
+        //获取用户是否已经加入出行计划
+        var token = wx.getStorageSync('token');
+        if (token != "") {//已登录
+          console.log(token)
+          wx.request({
+            url: utils.server_hostname + '/api/core/plans/searchMyPlan/',
+            method:'POST',
+            header:{
+              'content-type': 'application/json',
+              'token-auth': token
+            },
+            data:{
+              "type":"直达",
+              "id1":String(id),
+              "type1":"飞机",
+              "from1":tmp.city,
+              "to1":tmp.endcity,
+              "id2":null,
+              "type2":null,
+              "from2":null,
+              "to2":null,
+            },
+            success:function(res) {
+              console.log(res)
+              that.setData({
+                hasAdd:res.data
+              })    
+            },
+            fail:function(err) {
+              console.log(err);
+            }
+          })
+        }
         //获取票价
         wx.request({
           url: utils.server_hostname + '/api/core/flights/getPriceList?id=' + id,
           success:function(res) {
-            that.dealPriceList(res.data)
+            that.dealPriceList(res.data);
           },
           fail:function(err) {
             console.log(err)

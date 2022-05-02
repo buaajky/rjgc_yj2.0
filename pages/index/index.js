@@ -848,6 +848,14 @@ Page({
       })
   },
 
+  //转到交通方案查询
+  navigate2TrafficSearch:function() {
+    //todo:
+    // wx.navigateTo({
+    //   url: '/pages/TrafficSearch/TrafficSearch',
+    // })
+  },
+
   clear:function(){
     this.setData({
       input_value:""

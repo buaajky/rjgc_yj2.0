@@ -51,6 +51,7 @@ Page({
       //   money:538.5
       // }
     ],
+    hasAdd:false,//是否已加入出行计划
 
     //交互控制
     showNotice:false,//是否显示完整的通知（半屏弹窗）
@@ -63,11 +64,116 @@ Page({
     })
   },
 
-  addToPlan: function() {
-    console.log("add2plan")
-    wx.showToast({
-      title: '已加入出行计划',
-      duration: 1000
+  addToPlan: function() {//加入出行计划 按钮
+    //todo
+    var that = this;
+    if(wx.getStorageSync('token') == '') {
+      wx.navigateTo({
+        url: '/pages/login/login',
+      });
+
+      wx.showToast({
+        title: '未登陆',
+        icon:"error",
+        duration:1000,
+      });
+      return;
+    }
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyPlan/',
+      method:'POST',
+      header:{
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data:{
+        "type":"换乘",
+        "id1":String(that.data.plans[0].id),
+        "type1":that.data.plans[0].type == 'a'? "飞机":"火车",
+        "from1":that.data.plans[0].departcity,
+        "to1":that.data.plans[0].arrivalcity,
+        "id2":String(that.data.plans[1].id),
+        "type2":that.data.plans[1].type == 'a'? "飞机":"火车",
+        "from2":that.data.plans[1].departcity,
+        "to2":that.data.plans[1].arrivalcity,
+      },
+      success:function(res) {
+        if (res.data == true) {
+          that.setData({
+            hasAdd:true
+          })
+          wx.showToast({
+            title: '已加入出行计划',
+            duration: 1000
+          });
+        }else {
+          wx.showToast({
+            title: '操作失败',
+            duration:1000,
+            icon:"error"
+          })
+        }
+      },
+      fail:function(err) {
+        console.log(err);
+        wx.showToast({
+          title: '操作失败',
+          duration:1000,
+          icon:"error"
+        })
+      }
+    })
+  },
+
+  deleteFromPlan:function() {//删除出行计划  按钮
+    var that = this;
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
+      method:'POST',
+      header:{
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data:{
+        "type":"换乘",
+        "id1":String(that.data.plans[0].id),
+        "type1":that.data.plans[0].type == 'a'? "飞机":"火车",
+        "from1":that.data.plans[0].departcity,
+        "to1":that.data.plans[0].arrivalcity,
+        "id2":String(that.data.plans[1].id),
+        "type2":that.data.plans[1].type == 'a'? "飞机":"火车",
+        "from2":that.data.plans[1].departcity,
+        "to2":that.data.plans[1].arrivalcity,
+      },
+      success:function(res) {
+        if (res.data == true) {
+          wx.showToast({
+            title: '已删除该出行计划',
+            duration: 1000
+          });
+          that.setData({
+            hasAdd:false
+          })
+        }else {
+          wx.showToast({
+            title: '操作失败',
+            duration:1000,
+            icon:"error"
+          })
+        }
+      },
+      fail:function(err) {
+        console.log(err);
+        wx.showToast({
+          title: '操作失败',
+          duration:1000,
+          icon:"error"
+        })
+      }
     })
   },
 
@@ -146,6 +252,40 @@ Page({
 
     that.calHasTrain(plan);
     that.getNoticeBar(plan[plan.length-1].arrivalcity);//获取抵达城市防疫公告
+
+    //获取用户是否已经加入出行计划
+    var token = wx.getStorageSync('token');
+    if (token != "") {//已登录
+      console.log(token)
+      wx.request({
+        url: utils.server_hostname + '/api/core/plans/searchMyPlan/',
+        method:'POST',
+        header:{
+          'content-type': 'application/json',
+          'token-auth': token
+        },
+        data:{
+          "type":"换乘",
+          "id1":String(plan[0].id),
+          "type1":plan[0].type == 'a'? "飞机":"火车",
+          "from1":plan[0].departcity,
+          "to1":plan[0].arrivalcity,
+          "id2":String(plan[1].id),
+          "type2":plan[1].type == 'a'? "飞机":"火车",
+          "from2":plan[1].departcity,
+          "to2":plan[1].arrivalcity,
+        },
+        success:function(res) {
+          console.log(res)
+          that.setData({
+            hasAdd:res.data
+          })    
+        },
+        fail:function(err) {
+          console.log(err);
+        }
+      })
+    }
   },
 
   getPlaneInfo:function(arr, id) {

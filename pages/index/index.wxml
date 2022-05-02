@@ -210,8 +210,20 @@
             </cover-view>
         </cover-view>
         <cover-view class="flex-item_3">
-            <cover-image  class = "tabbar_pic_plus" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release">
-            </cover-image>
+          <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release"></cover-image>
+                <cover-view class = "tabbar_text">
+                发布
+                </cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "/images/transport_grey.png" mode = "widthFix" bindtap="navigate2TrafficSearch"></cover-image>
+                <cover-view class = "tabbar_text">
+                出行
+                </cover-view>
+            </cover-view>
         </cover-view>
         <cover-view class="flex-item_3">
             <cover-view class = "tabbar_pic_text"> 

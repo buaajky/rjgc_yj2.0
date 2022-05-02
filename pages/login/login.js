@@ -168,6 +168,7 @@ Page({
           }
           
           console.log(data.data.data.token)
+          console.log(data.data.data.id)
           // 登录成功，跳转到个人页面（将用户登陆token存储在缓存中）
           wx.setStorageSync('token', data.data.data.token)
           wx.setStorageSync('id', data.data.data.id)

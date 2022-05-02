@@ -35,9 +35,12 @@
           <view class="addtime">{{overdate}}天</view>
         </view>
         <button class="seemap" bindtap="navigate2map">在地图上查看</button>
-        <l-button l-class="add2plan" l-label-class="add2plan_label"
+        <l-button wx:if="{{!hasAdd}}" l-class="add2plan" l-label-class="add2plan_label"
          type="default" size="medium" shape="semicircle" plain="{{true}}"
           bind:lintap="addToPlan">加入我的出行计划</l-button>
+        <l-button wx:else l-class="add2plan" l-label-class="add2plan_label"
+         type="default" size="medium" shape="semicircle" plain="{{true}}" style="opacity: 0.7;"
+          bind:lintap="deleteFromPlan">已加入我的出行计划</l-button>
       </view>
       <l-notice-bar show="{{true}}" bind:lintap="clickNoticeBar"
           front-icon-color="coral" front-icon-name="warning" front-icon-size="30"

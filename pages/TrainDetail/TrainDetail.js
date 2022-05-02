@@ -45,6 +45,7 @@ Page({
         num:"无",
       }
     ],
+    hasAdd:false,//是否加入出行计划
     
     //交互控制
     screen_h: 750,//手机屏幕高度，onLoad中获取
@@ -67,12 +68,116 @@ Page({
     })
   },
 
-  addToPlan: function() {
-    //todo:
-    console.log("add2plan")
-    wx.showToast({
-      title: '已加入出行计划',
-      duration: 1000
+  addToPlan: function() {//加入出行计划 按钮
+    //todo
+    var that = this;
+    if(wx.getStorageSync('token') == '') {
+      wx.navigateTo({
+        url: '/pages/login/login',
+      });
+
+      wx.showToast({
+        title: '未登陆',
+        icon:"error",
+        duration:1000,
+      });
+      return;
+    }
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyPlan/',
+      method:'POST',
+      header:{
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data:{
+        "type":"直达",
+        "id1":String(that.data.id),
+        "type1":"火车",
+        "from1":that.data.startcity,
+        "to1":that.data.endcity,
+        "id2":null,
+        "type2":null,
+        "from2":null,
+        "to2":null,
+      },
+      success:function(res) {
+        if (res.data == true) {
+          that.setData({
+            hasAdd:true
+          })
+          wx.showToast({
+            title: '已加入出行计划',
+            duration: 1000
+          });
+        }else {
+          wx.showToast({
+            title: '操作失败',
+            duration:1000,
+            icon:"error"
+          })
+        }
+      },
+      fail:function(err) {
+        console.log(err);
+        wx.showToast({
+          title: '操作失败',
+          duration:1000,
+          icon:"error"
+        })
+      }
+    })
+  },
+
+  deleteFromPlan:function() {//删除出行计划  按钮
+    var that = this;
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
+      method:'POST',
+      header:{
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data:{
+        "type":"直达",
+        "id1":String(that.data.id),
+        "type1":"火车",
+        "from1":that.data.startcity,
+        "to1":that.data.endcity,
+        "id2":null,
+        "type2":null,
+        "from2":null,
+        "to2":null,
+      },
+      success:function(res) {
+        if (res.data == true) {
+          wx.showToast({
+            title: '已删除该出行计划',
+            duration: 1000
+          });
+          that.setData({
+            hasAdd:false
+          })
+        }else {
+          wx.showToast({
+            title: '操作失败',
+            duration:1000,
+            icon:"error"
+          })
+        }
+      },
+      fail:function(err) {
+        console.log(err);
+        wx.showToast({
+          title: '操作失败',
+          duration:1000,
+          icon:"error"
+        })
+      }
     })
   },
 
@@ -156,6 +261,40 @@ Page({
         that.setTabContentHeight();
         that.setOverdate();
         that.getNoticeBar(endcity);//获取抵达城市防疫公告
+
+        //获取用户是否已经加入出行计划
+        var token = wx.getStorageSync('token');
+        if (token != "") {//已登录
+          console.log(token)
+          wx.request({
+            url: utils.server_hostname + '/api/core/plans/searchMyPlan/',
+            method:'POST',
+            header:{
+              'content-type': 'application/json',
+              'token-auth': token
+            },
+            data:{
+              "type":"直达",
+              "id1":String(id),
+              "type1":"火车",
+              "from1":city,
+              "to1":endcity,
+              "id2":null,
+              "type2":null,
+              "from2":null,
+              "to2":null,
+            },
+            success:function(res) {
+              console.log(res)
+              that.setData({
+                hasAdd:res.data
+              })    
+            },
+            fail:function(err) {
+              console.log(err);
+            }
+          })
+        }
       },
       fail:function(err) {
         console.log(err);
