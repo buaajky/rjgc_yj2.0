@@ -108,21 +108,36 @@ Page({
     })
     
     // console.log(options)
-    var that = this
+    var that = this;
     //todo:
     // var id = options.id;
-    // var city = options.city;
-    // var endcity = options.endcity;
     var id = options.id? options.id:2;
-    var city = options.city? options.city:"上海";
-    var endcity = options.endcity? options.endcity:"嘉兴";
+    var city = options.city;
+    var endcity = options.endcity;
     //获取列车信息
     wx.request({
       url: utils.server_hostname + '/api/core/trains/getTrainInfo?id=' + id,
-      success:function(res) {
+      success:async function(res) {
         console.log(res);
         var tmp = res.data[0];
+        //获取缺失的城市信息
+        if (!city) {
+          await that.getCity(tmp.station).then(
+            function(data) {city = data.split("市")[0];},
+            function(err) {console.log(err)}
+          );
+        }
+        if (!endcity) {
+          await that.getCity(tmp.endstation).then(
+            function(data) {
+              endcity = data.split("市")[0];
+            },
+            function(err) {console.log(err)}
+          );
+        }
+
         that.setData({
+          id:id,
           departdate:tmp.departdate,
           arrivaldate:tmp.arrivaldate,
           startcity:city,
@@ -146,6 +161,23 @@ Page({
         console.log(err);
       }
     })
+  },
+
+  getCity:function(port) {
+    var apiUrl = "https://apis.map.qq.com/ws/geocoder/v1/?address=";
+    var getLocationUrl = apiUrl + port + "站" + "&key=" + utils.subkey;
+    return new Promise(function (resolve, reject) {
+      wx.request({        
+        url: getLocationUrl,
+        success: function (res) {
+          console.log(res)   
+          var address = res.data.result;
+          resolve(address.address_components.city);
+        },
+        fail: function(res) { console.log(res); reject();}
+      })
+    }
+    )
   },
 
   setTabContentHeight: function() {

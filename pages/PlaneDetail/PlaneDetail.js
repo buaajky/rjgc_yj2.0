@@ -160,6 +160,7 @@ Page({
         var tmp = res.data[0];
         
         that.setData({
+          id:id,
           departdate:tmp.departdate,
           arrivaldate:tmp.arrivaldate,
           departtime:that.getTime(tmp.departtime),

@@ -23,6 +23,7 @@ Page({
     plans: [
       // {
       //   type:"a",
+      //   id:1,
       //   toolname:"东航MU2452",
       //   departdate:"2022-04-24",
       //   day:0,
@@ -79,7 +80,7 @@ Page({
       })
     }else if (tmp.type == 't') {
       wx.navigateTo({
-        url: '/pages/TrainDetail/TrainDetail?id=' + tmp.id + "&city=" + this.data.startcity + "&endcity="+ this.data.endcity,
+        url: '/pages/TrainDetail/TrainDetail?id=' + tmp.id + "&city=" + tmp.departcity + "&endcity="+ tmp.arrivalcity,
       })
     }
   },
@@ -123,44 +124,28 @@ Page({
     // console.log(options)
     var that = this;
     //todo:
-    // var idlist = options.idlist;
-    // var city = options.city;
-    // var endcity = options.endcity;
-    //var departdate = options.departdate;
     var idlist = options.idlist? options.idlist: [{id:2, type:'火车'}, {id:74, type:"火车"}];
-    var city = options.city? options.city:"上海";
-    var endcity = options.endcity? options.endcity:"深圳";
-    var departdate = options.departdate? options.departdate:"2022-05-01";
-    that.setData({
-      departdate:departdate,
-      startcity:city,
-      endcity:endcity,
-      costtime:"9h23min",//todo
-      departweek: utils.getWeekByDate(departdate)
-    });
 
     var plan = [];
     for (var i = 0; i < idlist.length; i++) {
       if (idlist[i].type == '飞机') {
         await that.getPlaneInfo(plan, idlist[i].id);
       }else if (idlist[i].type == '火车') {
-        if (i == 0) {
-          await that.getTrainInfo(plan, idlist[i].id, city, "");
-        }else if (i == idlist.length - 1) {
-          await that.getTrainInfo(plan, idlist[i].id, plan[i - 1].arrivalcity, endcity);
-        }else await that.getTrainInfo(plan, idlist[i].id, plan[i - 1].arrivalcity, "");    
+        await that.getTrainInfo(plan, idlist[i].id); 
       }
-
-      if (i > 0 && plan[i-1].arrivalcity == "") plan[i-1].arrivalcity = plan[i].departcity;
     }
 
     that.setData({
       plans:plan,
+      startcity:plan[0].departcity,
+      endcity:plan[plan.length-1].arrivalcity,
+      departdate:plan[0].departdate,
+      departweek: utils.getWeekByDate(plan[0].departdate),
       costtime:utils.calIntervalTime(plan[0].departdate + " " + plan[0].departtime, plan[plan.length-1].arrivaldate + " " + plan[plan.length-1].arrivaltime)
     })
 
     that.calHasTrain(plan);
-    that.getNoticeBar(endcity);//获取抵达城市防疫公告
+    that.getNoticeBar(plan[plan.length-1].arrivalcity);//获取抵达城市防疫公告
   },
 
   getPlaneInfo:function(arr, id) {
@@ -216,14 +201,25 @@ Page({
     })
   },
 
-  getTrainInfo:function(arr, id, city, endcity) {
+  getTrainInfo:function(arr, id) {
     var that = this;
     return new Promise(function (resolve, reject) {
       wx.request({
         url: utils.server_hostname + '/api/core/trains/getTrainInfo?id=' + id,
-        success:function(res) {
+        success:async function(res) {
           //console.log(res)
           var tmp = res.data[0];
+          var city;
+          var endcity;
+          await that.getCity(tmp.station).then(
+            function(data){city = data.split("市")[0]},
+            function(err){console.log(err)}
+          );
+          await that.getCity(tmp.endstation).then(
+            function(data){endcity = data.split("市")[0]},
+            function(err){console.log(err)}
+          );
+
           var p = {
             type:"t",
             id:id,
@@ -249,6 +245,23 @@ Page({
         }
       })
     });
+  },
+
+  getCity:function(port) {
+    var apiUrl = "https://apis.map.qq.com/ws/geocoder/v1/?address=";
+    var getLocationUrl = apiUrl + port + "站" + "&key=" + utils.subkey;
+    return new Promise(function (resolve, reject) {
+      wx.request({        
+        url: getLocationUrl,
+        success: function (res) {
+          console.log(res)   
+          var address = res.data.result;
+          resolve(address.address_components.city);
+        },
+        fail: function(res) { console.log(res); reject();}
+      })
+    }
+    )
   },
 
   getTime: function(time) {
