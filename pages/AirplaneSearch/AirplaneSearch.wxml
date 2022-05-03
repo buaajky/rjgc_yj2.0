@@ -18,7 +18,7 @@
 
   <view class="list" wx:if="{{get_data}}">
   <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
-  <view class="list_item">
+  <view class="list_item" bindtap="navigate2air" data-index="{{item.id}}">
       <view class="img">
         <image src="/images/{{item.airline}}.jpg"  mode="widthFix"/>
       </view>

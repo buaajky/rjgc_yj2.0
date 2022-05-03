@@ -86,6 +86,10 @@ Page({
 
  check_date: function(date) {
   var that = this
+  that.setData({
+    get_data: false,
+    dataList: []
+  })
   wx.request({
     url: server_hostname + '/api/core/flights/getFlightNo',
     method: 'GET',
@@ -109,7 +113,13 @@ Page({
       
     },
     fail: (res) => {},
-    complete: (res) => {},
   })
- }
+ },
+
+navigate2air: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
+} 
 })

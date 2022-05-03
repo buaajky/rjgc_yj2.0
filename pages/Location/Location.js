@@ -33,28 +33,8 @@ Page({
     travel_num:4,
     next_travel:"init",
 
-    dataList:[
-      // {
-      //   traffic_company:'dh',
-      //   traffic_number:'MU5193',
-      //   traffic_date:'2022-4-19',
-      //   traffic_time_start:'7:25',
-      //   traffic_time_end:'16:33',
-      //   traffic_price:'292',
-      //   traffic_city_start:'北京',
-      //   traffic_city_end:'上海',
-      // },
-      // {
-      //   traffic_company:'zt',
-      //   traffic_number:'D745',
-      //   traffic_date:'2022-4-19',
-      //   traffic_time_start:'16:15',
-      //   traffic_time_end:'19:51',
-      //   traffic_price:'62.5',
-      //   traffic_city_start:'北京',
-      //   traffic_city_end:'上海',
-      // }
-    ]
+    dataList:[],
+    get_data: false
   },
 
   /**
@@ -70,6 +50,8 @@ Page({
     }
 
     that.setData({
+      get_data: false,
+      dataList: [],
       locs: {
         id:options.loc_id,
         name:options.loc_name,
@@ -82,7 +64,7 @@ Page({
     that.getTravels(that.data.travel_num)
 
     /* 2022 */
-    that.get_cheap_airplane()
+    that.get_traffic()
   },
 
   onReachBottom: function () {
@@ -354,25 +336,132 @@ Page({
 //   }
 
 ,
-get_cheap_airplane: function(){
-  var that = this
-  var url = utils.server_hostname + "/api/core/flights/getCheapFlight"
+get_traffic: function(){
+  var that = this 
   var token = wx.getStorageSync('token')
+  var loc = that.data.locs.name.substring(0, that.data.locs.name.length - 1)
+  var tmp = []
+
   wx.request({
-    url: url,
+    url: utils.server_hostname + "/api/core/flights/getCheapFlight",
     method: 'GET',
     data: {
-      position: that.data.locs.name
+      position: loc
     },
     header: {
       'content-type': 'application/json',
       'token-auth': token
     },
+    
     success: function(res) {
-      console.log(token)
-      console.log(res)
+      // console.log(res.data)
+      var size_list = res.data.length > 2 ? 1 : res.data.length
+      var k = 0
+      // console.log(res.data.length)
+      for (let i = 0;i < res.data.length && k <= size_list; i++) {
+        if (res.data[i].minprice > 0) {
+          var tmp1 = {
+            traffic_company:'',
+            traffic_number:'',
+            traffic_date:'',
+            traffic_time_start:'',
+            traffic_time_end:'',
+            traffic_price:'',
+            traffic_city_start:'',
+            traffic_city_end:'',
+            traffic_id:''
+          }
+          tmp1.traffic_company = res.data[i].airline
+          tmp1.traffic_number = res.data[i].flightno
+          tmp1.traffic_date = res.data[i].departdate
+          tmp1.traffic_time_start = res.data[i].departtime.substring(0, 5)
+          tmp1.traffic_time_end = res.data[i].arrivaltime.substring(0, 5)
+          tmp1.traffic_price = res.data[i].minprice
+          tmp1.traffic_city_start = res.data[i].city
+          tmp1.traffic_city_end = res.data[i].endcity
+          tmp1.traffic_id = res.data[i].id
+          k++
+          tmp.push(tmp1)
+        }
+      }
+      that.setData({
+        dataList: tmp
+      })
+      if (that.data.dataList != false) {
+        that.setData({
+          get_data: true
+        })
+      }
     },
-    fail: function(res) { console.log(res) }
+    fail: function(res) {}
   })
+  wx.request({
+    url: utils.server_hostname + "/api/core/trains/getCheapTrain",
+    method: 'GET',
+    data: {
+      position: loc
+    },
+    header: {
+      'content-type': 'application/json',
+      'token-auth': token
+    },
+    
+    success: function(res) {
+      // console.log(res.data)
+      var size_list = res.data.length > 2 ? 1 : res.data.length
+      var k = 0
+      // console.log(res.data.length)
+      for (let i = 0;i < res.data.length && k <= size_list; i++) {
+        if (res.data[i].price > 0) {
+          var tmp1 = {
+            traffic_company:'',
+            traffic_number:'',
+            traffic_date:'',
+            traffic_time_start:'',
+            traffic_time_end:'',
+            traffic_price:'',
+            traffic_city_start:'',
+            traffic_city_end:'',
+            traffic_id:''
+          }
+          tmp1.traffic_company = 'zt'
+          tmp1.traffic_number = res.data[i].owner.trainno
+          tmp1.traffic_date = res.data[i].owner.departdate
+          tmp1.traffic_time_start = res.data[i].owner.departtime.substring(0, 5)
+          tmp1.traffic_time_end = res.data[i].owner.arrivaltime.substring(0, 5)
+          tmp1.traffic_price = res.data[i].price
+          tmp1.traffic_city_start = res.data[i].owner.departstation
+          tmp1.traffic_city_end = res.data[i].owner.endstation
+          tmp1.traffic_id = res.data[i].id
+          k++
+          tmp.push(tmp1)
+        }
+      }
+      that.setData({
+        dataList: tmp
+      })
+      if (that.data.dataList != false) {
+        that.setData({
+          get_data: true
+        })
+      }
+    },
+    fail: function(res) {}
+  })
+
+},
+
+navigate2air: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
+},
+
+navigate2train: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
 }
 })

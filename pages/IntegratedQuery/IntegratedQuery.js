@@ -8,9 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    search_date: '2022-04-05',
+    search_date: '2022-05-01',
     start_city: '北京',
-    end_city: '石家庄',
+    end_city: '石家庄',//北京南京
     compare_show: false,
     compare_num: 0,
 
@@ -220,23 +220,70 @@ compare_do: function(e) {
   if (that.data.compare_num != 2) {
     wx.showToast({
       title: "请选择2个交通方案",
-      icon: 'none'
+      icon: 'error'
     })
   }
   else {
     for (let i in that.data.airplaneList) {
       if (that.data.airplaneList[i].selected) {
-        tmp.push(that.data.airplaneList[i].flightno)
+        var item = {
+
+        flightno: that.data.airplaneList[i].flightno,
+        airline: that.data.airplaneList[i].airline,
+        city: that.data.airplaneList[i].city,
+        endcity: that.data.airplaneList[i].endcity,
+        departport: that.data.airplaneList[i].departport,
+        arrivalport: that.data.airplaneList[i].arrivalport,
+        departdate: that.data.airplaneList[i].departdate,
+        departtime: that.data.airplaneList[i].departtime,
+        arrivaldate: that.data.airplaneList[i].arrivaldate,
+        arrivaltime: that.data.airplaneList[i].arrivaltime,
+        costtime: that.data.airplaneList[i].costtime,
+        minpric: that.data.airplaneList[i].minprice
+        }
+        tmp.push(item)
       }
     }
     for (let i in that.data.trainList) {
       if (that.data.trainList[i].selected) {
-        tmp.push(that.data.trainList[i].trainno)
+        var item = {
+
+          trainno: that.data.trainList[i].trainno,
+          typename: that.data.trainList[i].typename,
+          departstation: that.data.trainList[i].departstation,
+          endstation: that.data.trainList[i].endstation,
+          departdate: that.data.trainList[i].departdate,
+          departtime: that.data.trainList[i].departtime,
+          arrivaldate: that.data.trainList[i].arrivaldate,
+          arrivaltime: that.data.trainList[i].arrivaltime,
+          costtime: that.data.trainList[i].costtime,
+          train_price: that.data.trainList[i].train_price
+          }
+        tmp.push(item)
       }
     }
     for (let i in that.data.transferList) {
       if (that.data.transferList[i].selected) {
-        tmp.push({t1: that.data.transferList[i].t1_number, t2: that.data.transferList[i].t2_number})
+        var item = {
+          t1_type:that.data.transferList[i].t1_type,
+          t1_number:that.data.transferList[i].t1_number,
+          t1_date:that.data.transferList[i].t1_date,
+          t1_time_start:that.data.transferList[i].t1_time_start,
+          t1_time_end:that.data.transferList[i].t1_time_end,
+          t1_station_start:that.data.transferList[i].t1_station_start,
+          t1_station_end:that.data.transferList[i].t1_station_start,
+          t2_type:that.data.transferList[i].t2_type,
+          t2_number:that.data.transferList[i].t2_number,
+          t2_date:that.data.transferList[i].t2_date,
+          t2_time_start:that.data.transferList[i].t2_time_start,
+          t2_time_end:that.data.transferList[i].t2_time_end,
+          t2_station_start:that.data.transferList[i].t2_station_start,
+          t2_station_end:that.data.transferList[i].t2_station_end,
+          total_price:that.data.transferList[i].total_price,
+          total_time:that.data.transferList[i].total_time,
+          transfer_time:that.data.transferList[i].transfer_time,
+        }
+        tmp.push(item)
       }
     }
     console.log(tmp)
@@ -330,7 +377,11 @@ get_transfer_list: function(date) {
     total_price:0,
     total_time:'',
     transfer_time:'',
-    selected:false
+    selected:false,
+    t1_id:'',
+    t2_id:'',
+    t1_company:'',
+    t2_company:''
   }
   var tmp = []
   var tmp1 = []
@@ -358,6 +409,7 @@ get_transfer_list: function(date) {
               id: result.data[i].id1
             },
             success: (result) => {
+              //console.log(result.data)
               var lll = result.data[0]
               trans.t1_type = "火车"
               trans.t1_number = lll.trainno
@@ -374,6 +426,8 @@ get_transfer_list: function(date) {
                 if (lll.prices[j].price < min){min = lll.prices[j].price}
               }
               trans.total_price = min
+              trans.t1_id = lll.id
+              trans.t1_company = lll.typename
             },
             fail: (res) => {},
           })
@@ -399,6 +453,8 @@ get_transfer_list: function(date) {
               trans.total_time = lll.departdate + " " + lll.departtime
               trans.transfer_time = lll.arrivaldate + " " + lll.arrivaltime
               trans.total_price = lll.minprice
+              trans.t1_id = lll.id
+              trans.t1_company = lll.airline
             },
             fail: (res) => {},
           })
@@ -414,7 +470,7 @@ get_transfer_list: function(date) {
               var lll = result.data[0]
               trans.t2_type = "火车"
               trans.t2_number = lll.trainno
-              trans.t2_date = lll.departdate
+              trans.t2_date = lll.arrivaldate
               trans.t2_time_start = lll.departtime
               trans.t2_time_end = lll.arrivaltime.substring(0, 5)
               trans.t2_station_start = lll.station
@@ -426,10 +482,12 @@ get_transfer_list: function(date) {
               trans.total_price += min
               trans.total_time = utils.calIntervalTime(trans.total_time, lll.arrivaldate + " " + lll.arrivaltime)
               trans.transfer_time = utils.calIntervalTime(trans.transfer_time, lll.departdate + " " + lll.departtime)
+              trans.t2_id = lll.id
+              trans.t2_company = lll.typename
               index_list++
-              
+              tmp.push(JSON.parse(JSON.stringify(trans)))
               that.setData({
-                transferList: that.data.transferList.concat(trans)
+                transferList: tmp
               })
               if (that.data.transferList != []) {
                 that.setData({
@@ -451,7 +509,7 @@ get_transfer_list: function(date) {
               var lll = result.data[0]
               trans.t2_type = "飞机"
               trans.t2_number = lll.flightno
-              trans.t2_date = lll.departdate
+              trans.t2_date = lll.arrivaldate
               trans.t2_time_start = lll.departtime
               trans.t2_time_end = lll.arrivaltime.substring(0, 5)
               trans.t2_station_start = lll.departport
@@ -459,10 +517,13 @@ get_transfer_list: function(date) {
               trans.total_price += lll.minprice
               trans.total_time = utils.calIntervalTime(trans.total_time, lll.arrivaldate + " " + lll.arrivaltime)
               trans.transfer_time = utils.calIntervalTime(trans.transfer_time, lll.departdate + " " + lll.departtime)
+              trans.t2_id = lll.id
+              trans.t2_company = lll.airline
               index_list++
               
+              tmp.push(JSON.parse(JSON.stringify(trans)))
               that.setData({
-                transferList: that.data.transferList.concat(trans)
+                transferList: tmp
               })
               if (that.data.transferList != []) {
                 that.setData({
@@ -477,5 +538,26 @@ get_transfer_list: function(date) {
     },
     fail: (res) => {},
   })
-}
+},
+
+navigate2air: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
+},
+
+navigate2train: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
+},
+
+navigate2transfer: function(e) {
+  var that = this
+  console.log(e.currentTarget.dataset)
+  // var index = e.currentTarget.dataset.index
+  // console.log(index)
+} 
 })

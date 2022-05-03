@@ -52,28 +52,11 @@ Page({
     comment_list:[],
     comment_dict:{},
 
-    dataList:[
-      {
-        traffic_company:'dh',
-        traffic_number:'MU5193',
-        traffic_date:'2022-4-19',
-        traffic_time_start:'7:25',
-        traffic_time_end:'16:33',
-        traffic_price:'292',
-        traffic_city_start:'北京',
-        traffic_city_end:'上海',
-      },
-      {
-        traffic_company:'zt',
-        traffic_number:'D745',
-        traffic_date:'2022-4-19',
-        traffic_time_start:'16:15',
-        traffic_time_end:'19:51',
-        traffic_price:'62.5',
-        traffic_city_start:'北京',
-        traffic_city_end:'上海',
-      }
-    ]
+    dataList:[],
+    myList:[],
+    get_data: false,
+    get_my: false,
+    from_city:''
   },
   
   reply: function(event) {
@@ -575,9 +558,39 @@ Page({
 
         that.getComments()
         // console.log(that.data.participants)
+        // 2022
+        that.get_traffic() 
+        that.get_mytraffic()
       },
       fail: function(res) { console.log(res) }
     })
+    // 2022
+      var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
+      var id_user = (wx.getStorageSync('id') == '')? 'noid' : wx.getStorageSync('id')
+      wx.request({
+        url: utils.server_hostname + "/api/core/users/" + id_user + "/",
+        data: {
+        },
+        method: 'GET',
+        header: {
+          'content-type': 'application/json',
+          'token-auth': token
+        },
+        success: function(data) {
+          // console.log(data);
+          if (data.data.error_code == 404) {
+            utils.loginExpired()
+            return 
+          }
+
+          data = data.data
+          var from = data.position.city.substring(0, data.position.city.length - 1)
+          that.setData({
+            from_city: from
+          })
+        },
+        fail: function(res) { console.log(res); }
+      })
   },
 
   navigate2footprint: function() {
@@ -728,5 +741,577 @@ Page({
     wx.redirectTo({
       url: url,
     })
-  }
+  },
+
+  get_traffic: function(){
+    var that = this 
+    var token = wx.getStorageSync('token')
+    var loc = that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1)
+    var tmp = []
+    wx.request({
+      url: utils.server_hostname + "/api/core/flights/getCheapFlight",
+      method: 'GET',
+      data: {
+        position: loc
+      },
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      
+      success: function(res) {
+        // console.log(res.data)
+        var size_list = res.data.length > 2 ? 1 : res.data.length
+        var k = 0
+        // console.log(res.data.length)
+        for (let i = 0;i < res.data.length && k <= size_list; i++) {
+          if (res.data[i].minprice > 0) {
+            var tmp1 = {
+              traffic_company:'',
+              traffic_number:'',
+              traffic_date:'',
+              traffic_time_start:'',
+              traffic_time_end:'',
+              traffic_price:'',
+              traffic_city_start:'',
+              traffic_city_end:'',
+              traffic_id:''
+            }
+            tmp1.traffic_company = res.data[i].airline
+            tmp1.traffic_number = res.data[i].flightno
+            tmp1.traffic_date = res.data[i].departdate
+            tmp1.traffic_time_start = res.data[i].departtime.substring(0, 5)
+            tmp1.traffic_time_end = res.data[i].arrivaltime.substring(0, 5)
+            tmp1.traffic_price = res.data[i].minprice
+            tmp1.traffic_city_start = res.data[i].city
+            tmp1.traffic_city_end = res.data[i].endcity
+            tmp1.traffic_id = res.data[i].id
+            k++
+            tmp.push(tmp1)
+          }
+        }
+        that.setData({
+          dataList: tmp
+        })
+        if (that.data.dataList != false) {
+          that.setData({
+            get_data: true
+          })
+        }
+      },
+      fail: function(res) {}
+    })
+    wx.request({
+      url: utils.server_hostname + "/api/core/trains/getCheapTrain",
+      method: 'GET',
+      data: {
+        position: loc
+      },
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      
+      success: function(res) {
+        // console.log(res.data)
+        var size_list = res.data.length > 2 ? 1 : res.data.length
+        var k = 0
+        // console.log(res.data.length)
+        for (let i = 0;i < res.data.length && k <= size_list; i++) {
+          if (res.data[i].price > 0) {
+            var tmp1 = {
+              traffic_company:'',
+              traffic_number:'',
+              traffic_date:'',
+              traffic_time_start:'',
+              traffic_time_end:'',
+              traffic_price:'',
+              traffic_city_start:'',
+              traffic_city_end:'',
+              traffic_id:''
+            }
+            tmp1.traffic_company = 'zt'
+            tmp1.traffic_number = res.data[i].owner.trainno
+            tmp1.traffic_date = res.data[i].owner.departdate
+            tmp1.traffic_time_start = res.data[i].owner.departtime.substring(0, 5)
+            tmp1.traffic_time_end = res.data[i].owner.arrivaltime.substring(0, 5)
+            tmp1.traffic_price = res.data[i].price
+            tmp1.traffic_city_start = res.data[i].owner.station
+            tmp1.traffic_city_end = res.data[i].owner.endstation
+            tmp1.traffic_id = res.data[i].owner.id
+            k++
+            tmp.push(tmp1)
+          }
+        }
+        that.setData({
+          dataList: tmp
+        })
+        if (that.data.dataList != false) {
+          that.setData({
+            get_data: true
+          })
+        }
+      },
+      fail: function(res) {}
+    })
+  
+  },
+
+  get_mytraffic: function() {
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
+    that.setData({
+      myList:[],
+      get_my: false
+    })
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/getMyComp/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id
+        },
+        success: function(res) {
+          // console.log(res)
+          // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+          if (res.data != false) {
+            
+            var tmp = []
+            for (let i in res.data) {
+              var tmp1 = {
+                traffic_company:'',
+                traffic_number:'',
+                traffic_date:'',
+                traffic_time_start:'',
+                traffic_time_end:'',
+                traffic_price:'',
+                traffic_city_start:'',
+                traffic_city_end:'',
+                traffic_id:''
+              }
+              if (res.data[i].type1 == '火车') {
+                wx.request({
+                  url: utils.server_hostname + '/api/core/trains/getTrainInfo',
+                  method: 'GET',
+                  data: {
+                    id: res.data[i].id1
+                  },
+                  success: (result) => {
+                    // console.log(result.data)
+                    var lll = result.data[0]
+                    // console.log(lll)
+                    tmp1.traffic_company = 'zt'
+                    tmp1.traffic_number = lll.trainno
+                    tmp1.traffic_date = lll.departdate
+                    tmp1.traffic_time_start = lll.departtime.substring(0, 5)
+                    tmp1.traffic_time_end = lll.arrivaltime.substring(0, 5)
+                    var min = 10000
+                    for (let j in lll.prices) {
+                      if (lll.prices[j].price < min){min = lll.prices[j].price}
+                    }
+                    tmp1.traffic_price = min
+                    tmp1.traffic_city_start = lll.station
+                    tmp1.traffic_city_end = lll.endstation
+                    tmp1.traffic_id = lll.id
+                    tmp.push(JSON.parse(JSON.stringify(tmp1)))
+                    // console.log(tmp)
+                    that.setData({
+                      myList: tmp
+                    })
+                  },
+                  fail: (res) => {},
+                })
+              }
+              else if (res.data[i].type1 == '飞机') {
+                wx.request({
+                  url: utils.server_hostname + '/api/core/flights/getFlightInfo',
+                  method: 'GET',
+                  data: {
+                    flightid: res.data[i].id1
+                  },
+                  success: (result) => {
+                    // console.log(result.data)
+                    var lll = result.data[0]
+                    // console.log(lll)
+                    tmp1.traffic_company = lll.airline
+                    tmp1.traffic_number = lll.flightno
+                    tmp1.traffic_date = lll.departdate
+                    tmp1.traffic_time_start = lll.departtime.substring(0, 5)
+                    tmp1.traffic_time_end = lll.arrivaltime.substring(0, 5)
+                    tmp1.traffic_price = lll.minprice
+                    tmp1.traffic_city_start = lll.city
+                    tmp1.traffic_city_end = lll.endcity
+                    tmp1.traffic_id = lll.id
+                    tmp.push(JSON.parse(JSON.stringify(tmp1)))
+                    //  console.log(tmp)
+                    that.setData({
+                      myList: tmp
+                    })
+                  },
+                  fail: (res) => {},
+                })
+              }
+            }
+            that.setData({
+              get_my: true
+            })
+          }
+        },
+        fail: function(res) {
+          console.log(res)
+        },
+    })
+  },
+
+  navigate2air: function(e) {
+    var that = this
+    //console.log(e)
+    var index = e.currentTarget.dataset.index
+    console.log(index)
+  },
+  
+  navigate2train: function(e) {
+    var that = this
+    //console.log(e)
+    var index = e.currentTarget.dataset.index
+    console.log(index)
+  },
+
+  choose_air:function(e) {
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
+    // console.log(e.currentTarget.dataset.index)
+    // console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyComp/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "飞机",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          that.get_mytraffic()
+        }
+        else {
+          wx.showToast({
+            title: '添加失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+    })
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyPlan/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "飞机",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          wx.showToast({
+            title: '已成功添加',
+            icon: 'success'
+          })
+        }
+        else {
+          wx.showToast({
+            title: '添加失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+        
+    })
+  },
+
+  choose_train:function(e) {
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
+    // console.log(e.currentTarget.dataset.index)
+    // console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyComp/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "火车",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          that.get_mytraffic()
+        }
+        else {
+          wx.showToast({
+            title: '添加失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      }, 
+    })
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/addMyPlan/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "火车",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          wx.showToast({
+            title: '已成功添加',
+            icon: 'success'
+          })
+        }
+        else {
+          wx.showToast({
+            title: '添加失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+        
+    })
+  },
+
+  undo_choose_air:function(e) {
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
+    // console.log(e.currentTarget.dataset.index)
+    // console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyComp/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "飞机",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          that.get_mytraffic()
+        }
+        else {
+          wx.showToast({
+            title: '删除失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+        
+    })
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "飞机",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          wx.showToast({
+            title: '已取消',
+            icon: 'success'
+          })
+        }
+        else {
+          wx.showToast({
+            title: '删除失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+        
+    })
+  },
+
+  undo_choose_train:function(e) {
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
+    // console.log(e.currentTarget.dataset.index)
+    // console.log(token)
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyComp/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "火车",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          that.get_mytraffic()
+        }
+        else {
+          wx.showToast({
+            title: '删除失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+        
+    })
+    wx.request({
+      url: utils.server_hostname + '/api/core/plans/deleteMyComp/',
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        pal:that.data.pal.id,
+        type: "直达",
+        id1: String(e.currentTarget.dataset.index),
+        type1: "火车",
+        from1: that.data.from_city,
+        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        id2: null,
+        type2: null,
+        from2: null,
+        to2: null
+      },
+      success: function(res) {
+        // console.log(res)
+        if (res.data == true) {
+          wx.showToast({
+            title: '已取消',
+            icon: 'success'
+          })
+        }
+        else {
+          wx.showToast({
+            title: '删除失败',
+            icon: 'error'
+          })
+        }
+        // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
+      },
+      fail: function(res) {
+        console.log(res)
+      },
+        
+    })
+  },
+
 })

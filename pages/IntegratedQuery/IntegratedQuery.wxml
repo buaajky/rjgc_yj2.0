@@ -38,7 +38,7 @@
 
             <image src="/images/{{item.airline}}.jpg"  mode="widthFix"/>
           </view>
-          <view class="info">
+          <view class="info" bindtap="navigate2air" data-index="{{item.id}}">
             <view class="number_and_price">
               <view class="number">{{item.flightno}}</view>
               <view class="price">￥{{item.minprice}}起</view>
@@ -80,7 +80,7 @@
 
             <image src="/images/铁路.jpg"  mode="widthFix"/>
           </view>
-          <view class="info">
+          <view class="info" bindtap="navigate2train" data-index="{{item.id}}">
             <view class="number_and_price">
               <view class="number">{{item.trainno}}</view>
               <view class="price">￥{{item.train_price}}起</view>
@@ -121,7 +121,7 @@
         </view>
         
 
-        <view class="list_item_transfer">
+        <view class="list_item_transfer" bindtap="navigate2transfer" data-index1="{{item.t1_id}}" data-index2="{{item.t2_id}}" data-type1="{{item.t1_type}}" data-type2="{{item.t2_type}}">
 
           <view class="times">
             <view class="info_2">
