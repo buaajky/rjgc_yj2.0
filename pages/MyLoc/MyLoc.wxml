@@ -1,0 +1,75 @@
+<!--pages/MyLoc/MyLoc.wxml-->
+<view>
+  <l-tabs bind:linchange="changeTabs" active-color="#3963bc" scrollable="{{true}}"
+          animated="{{true}}">
+    <l-tabpanel tab="收藏" key="one" slot="one">
+      <view wx:if="{{hasFavors}}">
+        <view class="loc_box">
+          <view wx:for="{{favorLocs}}" class='loc_all' wx:for-item="loc"
+                id="{{index}}" bindtap="navigate2FavorLoc" wx:key="item">
+            <swiper class="loc_covers" circular="true" indicator-active-color="white"
+                    indicator-dots="true" id="{{index}}">
+              <swiper-item wx:for="{{loc.images}}" wx:for-item="img" wx:key='index'>
+                <image class='loc_cover_pic' src="{{server_hostname}}/api/core/images/{{img}}/data/" mode="widthtFix" />
+              </swiper-item>
+            </swiper>
+            <view class="divline" />
+            <view class="loc_info">
+              <view class="loc_name">{{loc.name}}</view>
+              <view class="loc_intro">
+                <view wx:if="{{loc.description != ''}}">{{loc.description}}</view>
+                <view wx:else>暂无地点简介</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="empty_text">暂无已收藏地点</view>
+    </l-tabpanel>
+    <l-tabpanel tab="屏蔽" key="two" slot="two">
+      <view wx:if="{{hasBlocks}}">
+        <view class="loc_box">
+          <view wx:for="{{blockLocs}}" class='loc_all' wx:for-item="loc"
+                id="{{index}}" bindtap="navigate2BlockLoc" wx:key="item">
+            <swiper class="loc_covers" circular="true" indicator-active-color="white"
+                    indicator-dots="true" id="{{index}}">
+              <swiper-item wx:for="{{loc.images}}" wx:for-item="img" wx:key='index'>
+                <image class='loc_cover_pic' src="{{server_hostname}}/api/core/images/{{img}}/data/" mode="widthtFix" />
+              </swiper-item>
+            </swiper>
+            <view class="divline" />
+            <view class="loc_info">
+              <view class="loc_name">{{loc.name}}</view>
+              <view class="loc_intro">
+                <view wx:if="{{loc.description != ''}}">{{loc.description}}</view>
+                <view wx:else>暂无地点简介</view>
+              </view>
+            </view>
+          </view>
+        </view> <!--<view wx:for="{{blockLocs}}" wx:key="key" wx:for-item='loc'>
+          {{loc.name}}
+        </view>-->
+      </view>
+      <view wx:else class="empty_text">暂无已屏蔽地点</view>
+    </l-tabpanel>
+  </l-tabs>
+</view>
+
+<!--wx:if="{{index < loc_num}}"
+<view class = "loc_box">
+  <view wx:for="{{loc_ids}}" class='loc_all'
+        id="{{index}}" bindtap="navigate2Loc" wx:key="item">
+    <swiper class="loc_covers" circular="true" indicator-active-color="white"
+            indicator-dots="true"  id="{{index}}">
+      <swiper-item wx:for="{{loc_images[index]}}" wx:for-item="cover_item" wx:key='index'>
+        <image class='loc_cover_pic' src="{{server_hostname}}/api/core/images/{{cover_item}}/data/" mode="widthtFix" />
+      </swiper-item>
+    </swiper>
+    <view class="divline" />
+    <view class="loc_info">
+      <view class="loc_name">{{loc_names[index]}}</view>
+      <view class="loc_intro">{{loc_descriptions[index]}}</view>
+    </view>
+  </view>
+</view>
+-->

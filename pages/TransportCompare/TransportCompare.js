@@ -75,7 +75,10 @@ Page({
     plan2_exchange:"",
     lesstime:0,
     lessprice:0,
-    lesstime_value:""
+    lesstime_value:"",
+
+    exchange_city1:"",
+    exchange_city2:""
   },
 
   /**
@@ -85,11 +88,32 @@ Page({
     var that = this;
     //todo
     var tmp = JSON.parse(options.tmp); 
+    console.log(tmp)
     var plan1 = [];
-    var res1 = that.getPlan(plan1, tmp.plan1);
+    var res1 = {
+      departtime:"",
+      arrivaltime:"",
+      arrivaldt:"",
+      costtime:"",
+      minprice:0,
+      exchange:""
+    };
+    that.getPlan(plan1, tmp.plan1, res1);
     var plan2 = [];
-    var res2 = that.getPlan(plan2, tmp.plan2);
+    var res2 ={
+      departtime:"",
+      arrivaltime:"",
+      arrivaldt:"",
+      costtime:"",
+      minprice:0,
+      exchange:""
+    };
+    that.getPlan(plan2, tmp.plan2, res2);
+    console.log(res1)
+    console.log(res2)
     that.setData({
+      plan1:plan1,
+      plan2:plan2,
       departcity:tmp.startcity,
       arrivalcity:tmp.endcity,
       departdate:tmp.departdate,
@@ -109,9 +133,33 @@ Page({
     that.setData({
       lessprice:that.cmpMinPrice(),
     });
+    //为换乘补上中转城市
+    if (plan1.length > 0 && plan1[0].arrivalcity == "") {
+      that.getCity(plan1[0].arrivalport).then(
+        function(data) {
+          console.log(data)
+          that.setData({
+            exchange_city1:data.split("市")[0]
+          })
+        },
+        function(err) {console.log(err)}
+      )
+    }
+    if (plan2.length > 0 && plan2[0].arrivalcity == "") {
+      that.getCity(plan2[0].arrivalport).then(
+        function(data) {
+          console.log(data)
+          that.setData({
+            exchange_city2:data.split("市")[0]
+          })
+        },
+        function(err) {console.log(err)}
+      )
+    }
   },
 
-  getPlan:async function(arr, source) {
+  getPlan:async function(arr, source, ans) {
+    var that = this;
     if (source.flightno != undefined) {//飞机
       var tmp = {
         type:"a",
@@ -123,15 +171,13 @@ Page({
         arrivalport:source.arrivalport,
       };
       arr.push(tmp);
-      var res = {
-        departtime:source.departtime,
-        arrivaltime: that.getDate(source.arrivaldate) + " " + source.arrivaltime,
-        arrivaldt:source.arrivaldate + " " + source.arrivaltime + ":00",
-        costtime:source.costtime,
-        minprice:source.minpric,
-        exchange:"直达"
-      };
-      return res;
+      ans.departtime=source.departtime;
+      ans.arrivaltime=that.getDate(source.arrivaldate) + " " + source.arrivaltime;
+      ans.arrivaldt=source.arrivaldate + " " + source.arrivaltime + ":00";
+      ans.costtime=source.costtime;
+      ans.minprice=source.minpric;
+      ans.exchange="直达";
+      return;
     }else if (source.trainno != undefined) {//火车
       var tmp = {
         type:"t",
@@ -141,48 +187,40 @@ Page({
         arrivalport:source.arrivalstation + '站',
       };
       arr.push(tmp);
-      var res = {
-        departtime:source.departtime,
-        arrivaltime: that.getDate(source.arrivaldate) + " " + source.arrivaltime,
-        arrivaldt:source.arrivaldate + " " + source.arrivaltime + ":00",
-        costtime:source.costtime,
-        minprice:source.train_price,
-        exchange:"直达"
-      };
-      return res;
+      ans.departtime=source.departtime;
+      ans.arrivaltime=that.getDate(source.arrivaldate) + " " + source.arrivaltime;
+      ans.arrivaldt=source.arrivaldate + " " + source.arrivaltime + ":00";
+      ans.costtime=source.costtime;
+      ans.minprice=source.train_price;
+      ans.exchange="直达";
+      return;
     }else {//换乘
       var tmp1 = {
         type:source.t1_type == '飞机'? 'a':'t',
         no:source.t1_number,
         company:source.t1_company,//todo
-        departport:source.t1_type == '飞机'?t1_station_start:t1_station_start + '站',
-        arrivalport:source.t1_type == '飞机'?t1_station_end:t1_station_end + '站',
+        departport:source.t1_type == '飞机'?source.t1_station_start:source.t1_station_start + '站',
+        arrivalport:source.t1_type == '飞机'?source.t1_station_end:source.t1_station_end + '站',
+        arrivalcity:""
       };
 
       var tmp2 = {
         type:source.t2_type == '飞机'? 'a':'t',
         no:source.t2_number,
-        company:source.t2_company,//todo
-        departport:source.t2_type == '飞机'?t2_station_start:t2_station_start + '站',
-        arrivalport:source.t2_type == '飞机'?t2_station_end:t2_station_end + '站',
+        company:source.t2_company,
+        departport:source.t2_type == '飞机'?source.t2_station_start:source.t2_station_start + '站',
+        arrivalport:source.t2_type == '飞机'?source.t2_station_end:source.t2_station_end + '站',
       };
-      //为第一个计划补上arrivalcity
-      await that.getCity(tmp1.arrivalport).then(
-        function(data){tmp1['arrivalcity'] = data.split("市")[0];},
-        function(err) {tmp1['arrivalcity'] = '';}
-      );
 
       arr.push(tmp1);
       arr.push(tmp2);
-      var res = {
-        departtime:source.t1_time_start,
-        arrivaltime: that.getDate(source.t2_date) + " " + source.t2_time_end,
-        arrivaldt:source.t2_date + " " + source.t2_time_end + ":00",
-        costtime:source.total_time,
-        minprice:source.total_price,
-        exchange:"换乘约" + source.transfer_time
-      };
-      return res;
+      ans.departtime=source.t1_time_start;
+      ans.arrivaltime=that.getDate(source.t2_date) + " " + source.t2_time_end;
+      ans.arrivaldt=source.t2_date + " " + source.t2_time_end + ":00";
+      ans.costtime=source.total_time;
+      ans.minprice=source.total_price;
+      ans.exchange="换乘约" + source.transfer_time;
+      return;
     }
   },
 
@@ -245,7 +283,7 @@ Page({
         success: function (res) {
           console.log(res)   
           var address = res.data.result;
-          resolve(address.address_components.city);
+          resolve(address? address.address_components.city:"");
         },
         fail: function(res) { console.log(res); reject();}
       })

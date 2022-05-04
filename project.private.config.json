@@ -144,6 +144,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/AirplaneSearch/AirplaneSearch",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/IntegratedQuery/IntegratedQuery",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

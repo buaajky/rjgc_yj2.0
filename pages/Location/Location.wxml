@@ -12,7 +12,62 @@
         <image src="{{item}}" mode="heightFix" style="height:100%;" bindtap="preview" id="{{item}}"></image>
       </swiper-item>
   </swiper>
-  
+
+  <l-notice-bar show="{{true}}" bind:lintap="clickNoticeBar"
+                front-icon-color="coral" front-icon-name="warning" front-icon-size="30"
+                type="roll" speed="1200">{{notice}}</l-notice-bar>
+  <view class="two_button">
+    <l-button l-class="favorite_button"
+              icon="favor" icon-size="30" icon-color="#fff"
+              type="default" size="large" shape="semicircle" width="50"
+              bg-color="#3963bc" bind:lintap="favorLocButton">
+      <view class="fav_block_button_label">
+        <view wx:if="{{!hasFavor}}">收藏地点</view>
+        <view wx:else>取消收藏</view>
+      </view>
+    </l-button>
+    <l-button l-class="block_button" plain="{{true}}"
+              icon="error" icon-size="30" icon-color=""
+              type="default" size="large" shape="semicircle" width="50"
+              bind:lintap="blockLocButton">
+      <view class="fav_block_button_label">
+        <view wx:if="{{!hasBlock}}">屏蔽地点</view>
+        <view wx:else>取消屏蔽</view>
+      </view>
+    </l-button>
+  </view>
+
+  <view class="divview"></view>
+
+  <view wx:if="{{get_data}}">
+    <view class="relative_title">交通方案推荐</view>
+    <swiper class="cheap_airplane-list" indicator-dots>
+      <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
+        <swiper-item class="airplane_ticket_item" wx:if="{{item.traffic_company=='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/铁路.jpg" title="{{item.traffic_number}}" bindtap="navigate2train" data-index="{{item.traffic_id}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item>
+       <swiper-item class="airplane_ticket_item" wx:elif="{{item.traffic_company!='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.traffic_company}}.jpg" title="{{item.traffic_number}}" bindtap="navigate2air" data-index="{{item.traffic_id}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item>
+      </block>
+      
+    </swiper>
+  </view>
+
   <view class="divview"></view>
 
   <view class="relative_view">
@@ -51,3 +106,10 @@
   </view>
 
 </scroll-view>
+
+<page-container  show="{{showNotice}}"	duration="1000" overlay="true"
+  position="bottom" round="{{true}}">
+    <view class="notice_detail_title">防疫公告</view>
+    <view class="notice_detail_header">抵达{{locs.name}}提醒</view>
+		<scroll-view id="notice_detail" scroll-y="true" scroll-with-animation="{{true}}">{{notice}}</scroll-view>
+</page-container>

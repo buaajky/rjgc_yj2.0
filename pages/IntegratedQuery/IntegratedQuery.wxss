@@ -1,0 +1,291 @@
+/* pages/IntegratedQuery/IntegratedQuery.wxss */
+.section{
+  display: flex;
+  margin:20rpx;
+  padding:20rpx;
+  
+}
+
+.picker{
+  color: #ffffff;
+}
+
+.divview {
+  margin-top: 20rpx;
+  width: 100%;
+  height: 10rpx;
+  background-color: rgb(248, 248, 248);
+}
+
+.segment-item-text{
+  font-size: 10px;
+  color: black;
+}
+
+.tab-item-text{
+  font-size: 20px;
+  color: #3963bc;
+}
+
+.ticket_title {
+  width: 98%;
+  margin-left: 1%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 110%;
+  color: #030303;
+  margin-bottom: 15rpx;
+}
+
+/**/
+.clear{
+  clear: both;
+  overflow: hidden;
+}
+
+.list{
+  margin-top:10px;
+}
+ 
+.list_item{
+  margin-top:10px;
+  padding:10px;
+  height:110px;
+  border-bottom:10rpx solid #E8E8E8;
+}
+.img{
+  float:left;
+  width:30%;
+  height:100%;
+}
+.img image{
+   width:100%;
+   height:100%;
+}
+ 
+.info{
+  width:65%;
+  float:right;
+  height:105px;
+  position:relative;
+}
+.number{
+  color:#3963bc;
+  margin-left:10rpx;
+  font-size: 20px;
+}
+
+.number_transfer{
+  color: black;
+  margin-left:10rpx;
+  font-size: 20px;
+}
+ 
+.price{
+  color:#f15209;
+  font-size:15px;
+  position: absolute;
+  right:5rpx;
+}
+ 
+.number_and_price{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.date_and_city{
+  display: flex;
+}
+
+.date{
+  color:#747474;
+  margin-left:10px;
+  font-size:12px;
+}
+
+.city{
+  color:#553939;
+  margin-left:10px;
+  font-size:12px;
+}
+
+.times{
+  display: flex;
+  flex-direction: row;
+}
+
+.time_left{
+  font-size:15px;
+  position: absolute;
+  left:30rpx;
+}
+
+.time_right{
+  font-size:15px;
+  position: absolute;
+  right:30rpx;
+}
+
+.airport_left{
+  position: absolute;
+  left:0rpx;
+}
+
+.airport_right{
+  position: absolute;
+  right:0rpx;
+}
+
+.arrow{
+  width: 172rpx;
+  height: 48rpx;
+  position: absolute;
+  right: 130rpx;
+}
+
+.list_item_transfer{
+  
+  padding:10px;
+  height:130px;
+  border-bottom:10rpx solid #E8E8E8;
+}
+
+.transfer_time{
+  font-size:20px;
+}
+
+.icons{
+  display: flex;
+  flex-direction: row;
+  margin-top: 30rpx;
+}
+
+.air_and_train_icon{
+  width: 48rpx;
+  height: 48rpx;
+}
+
+.arrow_two{
+  width: 100rpx;
+  height: 30rpx;
+}
+
+.four_stations{
+  margin-top: 30rpx;
+  display: flex;
+}
+
+.station_item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+}
+
+.date_and_price{
+  margin-top: 10rpx;
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.total_time{
+  color:#747474;
+  justify-content: center;
+  font-size:12px;
+}
+
+.three_info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+}
+
+.info_05{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5%;
+}
+
+.info_1{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10%;
+}
+
+.info_2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20%;
+}
+
+.info_3{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+}
+
+.info_4{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+}
+
+.price_transfer{
+  color:#f15209;
+  font-size:30rpx;
+}
+
+.time_picker{
+  background:#3963bc;
+  border-radius: 5rpx;
+  width: 336rpx; 
+  height: 80rpx; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_compare_ready{
+  width: 180rpx; 
+  height: 78rpx; 
+  display: block; 
+  box-sizing: border-box; 
+  left: 76rpx; 
+  position: relative;
+  font-size: 30rpx;
+  color: #ffffff;
+  background-color: #3963bc;
+}
+
+.button_compare_do{
+  position: relative; 
+  left: 32rpx; 
+  font-size: 30rpx;
+  color: #ffffff;
+  background-color: #3963bc;
+}
+
+.button_compare_cancel{
+  position: relative; 
+  left: 16rpx; 
+  width: 186rpx; 
+  height: 78rpx; 
+  display: block; 
+  box-sizing: border-box;
+  font-size: 28rpx;
+  color: #3963bc;
+}
+
+.icon_transfer{
+  margin-left: 25rpx;
+}
+
+.no_air{
+  text-align: center;
+}

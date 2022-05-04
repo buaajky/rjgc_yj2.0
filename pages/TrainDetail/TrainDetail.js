@@ -13,38 +13,22 @@ Page({
 
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
-    departdate:"2022-04-24",
-    arrivaldate:"2022-04-24",
+    departdate:"",//"2022-04-24",
+    arrivaldate:"",//"2022-04-24",
     departweek:"",
-    startcity:"武汉",
-    endcity:"广州",
-    typename:"高铁",
+    startcity:"",//"武汉",
+    endcity:"",//"广州",
+    typename:"",//"高铁",
 
-    startstation:"武汉",
-    endstation:"广州南",
-    trainno:"G2055",
-    departtime:"16:43",
-    arrivaltime:"21:03",
-    costtime:"4h20min",
+    startstation:"",//"武汉",
+    endstation:"",//"广州南",
+    trainno:"",//"G2055",
+    departtime:"",//"16:43",
+    arrivaltime:"",//"21:03",
+    costtime:"",//"4h20min",
     overdate:"",
 
-    prices: [
-      {
-        name:"一等座",
-        price:1007,
-        num:"有",
-      },
-      {
-        name:"二等座",
-        price:538.5,
-        num:1000,
-      },
-      {
-        name:"商务座",
-        price:1538.5,
-        num:"无",
-      }
-    ],
+    prices: [],
     hasAdd:false,//是否加入出行计划
     
     //交互控制
@@ -72,19 +56,11 @@ Page({
     //todo
     var that = this;
     if(wx.getStorageSync('token') == '') {
-      wx.navigateTo({
-        url: '/pages/login/login',
-      });
-
-      wx.showToast({
-        title: '未登陆',
-        icon:"error",
-        duration:1000,
-      });
+      utils.unLogin();
       return;
     }
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
-    console.log(token)
+    //console.log(token)
     wx.request({
       url: utils.server_hostname + '/api/core/plans/addMyPlan/',
       method:'POST',
@@ -104,14 +80,25 @@ Page({
         "to2":null,
       },
       success:function(res) {
-        if (res.data == true) {
-          that.setData({
-            hasAdd:true
-          })
-          wx.showToast({
-            title: '已加入出行计划',
-            duration: 1000
-          });
+        if (res.statusCode == 200) {
+          if (res.data == true){
+            that.setData({
+              hasAdd:true
+            })
+            wx.showToast({
+              title: '已加入出行计划',
+              duration: 1000
+            });
+          }else {
+            wx.showToast({
+              title: '操作失败',
+              duration:1000,
+              icon:"error"
+            })
+          }
+        }else if (res.statusCode == 403 || res.statusCode == 605) {
+          utils.unLogin();
+          return;
         }else {
           wx.showToast({
             title: '操作失败',
@@ -134,7 +121,7 @@ Page({
   deleteFromPlan:function() {//删除出行计划  按钮
     var that = this;
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
-    console.log(token)
+    //console.log(token)
     wx.request({
       url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
       method:'POST',
@@ -154,7 +141,7 @@ Page({
         "to2":null,
       },
       success:function(res) {
-        if (res.data == true) {
+        if (res.statusCode == 200 && res.data == true) {
           wx.showToast({
             title: '已删除该出行计划',
             duration: 1000
@@ -162,6 +149,9 @@ Page({
           that.setData({
             hasAdd:false
           })
+        }else if (res.statusCode == 603 || res.statusCode == 403){
+          utils.unLogin();
+          return;
         }else {
           wx.showToast({
             title: '操作失败',
@@ -214,8 +204,7 @@ Page({
     
     // console.log(options)
     var that = this;
-    //todo:
-    // var id = options.id;
+    //note:has default id
     var id = options.id? options.id:2;
     var city = options.city;
     var endcity = options.endcity;
@@ -226,6 +215,7 @@ Page({
         console.log(res);
         var tmp = res.data[0];
         //获取缺失的城市信息
+        console.log(tmp)
         if (!city) {
           await that.getCity(tmp.station).then(
             function(data) {city = data.split("市")[0];},
@@ -286,9 +276,11 @@ Page({
             },
             success:function(res) {
               console.log(res)
-              that.setData({
-                hasAdd:res.data
-              })    
+              if (res.statusCode == 200) {
+                that.setData({
+                  hasAdd:res.data
+                })  
+              }  
             },
             fail:function(err) {
               console.log(err);
@@ -311,7 +303,7 @@ Page({
         success: function (res) {
           console.log(res)   
           var address = res.data.result;
-          resolve(address.address_components.city);
+          resolve(address? address.address_components.city:"");
         },
         fail: function(res) { console.log(res); reject();}
       })

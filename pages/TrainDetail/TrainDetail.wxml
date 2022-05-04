@@ -52,6 +52,7 @@
       </view>
       <view class="prices">
           <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
+                <view wx:if="{{prices.length == 0}}" style="text-align: center; color: grey;">暂无价格信息</view>
                 <view wx:for="{{prices}}" wx:key="index" class="seat">
                     <view class="seat_name">{{item.type}}</view>
                     <view class="seat_price">￥{{item.price}}</view>

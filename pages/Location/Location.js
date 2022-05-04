@@ -1,4 +1,5 @@
 // pages/locs.js
+const { server_hostname } = require("../../utils/util.js");
 const utils = require("../../utils/util.js");
 
 Page({
@@ -11,11 +12,17 @@ Page({
     
     locs:{
       id:0,
-      name:"",
+      name:"默认地点名（具体地点页不显示）",
       cover:null,
       images:[],
-      description:"",
+      description:"默认简介（具体地点页不显示）",
     },
+
+    notice: "默认防疫信息（具体地点页不显示）",
+    showNotice: false,
+
+    hasFavor: false,
+    hasBlock: false,
 
     travel_ids:[],
     travel_covers:[],
@@ -32,18 +39,29 @@ Page({
 
     travel_num:4,
     next_travel:"init",
+
+    dataList: [],
+    get_data: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log(options)
+    console.log(options)
     var that = this
     var images = []
     var list = JSON.parse(options.loc_images)
     for (var i in list) {
       images.push(utils.server_hostname + '/api/core/images/' + list[i] + '/data/')
+    }
+    var description = options.loc_description
+    if (description == "") {
+      description = "暂无地点简介"
+    }
+    var cover = options.loc_cover
+    if (cover.search(server_hostname) == -1) {
+      cover = server_hostname + '/api/core/images/' + cover + '/data/'
     }
 
     that.setData({
@@ -51,13 +69,209 @@ Page({
         id:options.loc_id,
         name:options.loc_name,
         images:images,
-        description:options.loc_description,
-        cover:options.loc_cover,
+        description:description,
+        cover:cover,
       },
     })
 
-    that.getTravels(that.data.travel_num)
+    that.getTravels(that.data.travel_num);
+
+    // NEW
+    that.getNoticeBar(that.data.locs.name); //获取抵达城市防疫公告
+    that.favorLoc('que')
+    that.blockLoc('que')
+    //console.log(this.data.locs)
+    /* 2022 */
+    that.get_traffic()
   },
+
+  clickNoticeBar: function() {
+    this.setData({
+      showNotice: true
+    })
+  },
+  getNoticeBar: function(city){
+    var that = this;
+    wx.request({
+      url: utils.server_hostname + '/api/core/epidemicInfo/getInfo?position=' + city, // + '市',
+      success:function(res) {
+        var tmp = " 暂无防疫信息";
+        if (res.data.length > 0) tmp = res.data[0].description
+        that.setData({
+          notice: tmp,
+        });
+      },
+      fail:function(err) {
+        console.log(err);
+      }
+    })
+  },
+
+  favorLoc: function(curOp) {
+    console.log("favorLoc(" + curOp + ")")
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
+    /*wx.showLoading({
+      title: '操作中',
+      icon: 'loading'
+    })*/
+
+    var curUrl = utils.server_hostname + "/api/core/flights"
+    if (curOp == 'add') {
+      curUrl += "/addToFavorites/"
+    } else if (curOp == 'del') {
+      curUrl += "/deleteMyFavorites/"
+    } else { // curOp == 'que'
+      curUrl += "/isMyFavorites/"
+    }
+
+    wx.request({
+      url: curUrl,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        position: that.data.locs.id
+      },
+
+      success: function(res) {
+        console.log(res);
+        if (curOp == 'add' && res.data == true) {
+          wx.showToast({
+            title: '已收藏',
+            duration: 1000
+          });
+          that.setData({
+            hasFavor: true
+          })
+        } else if (curOp == 'del' && res.data == true) {
+          wx.showToast({
+            title: '已取消收藏',
+            duration: 1000
+          });
+          that.setData({
+            hasFavor: false
+          })
+        } else if (curOp == 'que') {
+          that.setData({
+            hasFavor: res.data
+          })
+        } else {
+          wx.showToast({
+            title: '操作失败',
+            duration: 1000,
+            icon: 'error'
+          })
+        }
+      },
+      fail: function(err) {
+        console.log(err)
+        wx.showToast({
+          title: '操作失败',
+          duration: 1000,
+          icon: 'error'
+        })
+      }
+    })
+
+    console.log("favorLoc(" + curOp + ") end")
+  },
+  favorLocButton: function() {
+    if (this.data.hasFavor == false) {
+      this.favorLoc("add")
+    } else {
+      this.favorLoc("del")
+    }
+  },
+
+  blockLoc: function(curOp) {
+    console.log("blockLoc(" + curOp + ")")
+    var that = this
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
+    /*wx.showLoading({
+      title: '操作中',
+      icon: 'loading'
+    })*/
+
+    var curUrl = utils.server_hostname + "/api/core/flights"
+    if (curOp == 'add') {
+      curUrl += "/addblackPos/"
+    } else if (curOp == 'del') {
+      curUrl += "/deleteMyBlackPos/"
+    } else { // curOp == 'que'
+      curUrl += "/isMyBlackPos/"
+    }
+
+    wx.request({
+      url: curUrl,
+      method: 'POST',
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      data: {
+        position: that.data.locs.id
+      },
+
+      success: function(res) {
+        console.log(res);
+        if (curOp == 'add' && res.data == true) {
+          wx.showToast({
+            title: '已屏蔽',
+            duration: 1000
+          });
+          that.setData({
+            hasBlock: true
+          })
+        } else if (curOp == 'del' && res.data == true) {
+          wx.showToast({
+            title: '已取消屏蔽',
+            duration: 1000
+          });
+          that.setData({
+            hasBlock: false
+          })
+        } else if (curOp == 'que') {
+          that.setData({
+            hasBlock: res.data
+          })
+        } else {
+          wx.showToast({
+            title: '操作失败',
+            duration: 1000,
+            icon: 'error'
+          })
+        }
+      },
+      fail: function(err) {
+        console.log(err)
+        wx.showToast({
+          title: '操作失败',
+          duration: 1000,
+          icon: 'error'
+        })
+      }
+    })
+
+    console.log("blockLoc(" + curOp + ") end")
+  },
+  blockLocButton: function() {
+    if (this.data.hasBlock == false) {
+      this.blockLoc("add")
+    } else {
+      this.blockLoc("del")
+    }
+  },
+
+
+
+
+
+
+
+  /////////////////////////////////////////////////////////////////////
 
   onReachBottom: function () {
     wx.showLoading({
@@ -326,4 +540,139 @@ Page({
 //       imageUrl: imageUrl
 //     }
 //   }
+,
+get_traffic: function(){
+  var that = this 
+  var token = wx.getStorageSync('token')
+  var loc = that.data.locs.name.substring(0, that.data.locs.name.length - 1)
+  var tmp = []
+
+  wx.request({
+    url: utils.server_hostname + "/api/core/flights/getCheapFlight",
+    method: 'GET',
+    data: {
+      position: loc
+    },
+    header: {
+      'content-type': 'application/json',
+      'token-auth': token
+    },
+    
+    success: function(res) {
+      // console.log(res.data)
+      var size_list = res.data.length > 2 ? 1 : res.data.length
+      var k = 0
+      // console.log(res.data.length)
+      for (let i = 0;i < res.data.length && k <= size_list; i++) {
+        if (res.data[i].minprice > 0) {
+          var tmp1 = {
+            traffic_company:'',
+            traffic_number:'',
+            traffic_date:'',
+            traffic_time_start:'',
+            traffic_time_end:'',
+            traffic_price:'',
+            traffic_city_start:'',
+            traffic_city_end:'',
+            traffic_id:''
+          }
+          tmp1.traffic_company = res.data[i].airline
+          tmp1.traffic_number = res.data[i].flightno
+          tmp1.traffic_date = res.data[i].departdate
+          tmp1.traffic_time_start = res.data[i].departtime.substring(0, 5)
+          tmp1.traffic_time_end = res.data[i].arrivaltime.substring(0, 5)
+          tmp1.traffic_price = res.data[i].minprice
+          tmp1.traffic_city_start = res.data[i].city
+          tmp1.traffic_city_end = res.data[i].endcity
+          tmp1.traffic_id = res.data[i].id
+          k++
+          tmp.push(tmp1)
+        }
+      }
+      that.setData({
+        dataList: tmp
+      })
+      if (that.data.dataList != false) {
+        that.setData({
+          get_data: true
+        })
+      }
+    },
+    fail: function(res) {}
+  })
+  wx.request({
+    url: utils.server_hostname + "/api/core/trains/getCheapTrain",
+    method: 'GET',
+    data: {
+      position: loc
+    },
+    header: {
+      'content-type': 'application/json',
+      'token-auth': token
+    },
+    
+    success: function(res) {
+      // console.log(res.data)
+      var size_list = res.data.length > 2 ? 1 : res.data.length
+      var k = 0
+      // console.log(res.data.length)
+      for (let i = 0;i < res.data.length && k <= size_list; i++) {
+        if (res.data[i].price > 0) {
+          var tmp1 = {
+            traffic_company:'',
+            traffic_number:'',
+            traffic_date:'',
+            traffic_time_start:'',
+            traffic_time_end:'',
+            traffic_price:'',
+            traffic_city_start:'',
+            traffic_city_end:'',
+            traffic_id:''
+          }
+          tmp1.traffic_company = 'zt'
+          tmp1.traffic_number = res.data[i].owner.trainno
+          tmp1.traffic_date = res.data[i].owner.departdate
+          tmp1.traffic_time_start = res.data[i].owner.departtime.substring(0, 5)
+          tmp1.traffic_time_end = res.data[i].owner.arrivaltime.substring(0, 5)
+          tmp1.traffic_price = res.data[i].price
+          tmp1.traffic_city_start = res.data[i].owner.departstation
+          tmp1.traffic_city_end = res.data[i].owner.endstation
+          tmp1.traffic_id = res.data[i].id
+          k++
+          tmp.push(tmp1)
+        }
+      }
+      that.setData({
+        dataList: tmp
+      })
+      if (that.data.dataList != false) {
+        that.setData({
+          get_data: true
+        })
+      }
+    },
+    fail: function(res) {}
+  })
+
+},
+
+navigate2air: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
+  wx.navigateTo({
+    url: '/pages/PlaneDetail/PlaneDetail?id=' + index,
+  })
+},
+
+navigate2train: function(e) {
+  var that = this
+  //console.log(e)
+  var index = e.currentTarget.dataset.index
+  console.log(index)
+  wx.navigateTo({
+    url: '/pages/TrainDetail/TrainDetail?id=' + index,
+  })
+}
 })

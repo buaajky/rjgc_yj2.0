@@ -30,7 +30,10 @@
     "pages/12306/12306",
     "pages/ExchangeDetail/ExchangeDetail",
     "pages/TransportMap/TransportMap",
-    "pages/TransportCompare/TransportCompare"
+    "pages/TransportCompare/TransportCompare",
+    "pages/AirplaneSearch/AirplaneSearch",
+    "pages/IntegratedQuery/IntegratedQuery",
+    "pages/MyLoc/MyLoc"
   ],
   "window": {
     "backgroundTextStyle": "light",

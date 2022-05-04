@@ -1,0 +1,93 @@
+/* pages/MyLoc/MyLoc.wxss */
+
+.loc_box{
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+}
+
+.loc_all {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+  border: 3rpx solid blue;
+  border-radius: 15rpx;
+  height:530rpx;
+  width: 85%;
+  background:white;
+  margin-bottom:20rpx;
+}
+
+.loc_covers{
+  display: flex;
+  width:100%;
+  height: 300rpx;
+  border-radius: 15rpx;
+}
+
+.loc_cover_pic{
+  display: flex;
+  width:100%;
+  height: 300rpx;
+  border-radius: 15rpx;
+}
+
+.divline{
+  display: flex;
+  justify-items: center;
+  width: 90%;
+  border-bottom:solid 8rpx #44cdf0;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  margin-left:10%;
+  margin-right: 10%;
+  border-radius: 100rpx;
+}
+
+.loc_info{
+  width:100%;
+  height: 45%;
+  display:flex;
+  flex-direction: column;
+}
+
+.loc_name{
+  width: auto;
+  height: 20%;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  font-size:30rpx;
+  font-weight: bold;
+  margin-left:10rpx
+}
+
+.loc_intro{
+  width: auto;
+  height: 70%;
+  display: flex;
+  font-size:25rpx;
+  font-weight: normal;
+  color:grey;
+  margin-left:10rpx;
+  margin-right: 10rpx;
+  flex-wrap: wrap;
+}
+
+
+
+.empty_text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 50rpx;
+  font-size: 1.0em;
+  color: #999999;
+}

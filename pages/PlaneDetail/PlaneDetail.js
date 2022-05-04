@@ -14,22 +14,22 @@ Page({
 
     notice: "这是防疫公告这是防疫公告这是防疫公告这是防疫公告",
 
-    departdate:"2022-04-24",
+    departdate:"",//"2022-04-24",
     departweek:"",
-    arrivaldate:"2022-04-24",
-    departtime:"11:40",
-    arrivaltime:"14:10",
-    departcity:"北京",
-    arrivalcity:"武汉",
-    departport:"大兴国际机场",
-    arrivalport:"天河机场 T2",
-    costtime:"2h30min",
-    flightno:"MU2452",
-    flightcom:"东航",
-    punc:"95",//准点率
+    arrivaldate:"",//"2022-04-24",
+    departtime:"",//"11:40",
+    arrivaltime:"",//"14:10",
+    departcity:"",//"北京",
+    arrivalcity:"",//"武汉",
+    departport:"",//"大兴国际机场",
+    arrivalport:"",//"天河机场 T2",
+    costtime:"",//"2h30min",
+    flightno:"",//"MU2452",
+    flightcom:"",//"东航",
+    punc:"",//"95",//准点率
     food:0,
     foodlist:["无", "有"],
-    craft:"738",
+    craft:"",//"738",
     overdate:"",
     hasAdd:false,//是否已加入用户的出行计划
 
@@ -58,22 +58,13 @@ Page({
   },
 
   addToPlan: function() {//加入出行计划 按钮
-    //todo
     var that = this;
     if(wx.getStorageSync('token') == '') {
-      wx.navigateTo({
-        url: '/pages/login/login',
-      });
-
-      wx.showToast({
-        title: '未登陆',
-        icon:"error",
-        duration:1000,
-      });
+      utils.unLogin();
       return;
     }
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
-    console.log(token)
+    //console.log(token)
     wx.request({
       url: utils.server_hostname + '/api/core/plans/addMyPlan/',
       method:'POST',
@@ -93,14 +84,25 @@ Page({
         "to2":null,
       },
       success:function(res) {
-        if (res.data == true) {
-          that.setData({
-            hasAdd:true
-          })
-          wx.showToast({
-            title: '已加入出行计划',
-            duration: 1000
-          });
+        if (res.statusCode == 200) {
+          if (res.data == true){
+            that.setData({
+              hasAdd:true
+            })
+            wx.showToast({
+              title: '已加入出行计划',
+              duration: 1000
+            });
+          }else {
+            wx.showToast({
+              title: '操作失败',
+              duration:1000,
+              icon:"error"
+            })
+          }
+        }else if (res.statusCode == 403 || res.statusCode == 605) {
+          utils.unLogin();
+          return;
         }else {
           wx.showToast({
             title: '操作失败',
@@ -123,7 +125,7 @@ Page({
   deleteFromPlan:function() {//删除出行计划  按钮
     var that = this;
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
-    console.log(token)
+    //console.log(token)
     wx.request({
       url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
       method:'POST',
@@ -143,7 +145,7 @@ Page({
         "to2":null,
       },
       success:function(res) {
-        if (res.data == true) {
+        if (res.statusCode == 200 && res.data == true) {
           wx.showToast({
             title: '已删除该出行计划',
             duration: 1000
@@ -151,6 +153,9 @@ Page({
           that.setData({
             hasAdd:false
           })
+        }else if (res.statusCode == 603 || res.statusCode == 403){
+          utils.unLogin();
+          return;
         }else {
           wx.showToast({
             title: '操作失败',
@@ -197,9 +202,9 @@ Page({
     
     // console.log(options)
     var that = this;
-    //todo: 
-    // var id = options.id;
+    //note:has default id
     var id = options.id? options.id:3993;
+    console.log(options)
     //获取基本信息
     wx.request({
       url: utils.server_hostname + '/api/core/flights/getFlightInfo?flightid=' + id,
@@ -253,9 +258,11 @@ Page({
             },
             success:function(res) {
               console.log(res)
-              that.setData({
-                hasAdd:res.data
-              })    
+              if (res.statusCode == 200) {
+                that.setData({
+                  hasAdd:res.data
+                }) 
+              }   
             },
             fail:function(err) {
               console.log(err);

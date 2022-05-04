@@ -68,15 +68,7 @@ Page({
     //todo
     var that = this;
     if(wx.getStorageSync('token') == '') {
-      wx.navigateTo({
-        url: '/pages/login/login',
-      });
-
-      wx.showToast({
-        title: '未登陆',
-        icon:"error",
-        duration:1000,
-      });
+      utils.unLogin();
       return;
     }
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
@@ -100,14 +92,25 @@ Page({
         "to2":that.data.plans[1].arrivalcity,
       },
       success:function(res) {
-        if (res.data == true) {
-          that.setData({
-            hasAdd:true
-          })
-          wx.showToast({
-            title: '已加入出行计划',
-            duration: 1000
-          });
+        if (res.statusCode == 200) {
+          if (res.data == true){
+            that.setData({
+              hasAdd:true
+            })
+            wx.showToast({
+              title: '已加入出行计划',
+              duration: 1000
+            });
+          }else {
+            wx.showToast({
+              title: '操作失败',
+              duration:1000,
+              icon:"error"
+            })
+          }
+        }else if (res.statusCode == 403 || res.statusCode == 605) {
+          utils.unLogin();
+          return;
         }else {
           wx.showToast({
             title: '操作失败',
@@ -150,7 +153,7 @@ Page({
         "to2":that.data.plans[1].arrivalcity,
       },
       success:function(res) {
-        if (res.data == true) {
+        if (res.statusCode == 200 && res.data == true) {
           wx.showToast({
             title: '已删除该出行计划',
             duration: 1000
@@ -158,6 +161,9 @@ Page({
           that.setData({
             hasAdd:false
           })
+        }else if (res.statusCode == 603 || res.statusCode == 403){
+          utils.unLogin();
+          return;
         }else {
           wx.showToast({
             title: '操作失败',
@@ -229,8 +235,8 @@ Page({
 
     // console.log(options)
     var that = this;
-    //todo:
-    var idlist = options.idlist? options.idlist: [{id:2, type:'火车'}, {id:74, type:"火车"}];
+    //note:has default id
+    var idlist = options.idlist? JSON.parse(options.idlist): [{id:2, type:'火车'}, {id:74, type:"火车"}];
 
     var plan = [];
     for (var i = 0; i < idlist.length; i++) {
@@ -277,9 +283,11 @@ Page({
         },
         success:function(res) {
           console.log(res)
-          that.setData({
-            hasAdd:res.data
-          })    
+          if (res.statusCode == 200){
+            that.setData({
+              hasAdd:res.data
+            })   
+          } 
         },
         fail:function(err) {
           console.log(err);
@@ -396,7 +404,7 @@ Page({
         success: function (res) {
           console.log(res)   
           var address = res.data.result;
-          resolve(address.address_components.city);
+          resolve(address? address.address_components.city:"");
         },
         fail: function(res) { console.log(res); reject();}
       })

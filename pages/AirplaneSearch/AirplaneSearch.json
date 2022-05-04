@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "l-tag":"/miniprogram_npm/lin-ui/tag/index",
+    "l-calendar":"/miniprogram_npm/lin-ui/calendar/index"
+  },
+  "navigationBarTitleText": "航班号查询"
+}

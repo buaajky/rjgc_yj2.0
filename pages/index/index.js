@@ -554,7 +554,7 @@ Page({
       }
       var url
       if (that.data.next_loc == "init") {
-        url = utils.server_hostname + "/api/core/position/" 
+        url = utils.server_hostname + "/api/core/position/hot"
       } else {
         url = that.data.next_loc
       }
@@ -580,10 +580,11 @@ Page({
         'token-auth': token
         },
         success: function(res) {
-          // console.log(res);
+          //console.log(res);
   
-          var loclist = res.data.results
-          // console.log(loclist)
+          var loclist = res.data.result
+          //var loclist = res.data.results
+          console.log(loclist)
   
           var loc_ids = that.data.loc_ids
           var loc_covers = that.data.loc_covers
@@ -851,9 +852,9 @@ Page({
   //转到交通方案查询
   navigate2TrafficSearch:function() {
     //todo:
-    // wx.navigateTo({
-    //   url: '/pages/TrafficSearch/TrafficSearch',
-    // })
+    wx.navigateTo({
+      url: '/pages/TrafficSearch/TrafficSearch',
+    })
   },
 
   clear:function(){

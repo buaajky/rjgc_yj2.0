@@ -122,6 +122,22 @@
         <image src = "{{server_imagename}}/footprint.png" class = "functionIconPic" mode = "heightFix"></image>
         <view class = "functionName">足迹</view>
       </view>
+
+
+
+      <!-- NEW --> <!-- Path TODO -->
+      <view class = "functionIcon" bindtap="navigate2TrafficPlan">
+        <image src = "/images/schedule_blue.png" class = "functionIconPic" mode = "heightFix"></image>
+        <view class = "functionName">出行</view>
+      </view>
+      <view class = "functionIcon" bindtap="navigate2MyLoc">
+        <image src = "/images/location.png" class = "functionIconPic" mode = "heightFix"></image>
+        <view class = "functionName">地点</view>
+      </view>
+      <!-- NEW end -->
+
+
+
     </view>
   </view>
   <view class="travel_pal">
@@ -271,9 +287,22 @@
             </cover-view>
         </cover-view>
 
-        <cover-view class="flex-item_3" bindtap = "navigate2Release">
-            <cover-image  class = "tabbar_pic_plus" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix">
-            </cover-image>
+        <cover-view class="flex-item_3">
+          <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release"></cover-image>
+                <cover-view class = "tabbar_text">
+                发布
+                </cover-view>
+            </cover-view>
+        </cover-view>
+
+        <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "/images/transport_grey.png" mode = "widthFix" bindtap="navigate2TrafficSearch"></cover-image>
+                <cover-view class = "tabbar_text">
+                出行
+                </cover-view>
+            </cover-view>
         </cover-view>
 
         <cover-view class="flex-item_3">

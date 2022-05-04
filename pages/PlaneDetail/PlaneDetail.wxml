@@ -49,6 +49,7 @@
         <l-tabs placement="top">
           <l-tabpanel tab="经济舱" key="one" slot="one">
             <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
+                <view wx:if="{{jjcPrices.length == 0}}" style="text-align: center; color: grey;">暂无价格信息</view>
                 <view wx:for="{{jjcPrices}}" wx:key="index" class="flight">
                     <view class="flight_price">￥{{item.price}}</view>
                     <view class="flight_more">舱位等级{{item.cabincode}} | 折扣{{item.discount}}元</view>
@@ -58,6 +59,7 @@
           </l-tabpanel>
           <l-tabpanel tab="公务舱" key="two" slot="two">
               <scroll-view id="tab-content" scroll-y="true" scroll-with-animation="{{true}}" style="height: {{tab_content_h}}px;">
+                <view wx:if="{{gwcPrices.length == 0}}" style="text-align: center; color: grey;">暂无价格信息</view>
                 <view wx:for="{{gwcPrices}}" wx:key="index" class="flight">
                     <view class="flight_price">￥{{item.price}}</view>
                     <view class="flight_more">舱位等级{{item.cabincode}} | 折扣{{item.discount}}元</view>

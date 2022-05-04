@@ -45,6 +45,37 @@
 
   <view class="divview"></view>
 
+  <view wx:if="{{get_data}}">
+    <view class="relative_title">交通方案推荐</view>
+    <swiper class="cheap_airplane-list" indicator-dots>
+      <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
+        <swiper-item class="airplane_ticket_item" wx:if="{{item.traffic_company=='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/铁路.jpg" title="{{item.traffic_number}}" bindtap="navigate2train" data-index="{{item.traffic_id}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item>
+       <swiper-item class="airplane_ticket_item" wx:elif="{{item.traffic_company!='zt'}}">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.traffic_company}}.jpg" title="{{item.traffic_number}}" bindtap="navigate2air" data-index="{{item.traffic_id}}">
+            <view class="content">
+            {{item.traffic_date}} {{item.traffic_time_start}}-{{item.traffic_time_end}}
+            </view>
+           <view class="content">
+            {{item.traffic_city_start}}-{{item.traffic_city_end}} 最低￥{{item.traffic_price}}
+           </view>
+         </l-card>
+       </swiper-item>
+      </block>
+      
+    </swiper>
+  </view>
+
+  <view class="divview"></view>
+
   <view class="relative_view" wx:if="{{travel.forbidden == 0}}">
     <view class="relative_title">相关推荐</view>
     <view class = "divline"></view>

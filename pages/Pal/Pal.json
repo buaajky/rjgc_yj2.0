@@ -1,5 +1,8 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "l-card":"/miniprogram_npm/lin-ui/card/index",
+    "l-button":"/miniprogram_npm/lin-ui/button/index"
+  },
   "enablePullDownRefresh": true,
   "navigationBarTitleText": "活动详情"
   

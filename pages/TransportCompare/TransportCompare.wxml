@@ -16,7 +16,8 @@
       <view class="toolname">{{item.company}}{{item.no}}</view>
       <view wx:if="{{index != plan1.length - 1}}" class="exchange">
         <image class="exchange_icon" src="/images/exchange_icon.png"></image>
-        <view>{{item.arrivalcity}}中转</view>
+        <!-- <view class="exchange_text">{{item.arrivalcity}}中转</view> -->
+        <view class="exchange_text">{{exchange_city1}}中转</view>
     </view>
   </view>
     
@@ -28,7 +29,8 @@
       <view class="toolname">{{item.company}}{{item.no}}</view>
       <view wx:if="{{index != plan2.length - 1}}" class="exchange">
         <image class="exchange_icon" src="/images/exchange_icon.png"></image>
-        <view class="exchange_text">{{item.arrivalcity}}中转</view>
+        <!-- <view class="exchange_text">{{item.arrivalcity}}中转</view> -->
+        <view class="exchange_text">{{exchange_city2}}中转</view>
       </view>
     </view>
   </view>

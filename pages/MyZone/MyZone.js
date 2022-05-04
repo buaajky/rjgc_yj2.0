@@ -502,6 +502,21 @@ Page({
     });
   },
 
+  // NEW
+  navigate2TrafficPlan: function() {
+    wx.navigateTo({
+      url: '/pages/TrafficPlan/TrafficPlan',
+    })
+  },
+
+  navigate2MyLoc: function() {
+    wx.navigateTo({
+      url: '/pages/MyLoc/MyLoc',
+    })
+  },
+  
+  // NEW end
+
   navigate2footprint: function(event) {
     utils.navigate2footprint(wx.getStorageSync('id'), 
     this.data.nickname, this.data.icon, this.data.cities, this.data.travels)
@@ -620,6 +635,14 @@ Page({
     wx.navigateTo({
       url: '/pages/Subscription/Subscription?tabindex=' + event.currentTarget.id,
     }); 
+  },
+
+  //转到交通方案查询
+  navigate2TrafficSearch:function() {
+    //todo:
+    wx.navigateTo({
+      url: '/pages/TrafficSearch/TrafficSearch',
+    })
   },
 
   quit: function(options){

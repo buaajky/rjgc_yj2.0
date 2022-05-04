@@ -61,8 +61,10 @@ Page({
     
     height: 0,
     hideModal: true, //模态框的状态 true-隐藏 false-显示
-    animationData: {}
+    animationData: {},
 
+    dataList:[],
+    get_data: false
   },
 
   reply: function(event) {
@@ -444,6 +446,8 @@ Page({
     var app = getApp()
     var show = app.globalData.show
     this.setData({
+      get_data: false,
+      dataList: [],
       show:show
     })
 
@@ -539,6 +543,8 @@ Page({
         that.getComments()
         that.getRelative()
         // console.log(that.data)
+        that.get_traffic() // 2022
+        console.log(that.data)
       },
       fail: function(res) { console.log(res) }
     })
@@ -973,6 +979,140 @@ fadeDown: function () {
     url = url + "&" + "author_travels=" + data.author.travels
     wx.redirectTo({
       url: url,
+    })
+  },
+
+  get_traffic: function(){
+    var that = this 
+    var token = wx.getStorageSync('token')
+    var loc = that.data.travel.position.city.substring(0, that.data.travel.position.city.length - 1)
+    var tmp = []
+    wx.request({
+      url: utils.server_hostname + "/api/core/flights/getCheapFlight",
+      method: 'GET',
+      data: {
+        position: loc
+      },
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      
+      success: function(res) {
+        // console.log(res.data)
+        var size_list = res.data.length > 2 ? 1 : res.data.length
+        var k = 0
+        // console.log(res.data.length)
+        for (let i = 0;i < res.data.length && k <= size_list; i++) {
+          if (res.data[i].minprice > 0) {
+            var tmp1 = {
+              traffic_company:'',
+              traffic_number:'',
+              traffic_date:'',
+              traffic_time_start:'',
+              traffic_time_end:'',
+              traffic_price:'',
+              traffic_city_start:'',
+              traffic_city_end:'',
+              traffic_id:''
+            }
+            tmp1.traffic_company = res.data[i].airline
+            tmp1.traffic_number = res.data[i].flightno
+            tmp1.traffic_date = res.data[i].departdate
+            tmp1.traffic_time_start = res.data[i].departtime.substring(0, 5)
+            tmp1.traffic_time_end = res.data[i].arrivaltime.substring(0, 5)
+            tmp1.traffic_price = res.data[i].minprice
+            tmp1.traffic_city_start = res.data[i].city
+            tmp1.traffic_city_end = res.data[i].endcity
+            tmp1.traffic_id = res.data[i].id
+            k++
+            tmp.push(tmp1)
+          }
+        }
+        that.setData({
+          dataList: tmp
+        })
+        if (that.data.dataList != false) {
+          that.setData({
+            get_data: true
+          })
+        }
+      },
+      fail: function(res) {}
+    })
+    wx.request({
+      url: utils.server_hostname + "/api/core/trains/getCheapTrain",
+      method: 'GET',
+      data: {
+        position: loc
+      },
+      header: {
+        'content-type': 'application/json',
+        'token-auth': token
+      },
+      
+      success: function(res) {
+        //console.log(res.data)
+        var size_list = res.data.length > 2 ? 1 : res.data.length
+        var k = 0
+        // console.log(res.data.length)
+        for (let i = 0;i < res.data.length && k <= size_list; i++) {
+          if (res.data[i].price > 0) {
+            var tmp1 = {
+              traffic_company:'',
+              traffic_number:'',
+              traffic_date:'',
+              traffic_time_start:'',
+              traffic_time_end:'',
+              traffic_price:'',
+              traffic_city_start:'',
+              traffic_city_end:'',
+              traffic_id:''
+            }
+            tmp1.traffic_company = 'zt'
+            tmp1.traffic_number = res.data[i].owner.trainno
+            tmp1.traffic_date = res.data[i].owner.departdate
+            tmp1.traffic_time_start = res.data[i].owner.departtime.substring(0, 5)
+            tmp1.traffic_time_end = res.data[i].owner.arrivaltime.substring(0, 5)
+            tmp1.traffic_price = res.data[i].price
+            tmp1.traffic_city_start = res.data[i].owner.station
+            tmp1.traffic_city_end = res.data[i].owner.endstation
+            tmp1.traffic_id = res.data[i].id
+            k++
+            tmp.push(tmp1)
+          }
+        }
+        that.setData({
+          dataList: tmp
+        })
+        if (that.data.dataList != false) {
+          that.setData({
+            get_data: true
+          })
+        }
+      },
+      fail: function(res) {}
+    })
+  
+  },
+
+  navigate2air: function(e) {
+    var that = this
+    //console.log(e)
+    var index = e.currentTarget.dataset.index
+    console.log(index)
+    wx.navigateTo({
+      url: '/pages/PlaneDetail/PlaneDetail?id=' + index,
+    })
+  },
+  
+  navigate2train: function(e) {
+    var that = this
+    //console.log(e)
+    var index = e.currentTarget.dataset.index
+    console.log(index)
+    wx.navigateTo({
+      url: '/pages/TrainDetail/TrainDetail?id=' + index,
     })
   }
 })
