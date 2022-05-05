@@ -8,9 +8,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    search_date: '2022-05-04',
+    search_date: '2022-05-05',
     start_city: '北京',
-    end_city: '石家庄',//北京南京
+    end_city: '北京',//北京南京
     compare_show: false,
     compare_num: 0,
 
@@ -19,7 +19,10 @@ Page({
     get_data_transfer: false,
     airplaneList:[],
     trainList:[],
-    transferList:[]
+    transferList:[],
+
+    search_type:"one",//控制tab初始页面
+    search_type_map:{"飞机":"one", "火车":"two", "换乘":"three"}
   },
 
   /**
@@ -31,12 +34,21 @@ Page({
     that.setData({
       get_data_air: false,
       get_data_train: false,
-      get_data_transfer: false
+      get_data_transfer: false,
+      start_city:options.departure,
+      end_city:options.arrival,
+      search_date:options.date,
+      search_type:that.data.search_type_map[options.searchType]
+    })
+
+    wx.setNavigationBarTitle({
+      title: that.data.start_city + "-" + that.data.end_city,
     })
 
     that.get_air_list(that.data.search_date)
     that.get_train_list(that.data.search_date)
     that.get_transfer_list(that.data.search_date)
+    that.sort_price_up();
     
   },
 
@@ -318,6 +330,7 @@ get_air_list:function(date) {
       for (let i in lll) {
         lll[i].selected = false
       }
+      lll.sort((a, b)=>{return a.minprice - b.minprice});
       that.setData({
         airplaneList: lll
       })
@@ -356,6 +369,7 @@ get_train_list:function(e) {
         lll[i].arrivaltime = lll[i].arrivaltime.substring(0,5)
         lll[i].departtime = lll[i].departtime.substring(0,5)
       }
+      lll.sort((a, b)=>{return a.train_price - b.train_price});
       that.setData({
         trainList: lll
       })
@@ -427,6 +441,7 @@ get_transfer_list: function(date) {
 
         index_list++;
         tmp.push(JSON.parse(JSON.stringify(trans)))
+        tmp.sort((a, b)=>{return a.total_price - b.total_price});
         that.setData({
           transferList: tmp
         })

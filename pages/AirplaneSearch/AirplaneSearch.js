@@ -21,7 +21,10 @@ Page({
    */
   onLoad(options) {
     var that = this
-    //todo: get search_date from options
+    that.setData({
+      search_date:options.date,
+      search_number:options.planeNum
+    })
     that.check_date(that.data.search_date)
   },
 

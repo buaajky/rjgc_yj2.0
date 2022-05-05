@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "l-card":"/miniprogram_npm/lin-ui/card/index",
+    "l-button":"/miniprogram_npm/lin-ui/button/index",
+    "l-tabs":"/miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel":"/miniprogram_npm/lin-ui/tabpanel/index",
+    "l-input":"/miniprogram_npm/lin-ui/input/index",
+    "l-switch":"/miniprogram_npm/lin-ui/switch/index",
+    "l-calendar":"/miniprogram_npm/lin-ui/calendar/index",
+    "l-icon":"/miniprogram_npm/lin-ui/icon/index"
+  },
+  "navigationBarTitleText": "出行查询",
+  "enablePullDownRefresh": true
+}

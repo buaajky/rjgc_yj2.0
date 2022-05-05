@@ -1,0 +1,252 @@
+<!--pages/TrafficSearch/TrafficSearch.wxml-->
+<image class = "head_traffic_pic" src = "/images/traffic5.jpeg" />
+
+<l-card l-class="" type="primary" plaintext="{{true}}" title="">
+  <l-tabs bind:linchange="changeTabs" active-color="#3963bc" scrollable="{{true}}"
+          animated="{{true}}" active-key="{{searchType}}">
+    <l-tabpanel tab="飞机" key="飞机" slot="one">
+    </l-tabpanel>
+    <l-tabpanel tab="火车" key="火车" slot="two">
+    </l-tabpanel>
+    <l-tabpanel tab="换乘" key="换乘" slot="three">
+    </l-tabpanel>
+  </l-tabs>
+  <!-- <view class="d_a" hidden="{{isSearchByNum}}">
+        <l-button l-class="select_d"
+                  icon="address" icon-size="35"
+                  type="default" size="medium" shape=""
+                  bg-color="#ffffff" bind:lintap="chooseD">
+          <view class="select_city_font">{{cityD}}</view>
+        </l-button>
+        <l-button l-class="swap_da"
+                  type="default" size="medium" shape="semicircle" width="50"
+                  bg-color="#ffffff" bind:lintap="exchangeDA">
+          <image class = "swap_pic" src = "/images/swap.png"></image>
+        </l-button>
+        <l-button l-class="select_a"
+                  icon="address" icon-size="35"
+                  type="default" size="medium" shape="circle"
+                  bg-color="#ffffff" bind:lintap="chooseA">
+          <view class="select_city_font">{{cityA}}</view>
+        </l-button>
+        <view class="div_line" />
+      </view> -->
+      
+      <view class="input_label_left" hidden="{{searchType == '飞机' && isSearchByNum}}">
+        <l-button l-class="select_d_left"
+                  icon="address" icon-size="35"
+                  type="default" size="medium" shape=""
+                  bg-color="#ffffff" >
+          <view class="select_city_font_left">出发地</view>
+          <!-- bind:lintap="chooseD" -->
+        </l-button>
+        <view>
+          <l-input l-class="city_input_label" placeholder="请输入出发地" hide-label="{{true}}" width="400"
+                  clear="{{true}}" bind:linblur="enterCityD">
+          </l-input>
+        </view>
+      </view>
+      <view class="input_label_left" hidden="{{searchType == '飞机' && isSearchByNum}}">
+        <l-button l-class="select_d_left"
+                  icon="address" icon-size="35"
+                  type="default" size="medium" shape=""
+                  bg-color="#ffffff" >
+          <view class="select_city_font_left">目的地</view>
+          <!-- bind:lintap="chooseD" -->
+        </l-button>
+        <view>
+          <l-input l-class="city_input_label" placeholder="请输入目的地" hide-label="{{true}}" width="400"
+                  clear="{{true}}" bind:linblur="enterCityA">
+          </l-input>
+        </view>
+      </view>
+      <view class="input_label_left_right" hidden="{{searchType == '飞机' && isSearchByNum}}" bindtap="chooseLeaveDate">
+        <l-button l-class="select_d_left_right"
+                  icon="time" icon-size="35"
+                  type="default" size="medium" shape=""
+                  bg-color="#ffffff" bind:lintap="">
+          <view class="select_city_font_left">出行日</view>
+          <!--<view class="have_select_date_desc">今天</view>-->
+        </l-button>
+        <l-button l-class="leave_date_button" icon=""
+                  type="default" size="medium" shape="" 
+                  bg-color="#ffffff" bind:lintap="">
+          <view class="have_select_date">{{leaveDate}}</view>
+        </l-button>
+      </view>
+
+      <!-- <view class="date" hidden="{{isSearchByNum}}">
+        <l-button l-class="select_d"
+                  icon="time" icon-size="35"
+                  type="default" size="medium" shape=""
+                  bg-color="#ffffff" bind:lintap="chooseLeaveDate">
+          <view class="have_select_date">{{leaveDate}}</view>
+        </l-button>
+        <l-button l-class="swap_da" icon=""
+                  type="default" size="medium" shape="semicircle" width="50"
+                  bg-color="#ffffff" bind:lintap="">
+          <image class = "swap_pic" src = "" />
+        </l-button>
+        <l-button l-class="select_a" 
+                  type="default" size="medium" shape="circle"
+                  bg-color="#ffffff" bind:lintap="">
+          <view class="havent_select_date">添加返程日期</view>
+        </l-button>
+      </view> -->
+      
+      <view class="input_label_left" hidden="{{searchType != '飞机' || !isSearchByNum}}">
+        <l-button l-class="select_d_left"
+                  icon="order" icon-size="35"
+                  type="default" size="medium" shape=""
+                  bg-color="#ffffff" >
+          <view class="select_city_font_left">航班号</view>
+          <!-- bind:lintap="chooseD" -->
+        </l-button>
+        <view>
+          <l-input l-class="city_input_label" placeholder="请输入航班号" hide-label="{{true}}" width="400"
+                  clear="{{true}}" bind:linblur="enterPlaneNum">
+          </l-input>
+        </view>
+      </view>
+
+      <view class="div_line" />
+
+      <view class="switch2num" hidden="{{searchType != '飞机'}}">
+        <view class="switch2num_switch">
+          <l-switch style="width: 68rpx; height: 40rpx; display: block; box-sizing: border-box"  
+                    size="" color="#ddd" select-color="#3963bc"
+                    bind:linchange="toSearchByNum" />
+        </view>
+        <view class="switch2num_label">按航班号查询</view>
+      </view>
+
+      <l-button l-class="search_button"
+                icon="research" icon-size="35" icon-color="#fff"
+                type="default" size="large" shape="semicircle" width="50"
+                bg-color="#3963bc" bind:lintap="integrateSearch">
+        <view class="search_button_label">查询</view>
+      </l-button>
+</l-card>
+
+<!--
+<view class="pop_select_d">
+  <l-popup show="{{false}}" content-align="bottom">
+  </l-popup>
+
+  <l-arc-popup show="{{showChooseD}}" arc-radius="30" direction="bottom">
+  </l-arc-popup>
+</view>
+-->
+
+<l-calendar show="{{showLeaveDate}}" min-date="{{minDate}}"
+  max-date="{{maxDate}}" color="#3963bc" bind:linconfirm="setLeaveDate" />
+
+<view class="pop_select_leave_date">
+  <page-container show="{{showPageContainer}}" duration="300" overlay="{{true}}"
+                  position="bottom" round="{{true}}"
+                  bind:clickoverlay="closePageContainer">
+    <!-- <scroll-view scroll-y="true"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class = "scroll_up"  showScrollbar="false"> -->
+      <view hidden="{{!showChooseD && !showChooseA}}">
+        <view class="pop_select_city_label">
+          <view wx:if="{{showChooseD}}">选择出发地</view>
+          <view wx:elif="{{showChooseA}}">选择目的地</view>
+        </view>
+
+        <l-card type="primary" full="{{true}}" plaintext="{{true}}" title="">
+          <!-- 使用 sidebar-data 自定义索引内容 -->
+          <l-index-list scroll-top="{{scrollTop}}" sidebar-data="{{sidebarData}}" bind:linselected="setCityIndex">
+            <!-- 使用插槽自定义 Tip -->
+            <view slot="tip" z-index="100">
+              <view>{{indexText}}</view>
+            </view>
+
+            <view wx:for="{{locList}}" wx:key="key" wx:for-item="lList">
+              <!-- 使用插槽自定义 Anchor -->
+              <l-index-anchor>1</l-index-anchor>
+              
+              <view wx:for="{{lList}}" wx:for-item="loc" z-index="99">
+                <l-button l-class="loc_name_button" l-label-class="loc_name_label"
+                          data-text="{{loc.name}}" size="long" width="650"
+                          bg-color="#fff" bind:lintap="selectCity">
+                  <view class="loc_name_text">{{loc.name}}</view>
+                </l-button>
+                <!--{{loc.name}}-->
+              </view>
+            </view>
+          </l-index-list>
+        </l-card>
+      </view>
+    <!-- </scroll-view> -->
+  </page-container>
+</view>
+
+
+
+
+<!-- <view class="page-section-spacing">
+  <scroll-view scroll-y="true" style="height: 300rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+    <view id="demo1" class="scroll-view-item demo-text-1"> 1</view>
+    <view id="demo2"  class="scroll-view-item demo-text-2">2</view>
+    <view id="demo3" class="scroll-view-item demo-text-3">3</view>
+  </scroll-view>
+</view> -->
+<!--
+<scroll-view id="scroll_city" scroll-y="{{true}}" scroll-with-animation="{{true}}">
+</scroll-view>
+-->
+
+<view class = "divview"></view>
+<!-- <view>
+    <view class="relative_title"></view>
+    <swiper class="cheap_airplane-list" indicator-dots>
+      <swiper-item class="airplane_ticket_item">
+        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/nh.jpg" title="南航 HBH123456">
+          <view class="content">
+            4月7号 {{travel_num}}————{{travel_num}}
+          </view>
+          <view class="content">
+            最低￥{{travel_num}}
+          </view>
+        </l-card>
+      </swiper-item>
+      <swiper-item class="airplane_ticket_item">
+        
+        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/ch.jpg" title="川航 HBH123456">
+          <view class="content">
+            4月7号 {{travel_num}}————{{travel_num}}
+          </view>
+          <view class="content">
+            最低￥333
+          </view>
+        </l-card>
+      </swiper-item>
+      <swiper-item class="airplane_ticket_item">
+        <l-card  type="primary" l-img-class="right-card" position="left" image="/images/dh.jpg" title="东航 HBH123456">
+          <view class="content">
+            4月7号 {{travel_num}}————{{travel_num}}
+          </view>
+          <view class="content">
+            最低￥333
+          </view>
+        </l-card>
+      </swiper-item>
+    </swiper>
+</view>-->
+<view wx:if="{{get_data}}">
+    <view class="relative_title">热门地点廉航</view>
+    <swiper class="cheap_airplane-list" indicator-dots>
+      <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
+       <swiper-item class="airplane_ticket_item">
+          <l-card  type="primary" l-img-class="right-card" position="left" image="/images/{{item.airline}}.jpg" title="{{item.flightno}}" bindtap="navigate2air" data-index="{{item.id}}">
+            <view class="content">
+            {{item.departdate}} {{item.departtime}}-{{item.arrivaltime}}
+            </view>
+           <view class="content">
+            {{item.city}}-{{item.endcity}} 最低￥{{item.minprice}}
+           </view>
+         </l-card>
+       </swiper-item>
+      </block>
+      
+    </swiper>
+  </view>

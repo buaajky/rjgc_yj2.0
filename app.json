@@ -33,7 +33,8 @@
     "pages/TransportCompare/TransportCompare",
     "pages/AirplaneSearch/AirplaneSearch",
     "pages/IntegratedQuery/IntegratedQuery",
-    "pages/MyLoc/MyLoc"
+    "pages/MyLoc/MyLoc",
+    "pages/TrafficSearch/TrafficSearch"
   ],
   "window": {
     "backgroundTextStyle": "light",

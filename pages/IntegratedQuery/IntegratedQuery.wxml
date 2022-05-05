@@ -26,7 +26,7 @@
 
 </l-segment>  
 
-<l-tabs bind:linchange="changeTabs" animated="true" l-content-class="tab-item-text" active-key="one">
+<l-tabs bind:linchange="changeTabs" animated="true" l-content-class="tab-item-text" active-key="{{search_type}}">
   <l-tabpanel tab="飞机" key="one" slot="one" >
     <view class="list" wx:if="{{get_data_air}}">
       <block wx:for="{{airplaneList}}" wx:key="list" wx:for-item="item">

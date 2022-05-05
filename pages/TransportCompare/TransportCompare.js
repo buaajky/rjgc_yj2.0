@@ -184,7 +184,7 @@ Page({
         no:source.trainno,
         company:source.typename,
         departport:source.departstation + '站',
-        arrivalport:source.arrivalstation + '站',
+        arrivalport:source.endstation + '站',
       };
       arr.push(tmp);
       ans.departtime=source.departtime;

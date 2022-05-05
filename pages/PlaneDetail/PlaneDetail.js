@@ -325,8 +325,8 @@ Page({
   getCosttime: function(time) {
     var l = time.split(":");
     var ans = "";
-    if (l[0] != "0" && l[0] != "00") ans += l[0] + "h";
-    if (l[1] != "00") ans += l[1] + "min";
+    if (l[0] != "0" && l[0] != "00") ans += parseInt(l[0]) + "h";
+    if (l[1] != "00") ans += parseInt(l[1]) + "min";
     return ans;
   },
 

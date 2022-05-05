@@ -1,0 +1,457 @@
+/* pages/TrafficSearch/TrafficSearch.wxss */
+.head_traffic_pic {
+  width: 750rpx; 
+  height: 300rpx;
+  display: inline-block; 
+  box-sizing: border-box;
+}
+
+.search_card {
+  margin-top: 20rpx;
+  width: 00rpx
+}
+
+.d_a {
+  margin-top: 20rpx;
+}
+
+.loc_name_button {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  float: left;
+  text-align: right;
+}
+
+.loc_name_label {
+  display: flex;
+  align-items: flex-start;
+  float: left;
+  text-align: right;
+}
+
+.loc_name_text {
+  display: flex;
+  color: #000000;
+  align-items: flex-start;
+  float: left;
+  text-align: right;
+}
+
+.input_label_left {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.input_label_left_right {
+  margin-top: 20rpx;
+  display: flex;
+  flex-direction: row;
+  margin-top: 4.5%;
+}
+
+.select_d_left {
+  display: flex;
+  width: 200rpx;
+  margin-left: 7%;
+  margin-top: 4.5%;
+}
+
+.select_d_left_right {
+  display: flex;
+  width: 200rpx;
+  margin-left: 7%;
+}
+
+.select_city_font_left {
+  font-size: 1.0em;
+  /*font-weight: default;*/
+  color: #000000;
+}
+
+.city_input_label {
+  margin-left: 16%;
+}
+
+.leave_date_button {
+  margin-left: 25%;
+  display: flex;
+  width: 35%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;  
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.select_d {
+  width: 35%;
+}
+
+.pop_select_d {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  text-align: center;
+  width: 100%;
+}
+
+.pop_select_city_label {
+  margin-top: 20rpx;
+  margin-left: 5%;
+  font-size: 1.2em;
+  /*margin-bottom: 20rpx;*/
+}
+
+.select_a {
+  margin-right: 0%;
+  display: flex;
+  width: 35%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;  
+  text-align: center;
+}
+
+.select_city_font {
+  font-size: 1.2em;
+  /*font-weight: default;*/
+  color: #000000;
+}
+
+.swap_da {
+  margin-left: 7%;
+  margin-right: 7%;
+  display: flex;
+  width: 16%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;  
+  text-align: center;
+}
+
+.swap_pic {
+  width: 40%;
+  height: 40%;
+}
+
+.div_line {
+  margin-top: 20rpx;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 20rpx;
+  background: #e0e3da;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  height: 1.5rpx;
+}
+
+.date {
+  margin-top: 20rpx;
+}
+
+.have_select_date {
+  font-size: 1.1em;
+  color: #000000;
+}
+
+.have_select_date_desc {
+  margin-left: 5%;
+  font-size: 0.8em;
+  color: #000000;
+}
+
+.havent_select_date {
+  color: #999999
+}
+
+.input_label {
+  margin-top: 20rpx;
+  margin-left: 7%;
+}
+
+.prefer_class {
+  margin-top: 30rpx;
+  margin-bottom: 10rpx;
+}
+
+.prefer_class_label {
+  display: flex;
+  margin-top: 1.5%;
+  margin-left: 8%;
+  margin-right: 10%;
+  font-size: 0.9em;
+}
+
+.prefer_class_option_label {
+  font-size: 1.0em;
+}
+
+.prefer_class_blank {
+  margin-left: 10%;
+}
+
+.switch2num {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  margin-right: 8%;
+}
+
+.switch2num_switch {
+  display: flex;
+  align-items: center;
+}
+
+.switch2num_label {
+  display: flex;
+  align-items: center;
+  margin-right: 9%;
+  font-size: 0.9em;
+}
+
+.search_button {
+  margin-top: 20rpx;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;  
+  text-align: center;
+}
+
+.search_button_label {
+  font-size: 1.2em;
+}
+
+.add2plan {
+  margin-left: 65%;
+  margin-bottom: 10rpx;
+}
+
+.add2plan_label {
+  font-weight: bold;
+}
+
+
+
+
+.page-section-spacing{
+  margin-top: 60rpx;
+}
+.scroll-view_H{
+  white-space: nowrap;
+}
+.scroll-view-item{
+  height: 300rpx;
+}
+.scroll-view-item_H{
+  display: inline-block;
+  width: 100%;
+  height: 300rpx;
+}
+
+
+.divview {
+  margin-top: 0rpx;
+  width: 100%;
+  height: 20rpx;
+  background-color: rgb(248, 248, 248);
+}
+
+/*
+.card-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  border: 6rpx solid #3963bc;
+  margin-left: 26rpx;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 750rpx;
+  height: 100rpx;
+}
+
+.content-name {
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(69, 82, 107, 1);
+  line-height: 20px;
+  margin-left: 8px;
+}
+
+.card {
+  margin: 10rpx auto !important;
+}
+
+.right-card {
+  height: 180rpx !important;
+  width: 220rpx !important;
+  border-radius: 12rpx !important;
+}
+
+.content {
+  margin-top: 10rpx;
+  color: #666;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.avter-content {
+  margin-top: 10rpx;
+  color: #333;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.avter-share-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.like-container{
+  display: flex;
+  flex-direction: row;
+  margin-left: 40rpx;
+  align-items: center
+}
+
+.number{
+  color: #666;
+  font-size: 24rpx;
+  margin-left: 12rpx;
+}
+
+.cheap_airplane-list{
+  height: 225rpx;
+}
+
+.airplane_ticket_item{
+  background-color: #3963bc;
+}*/
+
+.card-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  border: 6rpx solid #3963bc;
+  margin-left: 26rpx;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 750rpx;
+  height: 100rpx;
+}
+
+.content-name {
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(69, 82, 107, 1);
+  line-height: 20px;
+  margin-left: 8px;
+}
+
+.card {
+  margin: 10rpx auto !important;
+}
+
+.right-card {
+  height: 180rpx !important;
+  width: 220rpx !important;
+  border-radius: 12rpx !important;
+}
+
+.content {
+  margin-top: 10rpx;
+  color: #666;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.avter-content {
+  margin-top: 10rpx;
+  color: #333;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.avter-share-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.like-container{
+  display: flex;
+  flex-direction: row;
+  margin-left: 40rpx;
+  align-items: center
+}
+
+.number{
+  color: #666;
+  font-size: 24rpx;
+  margin-left: 12rpx;
+}
+
+.cheap_airplane-list{
+  height: 225rpx;
+}
+
+.airplane_ticket_item{
+  background-color: #3963bc;
+}
+
+.relative_title {
+  width: 98%;
+  margin-left: 1%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 110%;
+  color: #030303;
+  margin-bottom: 15rpx;
+}
