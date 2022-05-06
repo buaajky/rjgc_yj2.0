@@ -1280,7 +1280,7 @@ Page({
         
     })
     wx.request({
-      url: utils.server_hostname + '/api/core/plans/deleteMyComp/',
+      url: utils.server_hostname + '/api/core/plans/deleteMyPlan/',
       method: 'POST',
       header: {
         'content-type': 'application/json',

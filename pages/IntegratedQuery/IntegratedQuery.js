@@ -250,7 +250,7 @@ compare_do: function(e) {
         departtime: that.data.airplaneList[i].departtime,
         arrivaldate: that.data.airplaneList[i].arrivaldate,
         arrivaltime: that.data.airplaneList[i].arrivaltime,
-        costtime: that.data.airplaneList[i].costtime,
+        costtime: that.getCosttime(that.data.airplaneList[i].costtime),
         minpric: that.data.airplaneList[i].minprice
         }
         tmp.push(item)
@@ -329,6 +329,8 @@ get_air_list:function(date) {
       var lll = result.data
       for (let i in lll) {
         lll[i].selected = false
+        lll[i].arrivaltime = lll[i].arrivaltime.substring(0, 5)
+        lll[i].departtime = lll[i].departtime.substring(0,5)
       }
       lll.sort((a, b)=>{return a.minprice - b.minprice});
       that.setData({
@@ -578,5 +580,13 @@ navigate2transfer: function(e) {
   wx.navigateTo({
     url: '/pages/ExchangeDetail/ExchangeDetail?idlist=' + JSON.stringify(tmp),
   })
-} 
+},
+
+getCosttime: function(time) {
+  var l = time.split(":");
+  var ans = "";
+  if (l[0] != "0" && l[0] != "00") ans += parseInt(l[0]) + "h";
+  if (l[1] != "00") ans += parseInt(l[1]) + "min";
+  return ans;
+},
 })
