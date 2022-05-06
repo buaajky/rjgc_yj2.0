@@ -913,7 +913,7 @@ Page({
                     for (let j in lll.prices) {
                       if (lll.prices[j].price < min){min = lll.prices[j].price}
                     }
-                    tmp1.traffic_price = min
+                    tmp1.traffic_price = (min == 10000) ? 0 : min
                     tmp1.traffic_city_start = lll.station
                     tmp1.traffic_city_end = lll.endstation
                     tmp1.traffic_id = lll.id

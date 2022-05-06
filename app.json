@@ -34,7 +34,8 @@
     "pages/AirplaneSearch/AirplaneSearch",
     "pages/IntegratedQuery/IntegratedQuery",
     "pages/MyLoc/MyLoc",
-    "pages/TrafficSearch/TrafficSearch"
+    "pages/TrafficSearch/TrafficSearch",
+    "pages/TrafficPlan/TrafficPlan"
   ],
   "window": {
     "backgroundTextStyle": "light",

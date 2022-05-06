@@ -329,8 +329,8 @@ get_air_list:function(date) {
       var lll = result.data
       for (let i in lll) {
         lll[i].selected = false
-        lll[i].arrivaltime = lll[i].arrivaltime.substring(0, 5)
-        lll[i].departtime = lll[i].departtime.substring(0,5)
+        lll[i].arrivaltime = lll[i].arrivaltime.substring(0, 5)
+        lll[i].departtime = lll[i].departtime.substring(0,5)
       }
       lll.sort((a, b)=>{return a.minprice - b.minprice});
       that.setData({
@@ -524,7 +524,7 @@ getTrainInfo:function(id, trans, no) {
           for (let j in lll.prices) {
             if (lll.prices[j].price < min){min = lll.prices[j].price}
           }
-          trans.total_price = min
+          trans.total_price = (min == 10000) ? 0 : min
           trans.t1_id = lll.id
           trans.t1_company = lll.typename
         }else if (no == 2) {
@@ -539,7 +539,7 @@ getTrainInfo:function(id, trans, no) {
           for (let j in lll.prices) {
             if (lll.prices[j].price < min){min = lll.prices[j].price}
           }
-          trans.total_price += min
+          trans.total_price += ((min == 10000) ? 0 : min)
           trans.total_time = utils.calIntervalTime(trans.total_time, lll.arrivaldate + " " + lll.arrivaltime)
           trans.transfer_time = utils.calIntervalTime(trans.transfer_time, lll.departdate + " " + lll.departtime)
           trans.t2_id = lll.id
@@ -582,11 +582,11 @@ navigate2transfer: function(e) {
   })
 },
 
-getCosttime: function(time) {
-  var l = time.split(":");
-  var ans = "";
-  if (l[0] != "0" && l[0] != "00") ans += parseInt(l[0]) + "h";
-  if (l[1] != "00") ans += parseInt(l[1]) + "min";
-  return ans;
-},
+  getCosttime: function(time) {
+    var l = time.split(":");
+    var ans = "";
+    if (l[0] != "0" && l[0] != "00") ans += parseInt(l[0]) + "h";
+    if (l[1] != "00") ans += parseInt(l[1]) + "min";
+    return ans;
+  },
 })

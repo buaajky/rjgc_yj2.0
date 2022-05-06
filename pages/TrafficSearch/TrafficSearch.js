@@ -285,8 +285,10 @@ Page({
         oMonth = oDate.getMonth() + 1,
         oDay = oDate.getDate(),
         oTime = oYear + '-' + this.addZero(oMonth) + '-' + this.addZero(oDay)
+    var minDate = new Date().getTime()
     this.setData({
       leaveDate: oMonth + "月" + oDay + "日",
+      // minDate: minDate,
       oTime: oTime
     })
     /* 2022 */

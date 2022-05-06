@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "l-button":"/miniprogram_npm/lin-ui/button/index",
+    "l-tabs":"/miniprogram_npm/lin-ui/tabs/index",
+    "l-tabpanel":"/miniprogram_npm/lin-ui/tabpanel/index",
+    "l-tag":"/miniprogram_npm/lin-ui/tag/index"
+  },
+  "navigationBarTitleText": "我的出行计划",
+  "enablePullDownRefresh": true
+}

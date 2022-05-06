@@ -1,0 +1,288 @@
+<!--pages/TrafficPlan/TrafficPlan.wxml-->
+<l-tabs bind:linchange="changeTabs" active-color="#3963bc" scrollable="{{true}}"
+        animated="{{true}}">
+  <l-tabpanel tab="未来出行计划" key="one" slot="one">
+    <view wx:if="{{hasPostPlans}}">
+      <view wx:for="{{postPlans}}" wx:key="key" wx:for-item="item">
+        <view wx:if="{{item.type == '飞机'}}">
+                <view class="list_item">
+                  <view class="img">
+
+                    <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_airplane" data-index="{{index}}"/>
+                    <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_airplane" data-index="{{index}}"/>
+
+                    <image src="/images/{{item.airline}}.jpg"  mode="widthFix"/>
+                  </view>
+                  <view class="info" bindtap="navigate2air" data-index="{{item.id}}">
+                    <view class="number_and_price">
+                      <view class="number">{{item.flightno}}</view>
+                      <view class="price">￥{{item.minprice}}起</view>
+                    </view>
+                
+                    <view class="date_and_city">
+                      <view class="date">{{item.departdate}}</view>
+                      <view class="city">{{item.city}} —— {{item.endcity}}</view>
+                    </view>
+                    <view class="times" style="width: 462rpx; height: 52rpx; display: flex; box-sizing: border-box">
+                      <view class="time_left">{{item.departtime}}</view>
+                      <image src="/images/light_arrow.png" class="arrow"></image>
+                      <view class="time_right">{{item.arrivaltime}}</view>
+                    </view>
+
+                    <view class="times">
+                      <l-tag plain="{{true}}" class="airport_left" size="mini">{{item.departport}}</l-tag>
+                      <l-tag plain="{{true}}" class="airport_right" size="mini">{{item.arrivalport}}</l-tag>
+                    </view>
+                
+                    <view class="num"></view>
+                
+                  </view>
+                  <view class="clear"></view>
+                </view>
+        </view>
+        <view wx:elif="{{item.type == '火车'}}">
+                <view class="list_item">
+                  <view class="img">
+
+                    <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_train" data-index="{{index}}"/>
+                    <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_train" data-index="{{index}}"/>
+
+                    <image src="/images/铁路.jpg"  mode="widthFix"/>
+                  </view>
+                  <view class="info" bindtap="navigate2train" data-index="{{item.id}}">
+                    <view class="number_and_price">
+                      <view class="number">{{item.trainno}}</view>
+                      <view class="price">￥{{item.train_price}}起</view>
+                    </view>
+                
+                    <view class="date_and_city">
+                      <view class="date">{{item.departdate}}</view>
+                      <!-- <view class="city">{{item.train_city_start}} —— {{item.train_city_end}}</view> -->
+                    </view>
+                    <view class="times" style="width: 462rpx; height: 52rpx; display: flex; box-sizing: border-box">
+                      <view class="time_left">{{item.departtime}}</view>
+                      <image src="/images/light_arrow.png" class="arrow"></image>
+                      <view class="time_right">{{item.arrivaltime}}</view>
+                    </view>
+
+                    <view class="times">
+                      <l-tag plain="{{true}}" class="airport_left" size="mini">{{item.station}}</l-tag>
+                      <l-tag plain="{{true}}" class="airport_right" size="mini">{{item.endstation}}</l-tag>
+                    </view>
+                
+                    <view class="num"></view>
+                
+                  </view>
+                  <view class="clear"></view>
+                </view>
+        </view>
+        <view wx:elif="{{item.type == '换乘'}}">
+                <view class="icon_transfer">
+                  <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_transfer" data-index="{{index}}"/>
+                  <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_transfer" data-index="{{index}}"/>
+                </view>
+                
+                <view class="list_item_transfer" bindtap="navigate2transfer" data-index1="{{item.t1_id}}" data-index2="{{item.t2_id}}" data-type1="{{item.t1_type}}" data-type2="{{item.t2_type}}">
+
+                  <view class="times">
+                    <view class="info_2">
+                      <image src="{{item.t1_type=='飞机'?'/images/flight_icon.png':'/images/railway_icon.png'}}" class="air_and_train_icon"></image>
+                    </view>
+                    <view class="info_3">
+                      <view class="number_transfer">{{item.t1_number}}</view>
+                    </view>
+                    <view class="info_3">
+                      <view class="number_transfer">{{item.t2_number}}</view>
+                    </view>
+                    <view class="info_2">
+                      <image src="{{item.t2_type=='飞机'?'/images/flight_icon.png':'/images/railway_icon.png'}}" class="air_and_train_icon"></image>
+                    </view>
+                  </view>
+
+                  <view class="icons">
+                    <view class="info_2">
+                      <view class="transfer_time">{{item.t1_time_start}}</view>
+                    </view>
+                    <view class="info_1">
+                      <image src="/images/light_arrow.png" class="arrow_two"></image>
+                    </view>
+                    <view class="info_4">
+                      <l-tag plain="{{true}}" size="mini">换乘{{item.transfer_time}}</l-tag>
+                    </view>
+                    <view class="info_1">
+                      <image src="/images/light_arrow.png" class="arrow_two"></image>
+                    </view>
+                    <view class="info_2">
+                      <view class="transfer_time">{{item.t2_time_end}}</view>
+                    </view>
+                  </view>
+
+                  <view class="four_stations">
+                    <view class = "station_item"><l-tag plain="{{false}}" size="mini">{{item.t1_station_start}}</l-tag></view>
+                    <view class = "station_item"><l-tag plain="{{true}}" size="mini">{{item.t1_station_end}}</l-tag></view>
+                    <view class = "station_item"><l-tag plain="{{true}}" size="mini">{{item.t2_station_start}}</l-tag></view>
+                    <view class = "station_item"><l-tag plain="{{false}}" size="mini">{{item.t2_station_end}}</l-tag></view>
+                  </view>
+
+                  <view class="date_and_price">
+                    <view class="three_info">
+                      <view class="date">{{item.t1_date}}出发</view>
+                    </view>
+                    <view class="three_info">
+                      <view class="total_time">总时长{{item.total_time}}</view>
+                    </view>
+                    <view class="three_info">
+                      <view class="price_transfer">￥{{item.total_price}}起</view>
+                    </view>
+                  </view>
+                  
+                </view>
+        </view>
+        <view wx:else>其它</view>
+      </view>
+    </view>
+    <view wx:else class="empty_text">暂无未来出行计划</view>
+  </l-tabpanel>
+  <l-tabpanel tab="历史出行计划" key="two" slot="two">
+    <view wx:if="{{hasPrePlans}}">
+      <view wx:for="{{prePlans}}" wx:key="key" wx:for-item="item">
+        <view wx:if="{{item.type == '飞机'}}">
+                <view class="list_item">
+                  <view class="img">
+
+                    <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_airplane" data-index="{{index}}"/>
+                    <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_airplane" data-index="{{index}}"/>
+
+                    <image src="/images/{{item.airline}}.jpg"  mode="widthFix"/>
+                  </view>
+                  <view class="info" bindtap="navigate2air" data-index="{{item.id}}">
+                    <view class="number_and_price">
+                      <view class="number">{{item.flightno}}</view>
+                      <view class="price">￥{{item.minprice}}起</view>
+                    </view>
+                
+                    <view class="date_and_city">
+                      <view class="date">{{item.departdate}}</view>
+                      <view class="city">{{item.city}} —— {{item.endcity}}</view>
+                    </view>
+                    <view class="times" style="width: 462rpx; height: 52rpx; display: flex; box-sizing: border-box">
+                      <view class="time_left">{{item.departtime}}</view>
+                      <image src="/images/light_arrow.png" class="arrow"></image>
+                      <view class="time_right">{{item.arrivaltime}}</view>
+                    </view>
+
+                    <view class="times">
+                      <l-tag plain="{{true}}" class="airport_left" size="mini">{{item.departport}}</l-tag>
+                      <l-tag plain="{{true}}" class="airport_right" size="mini">{{item.arrivalport}}</l-tag>
+                    </view>
+                
+                    <view class="num"></view>
+                
+                  </view>
+                  <view class="clear"></view>
+                </view>
+        </view>
+        <view wx:elif="{{item.type == '火车'}}">
+                <view class="list_item">
+                  <view class="img">
+
+                    <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_train" data-index="{{index}}"/>
+                    <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_train" data-index="{{index}}"/>
+
+                    <image src="/images/铁路.jpg"  mode="widthFix"/>
+                  </view>
+                  <view class="info" bindtap="navigate2train" data-index="{{item.id}}">
+                    <view class="number_and_price">
+                      <view class="number">{{item.trainno}}</view>
+                      <view class="price">￥{{item.train_price}}起</view>
+                    </view>
+                
+                    <view class="date_and_city">
+                      <view class="date">{{item.departdate}}</view>
+                      <!-- <view class="city">{{item.train_city_start}} —— {{item.train_city_end}}</view> -->
+                    </view>
+                    <view class="times" style="width: 462rpx; height: 52rpx; display: flex; box-sizing: border-box">
+                      <view class="time_left">{{item.departtime}}</view>
+                      <image src="/images/light_arrow.png" class="arrow"></image>
+                      <view class="time_right">{{item.arrivaltime}}</view>
+                    </view>
+
+                    <view class="times">
+                      <l-tag plain="{{true}}" class="airport_left" size="mini">{{item.station}}</l-tag>
+                      <l-tag plain="{{true}}" class="airport_right" size="mini">{{item.endstation}}</l-tag>
+                    </view>
+                
+                    <view class="num"></view>
+                
+                  </view>
+                  <view class="clear"></view>
+                </view>
+        </view>
+        <view wx:elif="{{item.type == '换乘'}}">
+                <view class="icon_transfer">
+                  <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_transfer" data-index="{{index}}"/>
+                  <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_transfer" data-index="{{index}}"/>
+                </view>
+                
+                <view class="list_item_transfer" bindtap="navigate2transfer" data-index1="{{item.t1_id}}" data-index2="{{item.t2_id}}" data-type1="{{item.t1_type}}" data-type2="{{item.t2_type}}">
+
+                  <view class="times">
+                    <view class="info_2">
+                      <image src="{{item.t1_type=='飞机'?'/images/flight_icon.png':'/images/railway_icon.png'}}" class="air_and_train_icon"></image>
+                    </view>
+                    <view class="info_3">
+                      <view class="number_transfer">{{item.t1_number}}</view>
+                    </view>
+                    <view class="info_3">
+                      <view class="number_transfer">{{item.t2_number}}</view>
+                    </view>
+                    <view class="info_2">
+                      <image src="{{item.t2_type=='飞机'?'/images/flight_icon.png':'/images/railway_icon.png'}}" class="air_and_train_icon"></image>
+                    </view>
+                  </view>
+
+                  <view class="icons">
+                    <view class="info_2">
+                      <view class="transfer_time">{{item.t1_time_start}}</view>
+                    </view>
+                    <view class="info_1">
+                      <image src="/images/light_arrow.png" class="arrow_two"></image>
+                    </view>
+                    <view class="info_4">
+                      <l-tag plain="{{true}}" size="mini">换乘{{item.transfer_time}}</l-tag>
+                    </view>
+                    <view class="info_1">
+                      <image src="/images/light_arrow.png" class="arrow_two"></image>
+                    </view>
+                    <view class="info_2">
+                      <view class="transfer_time">{{item.t2_time_end}}</view>
+                    </view>
+                  </view>
+
+                  <view class="four_stations">
+                    <view class = "station_item"><l-tag plain="{{false}}" size="mini">{{item.t1_station_start}}</l-tag></view>
+                    <view class = "station_item"><l-tag plain="{{true}}" size="mini">{{item.t1_station_end}}</l-tag></view>
+                    <view class = "station_item"><l-tag plain="{{true}}" size="mini">{{item.t2_station_start}}</l-tag></view>
+                    <view class = "station_item"><l-tag plain="{{false}}" size="mini">{{item.t2_station_end}}</l-tag></view>
+                  </view>
+
+                  <view class="date_and_price">
+                    <view class="three_info">
+                      <view class="date">{{item.t1_date}}出发</view>
+                    </view>
+                    <view class="three_info">
+                      <view class="total_time">总时长{{item.total_time}}</view>
+                    </view>
+                    <view class="three_info">
+                      <view class="price_transfer">￥{{item.total_price}}起</view>
+                    </view>
+                  </view>
+                  
+                </view>
+        </view>
+        <view wx:else>其它</view>
+      </view>
+    </view>
+    <view wx:else class="empty_text">暂无历史出行计划</view>
+  </l-tabpanel>
+</l-tabs>
