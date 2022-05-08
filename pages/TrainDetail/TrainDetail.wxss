@@ -82,6 +82,7 @@
 
 .d2a_d {
   display: inline-block;
+  vertical-align: bottom;
   width: 34%;
 }
 
@@ -102,11 +103,12 @@
   display: inline-block;
   width: 110%;
   height: 50rpx;
-  margin-bottom: 20rpx;
+  margin-bottom: 50rpx;
 }
 
 .d2a_a {
   display: inline-block;
+  vertical-align: bottom;
   width: 32%;
 }
 
@@ -126,6 +128,7 @@
 .d2a_port {
   text-align: center;
   font-size: medium;
+  height: 70rpx;
   margin-bottom: 10rpx;
 }
 

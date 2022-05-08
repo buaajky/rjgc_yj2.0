@@ -1,12 +1,20 @@
 <!--pages/footprint/footprint.wxml-->
 
-<map class="map" name="map" subkey = "UMABZ-NKAKX-ILH4J-TFRB2-5EVZV-PWBIJ" layer-style="2"
+<map class="map" name="map" subkey = "F5PBZ-OEJK4-PEFUZ-D4MXI-MKQYS-V4FYQ" layer-style="2"
 show-compass="true" enable-3D="true" skew="25" enable-overlooking = "true" 
 markers="{{markers}}" polyline="{{polyline}}"
 longitude="{{(longitude == null)? 116.397827 : longitude}}" latitude="{{(latitude == null)? 39.90374 : latitude}}" 
-scale="{{(longitude == null)? 7 : 8}}"
+scale="{{5}}"
 >
 </map>
+
+<view class="lengend">
+  <view wx:for="{{linecolor_map}}" wx:key="index">
+     <!-- <view class="lengend_text">{{index}}：</view> -->
+     <image class="lengend_image" src="{{lineicon_map[index]}}"></image>
+     <view class="lengend_line" style="background-color: {{item}};"></view>  
+  </view>
+</view>
 
 <view class = "box">
     <view class = "usr_info">

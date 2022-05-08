@@ -112,12 +112,12 @@
     <view>{{plan1_minprice}}元</view>
     <view style="font-size: 20rpx;">省{{plan2_minprice-plan1_minprice}}元</view>
   </view>
-  <view class="plan1_c" wx:else>{{plan1_minprice}}元</view>
+  <view class="plan1_c" wx:else>{{plan1_minprice == -1? '缺省':plan1_minprice + '元'}}</view>
   <view class="plan2_c" wx:if="{{lessprice == 2}}" style="color:green">
     <view>{{plan2_minprice}}元</view>
     <view style="font-size: 20rpx;">省{{plan1_minprice-plan2_minprice}}元</view>
   </view>
-  <view class="plan2_c" wx:else>{{plan2_minprice}}元</view>
+  <view class="plan2_c" wx:else>{{plan2_minprice == -1? '缺省':plan2_minprice + '元'}}</view>
 </view>
 
 <view class="row_exchange">

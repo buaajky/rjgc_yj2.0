@@ -36,13 +36,13 @@
 }
 
 .basic_date {
-  width: 29%;
+  width: 20%;
   display: inline-block;
   font-size: small;
 }
 
 .p2p {
-  width: 25%;
+  width: 34%;
   display: inline-block;
   font-size: small;
 }

@@ -69,8 +69,8 @@ Page({
     plan2_arrivaltime:"",
     plan1_costtime:"",
     plan2_costtime:"",
-    plan1_minprice:0,
-    plan2_minprice:0,
+    plan1_minprice:-1,
+    plan2_minprice:-1,
     plan1_exchange:"",
     plan2_exchange:"",
     lesstime:0,
@@ -86,7 +86,6 @@ Page({
    */
   onLoad(options) {
     var that = this;
-    //todo
     var tmp = JSON.parse(options.tmp); 
     console.log(tmp)
     var plan1 = [];
@@ -198,7 +197,7 @@ Page({
       var tmp1 = {
         type:source.t1_type == '飞机'? 'a':'t',
         no:source.t1_number,
-        company:source.t1_company,//todo
+        company:source.t1_company,
         departport:source.t1_type == '飞机'?source.t1_station_start:source.t1_station_start + '站',
         arrivalport:source.t1_type == '飞机'?source.t1_station_end:source.t1_station_end + '站',
         arrivalcity:""
@@ -269,6 +268,8 @@ Page({
 
   cmpMinPrice: function() {
     var that = this;
+    if (that.data.plan1_minprice == -1 || that.data.plan2_minprice == -1) return 0;
+
     if (that.data.plan1_minprice > that.data.plan2_minprice) return 2;
     else if (that.data.plan1_minprice < that.data.plan2_minprice) return 1;
     return 0;
