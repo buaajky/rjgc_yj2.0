@@ -268,7 +268,7 @@ Page({
 
   cmpMinPrice: function() {
     var that = this;
-    if (that.data.plan1_minprice == -1 || that.data.plan2_minprice == -1) return 0;
+    if (that.data.plan1_minprice == 0 || that.data.plan2_minprice == 0) return 0;
 
     if (that.data.plan1_minprice > that.data.plan2_minprice) return 2;
     else if (that.data.plan1_minprice < that.data.plan2_minprice) return 1;

@@ -54,7 +54,7 @@ Page({
       var that = this
       var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
       wx.request({
-        url: utils.server_hostname + '/api/core/ads/'+id,
+        url: utils.server_hostname + '/api/core/ads/'+id+'/',
         method: 'POST',
         header: {
           'content-type': 'application/json',
