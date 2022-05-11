@@ -777,7 +777,7 @@ Page({
               traffic_city_end:'',
               traffic_id:''
             }
-            tmp1.traffic_company = res.data[i].airline
+            tmp1.traffic_company = utils.airline_Chinese_to_number(res.data[i].airline)
             tmp1.traffic_number = res.data[i].flightno
             tmp1.traffic_date = res.data[i].departdate
             tmp1.traffic_time_start = res.data[i].departtime.substring(0, 5)
@@ -937,7 +937,7 @@ Page({
                     // console.log(result.data)
                     var lll = result.data[0]
                     // console.log(lll)
-                    tmp1.traffic_company = lll.airline
+                    tmp1.traffic_company = utils.airline_Chinese_to_number(lll.airline)
                     tmp1.traffic_number = lll.flightno
                     tmp1.traffic_date = lll.departdate
                     tmp1.traffic_time_start = lll.departtime.substring(0, 5)

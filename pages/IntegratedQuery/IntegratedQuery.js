@@ -241,7 +241,7 @@ compare_do: function(e) {
         var item = {
 
         flightno: that.data.airplaneList[i].flightno,
-        airline: that.data.airplaneList[i].airline,
+        airline: that.data.airplaneList[i].airline_Chinese,
         city: that.data.airplaneList[i].city,
         endcity: that.data.airplaneList[i].endcity,
         departport: that.data.airplaneList[i].departport,
@@ -331,6 +331,8 @@ get_air_list:function(date) {
         lll[i].selected = false
         lll[i].arrivaltime = lll[i].arrivaltime.substring(0, 5)
         lll[i].departtime = lll[i].departtime.substring(0,5)
+        lll[i].airline_Chinese = lll[i].airline
+        lll[i].airline = utils.airline_Chinese_to_number(lll[i].airline)
       }
       lll.sort((a, b)=>{return a.minprice - b.minprice});
       that.setData({
@@ -488,7 +490,7 @@ getPlaneInfo:function(id, trans, no) {
           trans.t2_time_end = lll.arrivaltime.substring(0, 5)
           trans.t2_station_start = lll.departport
           trans.t2_station_end = lll.arrivalport
-          trans.total_price += lll.minprice
+          trans.total_price = (lll.minprice != 0 && trans.total_price != 0) ? lll.minprice + trans.total_price : 0
           trans.total_time = utils.calIntervalTime(trans.total_time, lll.arrivaldate + " " + lll.arrivaltime)
           trans.transfer_time = utils.calIntervalTime(trans.transfer_time, lll.departdate + " " + lll.departtime)
           trans.t2_id = lll.id
@@ -539,7 +541,8 @@ getTrainInfo:function(id, trans, no) {
           for (let j in lll.prices) {
             if (lll.prices[j].price < min){min = lll.prices[j].price}
           }
-          trans.total_price += ((min == 10000) ? 0 : min)
+          min = ((min == 10000) ? 0 : min)
+          trans.total_price = (min != 0 && trans.total_price != 0) ? trans.total_price + min : 0 
           trans.total_time = utils.calIntervalTime(trans.total_time, lll.arrivaldate + " " + lll.arrivaltime)
           trans.transfer_time = utils.calIntervalTime(trans.transfer_time, lll.departdate + " " + lll.departtime)
           trans.t2_id = lll.id

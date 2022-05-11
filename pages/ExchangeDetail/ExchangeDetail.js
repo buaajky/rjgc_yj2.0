@@ -251,7 +251,7 @@ Page({
       plans:plan,
       startcity:plan[0].departcity,
       endcity:plan[plan.length-1].arrivalcity,
-      departdate:that.getDate(plan[0].departdate),
+      departdate:plan[0].departdate,
       departweek: utils.getWeekByDate(plan[0].departdate),
       costtime:utils.calIntervalTime(plan[0].departdate + " " + plan[0].departtime, plan[plan.length-1].arrivaldate + " " + plan[plan.length-1].arrivaltime)
     })
@@ -410,11 +410,6 @@ Page({
       })
     }
     )
-  },
-
-  getDate: function(date) {//yyyy-mm-dd 2 mm-dd
-    var d = date.split("-");
-    return d[1] + '-' + d[2];
   },
 
   getTime: function(time) {

@@ -576,7 +576,7 @@ get_traffic: function(){
             traffic_city_end:'',
             traffic_id:''
           }
-          tmp1.traffic_company = res.data[i].airline
+          tmp1.traffic_company = utils.airline_Chinese_to_number(res.data[i].airline)
           tmp1.traffic_number = res.data[i].flightno
           tmp1.traffic_date = res.data[i].departdate
           tmp1.traffic_time_start = res.data[i].departtime.substring(0, 5)

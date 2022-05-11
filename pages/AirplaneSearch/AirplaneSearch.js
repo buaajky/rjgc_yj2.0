@@ -1,4 +1,5 @@
-const { server_hostname } = require("../../utils/util")
+const { server_hostname } = require("../../utils/util");
+const utils = require("../../utils/util.js");
 
 // pages/AirplaneSearch/AirplaneSearch.js
 Page({
@@ -123,6 +124,9 @@ Page({
   var that = this;
   for (var i in that.data.alldataList) {
     if (that.data.alldataList[i].departdate == date) tmp.push(that.data.alldataList[i]);
+  }
+  for (var i in tmp) {
+    tmp[i].airline = utils.airline_Chinese_to_number(tmp[i].airline)
   }
   that.setData({
     dataList:tmp

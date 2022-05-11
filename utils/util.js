@@ -16,9 +16,10 @@ const formatNumber = n => {
 
 const server_hostname = {
   //url: "https://tra-fr-2.zhouyc.cc"
-  url: "http://114.116.197.121:9000"
+  // url: "https://114.116.197.121"
   // url:"http://114.116.53.144"
   // url:"http://localhost"
+  url: "http://114.116.197.121:9000"
 }
 
 module.exports = {
@@ -261,6 +262,68 @@ module.exports = {
     var ans = "";
     if (hour > 0) ans += hour + "h";
     if (minute > 0) ans += minute + "min";
+    return ans;
+  },
+
+  airline_Chinese_to_number: function(input) {
+    var ans = 'airline_';
+    if (input == "成都航空") {
+      ans = ans + 'cd';
+    }
+    else if (input == "春秋航空") {
+      ans = ans + 'cq';
+    }
+    else if (input == "东方航空") {
+      ans = ans + 'df';
+    }
+    else if (input == "海南航空") {
+      ans = ans + 'hn';
+    }
+    else if (input == "华夏航空") {
+      ans = ans + 'hx';
+    }
+    else if (input == "吉祥航空") {
+      ans = ans + 'jx';
+    }
+    else if (input == "南方航空") {
+      ans = ans + 'nf';
+    }
+    else if (input == "厦门航空") {
+      ans = ans + 'xm';
+    }
+    else if (input == "山东航空") {
+      ans = ans + 'sd';
+    }
+    else if (input == "上海航空") {
+      ans = ans + 'sh';
+    }
+    else if (input == "深圳航空") {
+      ans = ans + 'sz';
+    }
+    else if (input == "首都航空") {
+      ans = ans + 'bj';
+    }
+    else if (input == "四川航空") {
+      ans = ans + 'sc';
+    }
+    else if (input == "天津航空") {
+      ans = ans + 'tj';
+    }
+    else if (input == "西藏航空") {
+      ans = ans + 'xz';
+    }
+    else if (input == "长龙航空") {
+      ans = ans + 'cl';
+    }
+    else if (input == "中国国航") {
+      ans = ans + 'gh';
+    }
+    else if (input == "中国联航") {
+      ans = ans + 'lh';
+    }
+    else {
+      ans = 'flight_icon';
+    }
     return ans;
   }
 
