@@ -165,6 +165,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/TrafficSearch/TrafficSearch",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

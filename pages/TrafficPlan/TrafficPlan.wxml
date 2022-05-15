@@ -16,7 +16,8 @@
                   <view class="info" bindtap="navigate2air" data-index="{{item.id}}">
                     <view class="number_and_price">
                       <view class="number">{{item.flightno}}</view>
-                      <view class="price">￥{{item.minprice}}起</view>
+                      <view class="price" wx:if="{{item.minprice != 0}}">￥{{item.minprice}}起</view>
+                      <view class="price" wx:else>暂无价格信息</view>
                     </view>
                 
                     <view class="date_and_city">
@@ -47,12 +48,13 @@
                     <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_train" data-index="{{index}}"/>
                     <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_train" data-index="{{index}}"/>
 
-                    <image src="/images/铁路.jpg"  mode="widthFix"/>
+                    <image src="/images/zt.jpg"  mode="widthFix"/>
                   </view>
                   <view class="info" bindtap="navigate2train" data-index="{{item.id}}">
                     <view class="number_and_price">
                       <view class="number">{{item.trainno}}</view>
-                      <view class="price">￥{{item.train_price}}起</view>
+                      <view class="price" wx:if="{{item.train_price != 0}}">￥{{item.train_price}}起</view>
+                      <view class="price" wx:else>暂无价格信息</view>
                     </view>
                 
                     <view class="date_and_city">
@@ -81,7 +83,7 @@
                   <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_transfer" data-index="{{index}}"/>
                   <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_transfer" data-index="{{index}}"/>
                 </view>
-                
+
                 <view class="list_item_transfer" bindtap="navigate2transfer" data-index1="{{item.t1_id}}" data-index2="{{item.t2_id}}" data-type1="{{item.t1_type}}" data-type2="{{item.t2_type}}">
 
                   <view class="times">
@@ -132,7 +134,8 @@
                       <view class="total_time">总时长{{item.total_time}}</view>
                     </view>
                     <view class="three_info">
-                      <view class="price_transfer">￥{{item.total_price}}起</view>
+                      <view class="price_transfer" wx:if="{{item.total_price != 0}}">￥{{item.total_price}}起</view>
+                      <view class="price_transfer" wx:else>暂无价格信息</view>
                     </view>
                   </view>
                   
@@ -158,7 +161,8 @@
                   <view class="info" bindtap="navigate2air" data-index="{{item.id}}">
                     <view class="number_and_price">
                       <view class="number">{{item.flightno}}</view>
-                      <view class="price">￥{{item.minprice}}起</view>
+                      <view class="price" wx:if="{{item.minprice != 0}}">￥{{item.minprice}}起</view>
+                      <view class="price" wx:else>暂无价格信息</view>
                     </view>
                 
                     <view class="date_and_city">
@@ -189,12 +193,13 @@
                     <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_train" data-index="{{index}}"/>
                     <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_train" data-index="{{index}}"/>
 
-                    <image src="/images/铁路.jpg"  mode="widthFix"/>
+                    <image src="/images/zt.jpg"  mode="widthFix"/>
                   </view>
                   <view class="info" bindtap="navigate2train" data-index="{{item.id}}">
                     <view class="number_and_price">
                       <view class="number">{{item.trainno}}</view>
-                      <view class="price">￥{{item.train_price}}起</view>
+                      <view class="price" wx:if="{{item.train_price != 0}}">￥{{item.train_price}}起</view>
+                      <view class="price" wx:else>暂无价格信息</view>
                     </view>
                 
                     <view class="date_and_city">
@@ -223,7 +228,7 @@
                   <icon wx:if="{{item.selected && compare_show}}" type="success" color="#3963bc" bindtap="selectList_transfer" data-index="{{index}}"/>
                   <icon wx:elif="{{compare_show}}" type="circle" bindtap="selectList_transfer" data-index="{{index}}"/>
                 </view>
-                
+
                 <view class="list_item_transfer" bindtap="navigate2transfer" data-index1="{{item.t1_id}}" data-index2="{{item.t2_id}}" data-type1="{{item.t1_type}}" data-type2="{{item.t2_type}}">
 
                   <view class="times">
@@ -274,7 +279,8 @@
                       <view class="total_time">总时长{{item.total_time}}</view>
                     </view>
                     <view class="three_info">
-                      <view class="price_transfer">￥{{item.total_price}}起</view>
+                      <view class="price_transfer" wx:if="{{item.total_price != 0}}">￥{{item.total_price}}起</view>
+                      <view class="price_transfer" wx:else>暂无价格信息</view>
                     </view>
                   </view>
                   

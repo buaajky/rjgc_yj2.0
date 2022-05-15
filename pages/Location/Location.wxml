@@ -17,25 +17,62 @@
                 front-icon-color="coral" front-icon-name="warning" front-icon-size="30"
                 type="roll" speed="1200">{{notice}}</l-notice-bar>
   <view class="two_button">
-    <l-button l-class="favorite_button"
+    <view wx:if="{{!hasFavor && !hasBlock}}">
+      <l-button l-class="favorite_button"
+                icon="favor" icon-size="30" icon-color="#fff"
+                type="default" size="large" shape="semicircle" width="50"
+                bg-color="#3963bc" bind:lintap="favorLocButton">
+        <view class="fav_block_button_label">收藏地点</view>
+      </l-button>
+      <l-button l-class="block_button" plain="{{true}}"
+                icon="error" icon-size="30" icon-color=""
+                type="default" size="large" shape="semicircle" width="50"
+                bind:lintap="blockLocButton">
+        <view class="fav_block_button_label">屏蔽地点</view>
+      </l-button>
+    </view>
+    <view wx:elif="{{hasFavor && !hasBlock}}">
+      <l-button l-class="has_favor_block_button" style="opacity: 0.7;"
+                icon="favor" icon-size="30" icon-color="#fff"
+                type="default" size="large" shape="semicircle" width="50"
+                bg-color="#3963bc" bind:lintap="favorLocButton">
+        <view class="fav_block_button_label">已收藏地点</view>
+      </l-button>
+    </view>
+    <view wx:elif="{{!hasFavor && hasBlock}}">
+      <l-button l-class="has_favor_block_button" style="opacity: 0.7;" plain="{{true}}"
+                icon="error" icon-size="30" icon-color=""
+                type="default" size="large" shape="semicircle" width="50"
+                bind:lintap="blockLocButton">
+        <view class="fav_block_button_label">已屏蔽地点</view>
+      </l-button>
+    </view>
+  </view>
+    <!-- <l-button wx:if="{{!hasFavor && !hasBlock}}" l-class="favorite_button"
               icon="favor" icon-size="30" icon-color="#fff"
               type="default" size="large" shape="semicircle" width="50"
               bg-color="#3963bc" bind:lintap="favorLocButton">
-      <view class="fav_block_button_label">
-        <view wx:if="{{!hasFavor}}">收藏地点</view>
-        <view wx:else>取消收藏</view>
-      </view>
+      <view class="fav_block_button_label">收藏地点</view>
     </l-button>
-    <l-button l-class="block_button" plain="{{true}}"
+    <l-button wx:else l-class="favorite_button" style="opacity: 0.7;"
+              icon="favor" icon-size="30" icon-color="#fff"
+              type="default" size="large" shape="semicircle" width="50"
+              bg-color="#3963bc" bind:lintap="favorLocButton">
+      <view class="fav_block_button_label">已收藏地点</view>
+    </l-button>
+
+    <l-button wx:if="{{!hasBlock && !hasBlock}}" l-class="block_button" plain="{{true}}"
               icon="error" icon-size="30" icon-color=""
               type="default" size="large" shape="semicircle" width="50"
               bind:lintap="blockLocButton">
-      <view class="fav_block_button_label">
-        <view wx:if="{{!hasBlock}}">屏蔽地点</view>
-        <view wx:else>取消屏蔽</view>
-      </view>
+      <view class="fav_block_button_label">屏蔽地点</view>
     </l-button>
-  </view>
+    <l-button wx:else l-class="block_button" style="opacity: 0.7;" plain="{{true}}"
+              icon="error" icon-size="30" icon-color=""
+              type="default" size="large" shape="semicircle" width="50"
+              bind:lintap="blockLocButton">
+      <view class="fav_block_button_label">已屏蔽地点</view>
+    </l-button> -->
 
   <view class="divview"></view>
 

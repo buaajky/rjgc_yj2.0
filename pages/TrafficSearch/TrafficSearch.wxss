@@ -74,14 +74,20 @@
   margin-left: 16%;
 }
 
+.leave_date_blank {
+  margin-left: 8%;
+}
+
 .leave_date_button {
-  margin-left: 25%;
-  display: flex;
+  /* margin-left: 27%;
+  display: flex; */
   width: 35%;
   height: 100%;
-  align-items: center;
+  /* align-items: center;
   justify-content: center;  
-  text-align: center;
+  text-align: left; */
+  margin-left: 0rpx;
+  padding-left: 0rpx;
 }
 
 

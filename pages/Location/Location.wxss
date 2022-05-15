@@ -66,11 +66,14 @@
 }
 
 /* NEW */
-.favorite_button {
+.two_button {
   margin-top: 30rpx;
-  margin-left: 2%;
+}
+
+.favorite_button {
+  margin-left: 3%;
   display: flex;
-  width: 40%;
+  width: 45%;
   height: 100%;
   align-items: center;
   justify-content: center;  
@@ -78,20 +81,30 @@
 }
 
 .block_button {
-  margin-top: 30rpx;
-  margin-left: 16%;
-  margin-right: 2%;
+  margin-left: 4%;
+  margin-right: 3%;
   display: flex;
-  width: 40%;
+  width: 45%;
   height: 100%;
   align-items: center;
   justify-content: center;  
   text-align: center;
 }
 
-.fav_block_button_label {
-  font-size: 1.0em;
+.has_favor_block_button {
+  margin-left: 3%;
+  margin-right: 3%;
+  display: flex;
+  width: 94%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;  
+  text-align: center;
 }
+
+/* .fav_block_button_label {
+  font-size: 1.0em;
+} */
 
 .notice_detail_title {
   text-align: center;

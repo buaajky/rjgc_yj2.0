@@ -68,6 +68,7 @@
           <view class="select_city_font_left">出行日</view>
           <!--<view class="have_select_date_desc">今天</view>-->
         </l-button>
+        <view class="leave_date_blank" />
         <l-button l-class="leave_date_button" icon=""
                   type="default" size="medium" shape="" 
                   bg-color="#ffffff" bind:lintap="">
@@ -233,7 +234,7 @@
     </swiper>
 </view>-->
 <view wx:if="{{get_data}}">
-    <view class="relative_title">热门地点廉航</view>
+    <view class="relative_title">热门地点廉价航班</view>
     <swiper class="cheap_airplane-list" indicator-dots>
       <block wx:for="{{dataList}}" wx:key="list" wx:for-item="item">
        <swiper-item class="airplane_ticket_item">

@@ -99,7 +99,7 @@
             </view>
 
             <view class="times">
-              <l-tag plain="{{true}}" class="airport_left" size="mini">{{item.departstation}}</l-tag>
+              <l-tag plain="{{true}}" class="airport_left" size="mini">{{item.station}}</l-tag>
               <l-tag plain="{{true}}" class="airport_right" size="mini">{{item.endstation}}</l-tag>
             </view>
         

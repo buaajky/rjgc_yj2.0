@@ -371,6 +371,8 @@ Page({
         for (let i in tmp) {
           tmp[i].departtime = tmp[i].departtime.substring(0, 5)
           tmp[i].arrivaltime = tmp[i].arrivaltime.substring(0, 5)
+          tmp[i].airline_Chinese = tmp[i].airline
+          tmp[i].airline = utils.airline_Chinese_to_number(tmp[i].airline)
         }
         if (tmp != false) {
           that.setData({

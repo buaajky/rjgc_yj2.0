@@ -78,8 +78,10 @@ Page({
 
     // NEW
     that.getNoticeBar(that.data.locs.name); //获取抵达城市防疫公告
-    that.favorLoc('que')
-    that.blockLoc('que')
+    if (wx.getStorageSync('token') != '') {
+      that.favorLoc('que')
+      that.blockLoc('que')
+    }
     //console.log(this.data.locs)
     /* 2022 */
     that.get_traffic()
@@ -179,6 +181,10 @@ Page({
     console.log("favorLoc(" + curOp + ") end")
   },
   favorLocButton: function() {
+    if(wx.getStorageSync('token') == '') {
+      utils.unLogin();
+      return;
+    }
     if (this.data.hasFavor == false) {
       this.favorLoc("add")
     } else {
@@ -258,6 +264,10 @@ Page({
     console.log("blockLoc(" + curOp + ") end")
   },
   blockLocButton: function() {
+    if (wx.getStorageSync('token') == '') {
+      utils.unLogin();
+      return;
+    }
     if (this.data.hasBlock == false) {
       this.blockLoc("add")
     } else {

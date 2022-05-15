@@ -262,7 +262,7 @@ compare_do: function(e) {
 
           trainno: that.data.trainList[i].trainno,
           typename: that.data.trainList[i].typename,
-          departstation: that.data.trainList[i].departstation,
+          departstation: that.data.trainList[i].station,
           endstation: that.data.trainList[i].endstation,
           departdate: that.data.trainList[i].departdate,
           departtime: that.data.trainList[i].departtime,
