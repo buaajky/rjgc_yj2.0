@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "l-tabs":"/miniprogram_npm/lin-ui/tabs",
+    "l-tabpanel":"/miniprogram_npm/lin-ui/tabpanel"
+  },
+  "navigationBarTitleText": "话题标签"
+}

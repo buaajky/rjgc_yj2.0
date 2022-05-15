@@ -13,7 +13,7 @@
 .searchbox{
     display: flex;
     height: 100rpx;
-    width: 90%;
+    width: 100%;
     box-shadow: 0 0 10rpx 5rpx rgba(219, 219, 219, 0.925);
     border-radius: 100rpx;
     vertical-align: center; 
@@ -44,7 +44,8 @@
     width:80%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size:medium;
-    color:gainsboro;
+    color: black;
+    /* color:gainsboro; */
     font-weight: lighter;
 }
 
@@ -337,7 +338,7 @@
 .tabbar_cover_view_3 {
     position: fixed;
     top: calc(88%);
-    left: calc(9%);
+    left: calc(0.5%);
     opacity: .8;
     border: 100rpx;
     background:white;
@@ -370,7 +371,7 @@
     display: flex;
     justify-content: center;
     align-content:center;
-    width: 150rpx;
+    width: 145rpx;
     height: 100rpx;
 }
 

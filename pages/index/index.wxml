@@ -5,7 +5,7 @@
                 <image src = "{{server_imagename}}/magnifier.png" mode = 'widthFix' class = "search_icon_pic">
                 </image>
             </view>
-            <input class = "input_box" value = "{{input_value}}" confirm-type="search" bindconfirm="navigate2SearchResult" bindtap="clearDefault">
+            <input class = "input_box" value = "{{input_value}}" confirm-type="search" placeholder="最近大家都去哪儿？" bindconfirm="navigate2SearchResult" bindtap="clearDefault">
             </input>
             <view class = "clear_icon">
                 <image src ="{{server_imagename}}/clear.png" mode = 'widthFix' class = "clear_icon_pic" bindtap = "clear">
@@ -13,13 +13,7 @@
                 </image>
              </view>
         </view>
-        <view class = 'notificationbox' bindtap = 'navigate2Notification'>
-            <view class = "notification_icon">
-                <image src = "{{server_imagename}}/notification.png" mode = 'widthFix' class = "notification_icon_pic">
-                </image>
-                <mp-badge wx:if="{{notification}}" class="badge"/>
-            </view>
-        </view>
+        
     </view>
     <view class = "ad_box">
         <swiper class = "ad_swpier" indicator-dots="true" interval="5000" autoplay = "true" duration = "500" circular="true" indicator-active-color="black">
@@ -210,6 +204,14 @@
             </cover-view>
         </cover-view>
         <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "/images/transport_grey.png" mode = "widthFix" bindtap="navigate2TrafficSearch"></cover-image>
+                <cover-view class = "tabbar_text">
+                出行
+                </cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view class="flex-item_3">
           <cover-view class = "tabbar_pic_text"> 
                 <cover-image class = "tabbar_pic" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release"></cover-image>
                 <cover-view class = "tabbar_text">
@@ -218,10 +220,11 @@
             </cover-view>
         </cover-view>
         <cover-view class="flex-item_3">
-            <cover-view class = "tabbar_pic_text"> 
-                <cover-image class = "tabbar_pic" src = "/images/transport_grey.png" mode = "widthFix" bindtap="navigate2TrafficSearch"></cover-image>
+          <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "/images/message_grey.png" mode = "widthFix" bindtap="navigate2Notification"></cover-image>
+                <mp-badge wx:if="{{notification}}" class="badge"/>
                 <cover-view class = "tabbar_text">
-                出行
+                消息
                 </cover-view>
             </cover-view>
         </cover-view>

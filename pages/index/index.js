@@ -22,7 +22,7 @@ Page({
       systemTop:0,
       scrollTop:0,
 
-      input_value:"五一去哪儿?",
+      input_value:"",
 
       showtab: 0, //顶部选项卡索引
       currentTab: 0,// tab切换
@@ -844,9 +844,20 @@ Page({
 
     navigate2SearchResult(e){
       var inputValue = e.detail.value
-      wx.navigateTo({
-        url: '/pages/SearchResult/SearchResult?value=' + inputValue,
-      })
+
+      inputValue = inputValue.replace(/^\s+|\s+$/g, '');//去掉首尾空白符
+      //判断是不是搜tag,首尾是#，最长匹配
+      var reg = new RegExp('^#.*#$');
+      // console.log(reg.exec(inputValue))
+      if (reg.exec(inputValue) != null) {
+        wx.navigateTo({
+          url: '/pages/TagDetail/TagDetail?value=' + inputValue,
+        })
+      }else {
+        wx.navigateTo({
+          url: '/pages/SearchResult/SearchResult?value=' + inputValue,
+        })
+      }
   },
 
   //转到交通方案查询

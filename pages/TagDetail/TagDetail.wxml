@@ -1,0 +1,109 @@
+<view class="header">
+</view>
+
+<view class="main">
+  <view class="main_head">
+    <image wx:if="{{travelheadpic != ''}}" src="{{travelheadpic}}" class="headpic"></image>
+    <image wx:if="{{travelheadpic == '' && isLocation && locheadpic != ''}}" src="{{locheadpic}}" class="headpic"></image>
+    <image wx:if="{{travelheadpic == '' && locheadpic == '' && locfinish && travelfinish}}" src="/images/tag_head_default.jpg" class="headpic"></image>
+    
+    <view class="tag_name">#{{tagname}}#</view>
+    <view class="tag_info">共{{views}}次浏览 · {{travel_ids.length}}篇游记 · {{pal_ids.length}}篇同行</view>
+    <button wx:if="{{isLocation}}" class="tag2location" bindtap="navigate2Loc">想对{{loc_name}}了解更多？</button>
+  </view>
+
+  <view class="divided"></view>
+
+  <view class="main_body">
+    <l-tabs placement="top" l-active-class="tabpanel">
+          <l-tabpanel tab="游记" key="one" slot="one">
+              <view wx:if="{{travel_ids.length == 0}}" style="background-color: transparent; color: grey; text-align: center;">该标签下暂无游记</view>
+              <view wx:for="{{travel_ids}}"  class ='travelRecord' id="{{index}}" bindtap="navigate2Travel" wx:key="item">
+                    <view class = "trCover">
+                        <image class = 'trCoverPic' src = '{{travel_covers[index]}}' mode="aspectFill"></image>
+                    </view>
+                    <view class = "tr_title">
+                        {{travel_titles[index]}}
+                    </view>
+                    <view class = "tr_protrait_nickname_like">
+                        <view class = "tr_protrait">
+                            <image class = "tr_protrait_pic" src = "{{travel_icons[index]}}" mode = "scaleToFill"> </image>
+                        </view>
+                        <view class = "tr_nickname">
+                            <text style = "font-weight:bolder">{{travel_nicknames[index]}}</text>
+                        </view>
+                        <view class = "tr_like">
+                            <image wx:if="{{travel_liked_now[index]==true}}"  src="{{server_imagename}}/likes.png" class = "tr_like_pic" mode = "aspectFit"  id = "{{index}}" catchtap="disThumbsUp"></image>
+                            <image wx:else src="{{server_imagename}}/like_grey.png" class = "tr_like_pic" mode = "aspectFit"  id = "{{index}}" catchtap="thumbsUp"></image>
+                            <view wx:if="{{travel_liked_now[index]==true}}" class = "tr_text">{{travel_likes[index]+(travel_liked[index]==false)}}</view>
+                            <view wx:else class = "tr_text">{{travel_likes[index]-(travel_liked[index]==true)}}</view>
+                        </view>
+                    </view>
+                    <view class = "trLocBox">
+                        <image class = "trLocIcon" src = "{{server_imagename}}/location.png" mode = "widthFix"></image>
+                        <view class = "trLocText">
+                            <text space="ensp">{{travel_names[index]}} </text>
+                        </view>
+                    </view>
+                </view>
+          </l-tabpanel>
+          <l-tabpanel tab="同行" key="two" slot="two">
+            <view wx:if="{{pal_ids.length == 0}}" style="background-color: transparent; color: grey; text-align: center;">该标签下暂无同行</view>
+            <view wx:for = "{{pal_ids}}" class = "peer_activity" wx:key="item" id="{{index}}" bindtap="navigate2Pal">
+                    <view class = "activity_owner">
+                        <view class = "activity_owner_protrait" >
+                            <image class = "activity_owner_protrait_pic" src= "{{pal_icons[index]}}" mode = "scaleToFill">
+                            </image>
+                        </view>
+                        <view class = "activity_owner_info">
+                            <view class = "activity_owner_nickname">
+                                {{pal_nicknames[index]}}
+                            </view>
+                            <view class = "activity_owner_gender">
+                                <image wx:if = "{{pal_genders[index]==0}}"class = "activity_owner_gender_pic" src= "{{server_imagename}}/male.png" mode = "heightFix"></image>
+                                <image wx:else class = "activity_owner_gender_pic" src= "{{server_imagename}}/female.png" mode = "heightFix"></image>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="divline"></view>
+                    <view class = "activity_detail">
+                        <view class = "activity_detail_item">
+                            <view class = "activity_subject">
+                                <text space="ensp"> {{pal_titles[index]}} </text>
+                            </view>
+                        </view>
+                        <view class = "activity_detail_item">
+                            <view class = "activity_detail_item_icon">
+                                <image class = "activity_detail_item_icon_pic" mode = "heightFix" src = "{{server_imagename}}/clock.png">
+                                </image>
+                            </view>
+                            <view class = "activity_time">
+                                {{pal_startTimes[index]}} 至 {{pal_endTimes[index]}}
+                            </view>
+                        </view>
+                        <view class = "activity_detail_item">
+                            <view class = "activity_detail_item_icon">
+                                <image class = "activity_detail_item_icon_pic" mode = "heightFix" src = "{{server_imagename}}/location_ peer.png">
+                                </image>
+                            </view>
+                            <view class = "activity_loc">
+                                {{pal_locations[index]}}
+                            </view>
+                        </view>
+                        <view class = "activity_detail_item">
+                            <view class = "activity_detail_item_icon">
+                                <image class = "activity_detail_item_icon_pic" mode = "heightFix" src = "{{server_imagename}}/mine_grey.png">
+                                </image>
+                            </view>
+                            <view class = "activity_time">
+                                {{pal_nums[index]}} / {{pal_capacities[index]}}
+                            </view>
+                        </view>
+                    </view>
+            </view>
+          </l-tabpanel>
+        </l-tabs>
+  </view>
+</view>
+
+

@@ -35,7 +35,8 @@
     "pages/IntegratedQuery/IntegratedQuery",
     "pages/MyLoc/MyLoc",
     "pages/TrafficSearch/TrafficSearch",
-    "pages/TrafficPlan/TrafficPlan"
+    "pages/TrafficPlan/TrafficPlan",
+    "pages/TagDetail/TagDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

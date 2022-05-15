@@ -172,6 +172,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/TagDetail/TagDetail",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
