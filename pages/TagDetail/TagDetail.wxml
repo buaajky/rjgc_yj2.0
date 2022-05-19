@@ -8,8 +8,9 @@
     <image wx:if="{{travelheadpic == '' && locheadpic == '' && locfinish && travelfinish}}" src="/images/tag_head_default.jpg" class="headpic"></image>
     
     <view class="tag_name">#{{tagname}}#</view>
-    <view class="tag_info">共{{views}}次浏览 · {{travel_ids.length}}篇游记 · {{pal_ids.length}}篇同行</view>
-    <button wx:if="{{isLocation}}" class="tag2location" bindtap="navigate2Loc">想对{{loc_name}}了解更多？</button>
+    <view wx:if="{{visible}}" class="tag_info">共{{views}}次浏览 · {{travel_ids.length}}篇游记 · {{pal_ids.length}}篇同行</view>
+    <view wx:else class="unvisible">{{visible_msg}}</view>
+    <button wx:if="{{visible && isLocation}}" class="tag2location" bindtap="navigate2Loc">想对{{loc_name}}了解更多？</button>
   </view>
 
   <view class="divided"></view>
@@ -46,6 +47,7 @@
                         </view>
                     </view>
                 </view>
+                <view wx:if = "{{hasMoreTravel}}" class = "show_more_info" bindtap = "showMoreTravel">点击显示更多...</view>
           </l-tabpanel>
           <l-tabpanel tab="同行" key="two" slot="two">
             <view wx:if="{{pal_ids.length == 0}}" style="background-color: transparent; color: grey; text-align: center;">该标签下暂无同行</view>
@@ -101,6 +103,7 @@
                         </view>
                     </view>
             </view>
+            <view wx:if = "{{hasMorePal}}" class = "show_more_info" bindtap = "showMorePal">点击显示更多...</view>
           </l-tabpanel>
         </l-tabs>
   </view>

@@ -45,6 +45,10 @@
   color: grey;
 }
 
+.unvisible {
+  color: red;
+}
+
 .tag2location {
   display: inline-block;
   width: 50%;
@@ -324,4 +328,11 @@ border-radius:100rpx;
   font-weight: normal;
   margin-left: 10rpx;
   margin-right: 10rpx;
+}
+
+.show_more_info{
+  display:flex;
+  justify-content: center;
+  text-align: center;
+  color: gray;
 }

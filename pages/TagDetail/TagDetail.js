@@ -12,6 +12,7 @@ Page({
     server_imagename: utils.server_imagename,
 
     tagname:"",
+    visible:true,
     
     travel_ids:[],
     travel_covers:[],
@@ -45,6 +46,16 @@ Page({
     travelheadpic:'',
     locfinish:false,
     travelfinish:false,
+    //游记、同行分页
+    pageSize: 1260,
+    pageSizeUnit:375,
+    travelPageSize:375,
+    palPageSize:375,  
+    hasMoreTravel: false,
+    hasMorePal:false,
+    nextTravel:'init',
+    nextPal:'init',
+
     isLocation:false,
 
     loc_id:'',
@@ -67,6 +78,8 @@ Page({
     var index = res.currentTarget.id
     var liked = !that.data.travel_liked_now[index]
     var liked_edit = 'travel_liked_now['+index+']'
+    var likes_edit = 'travel_likes[' + index + ']'
+    var num = that.data.travel_likes[index]
 
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
     wx.request({
@@ -91,7 +104,7 @@ Page({
 
         if (res.statusCode == 200) {
           that.setData({
-            [liked_edit]:liked
+            [liked_edit]:liked,
           })
           wx.showToast({
             title: '点赞成功',
@@ -115,6 +128,8 @@ Page({
     var index = res.currentTarget.id
     var liked = !that.data.travel_liked_now[index]
     var liked_edit = 'travel_liked_now['+index+']'
+    var likes_edit = 'travel_likes[' + index + ']'
+    var num = that.data.travel_likes[index]
     
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
     wx.request({
@@ -139,7 +154,7 @@ Page({
 
         if (res.statusCode == 200) {
           that.setData({
-            [liked_edit]:liked
+            [liked_edit]:liked,
           })
           wx.showToast({
             title: '点赞已取消',
@@ -183,13 +198,21 @@ Page({
     utils.navigate2Loc(data.loc_id,data.loc_name,JSON.stringify(data.loc_images), data.loc_description,data.loc_cover)
   },
 
+  showMoreTravel:function(){
+    this.getTravels()
+  },
+
+  showMorePal:function(){
+    this.getPals()
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
     var that = this;
 
-    var tag = options.value? options.value:"#这是一个tag#";
+    var tag = options.value? options.value:"#北京市#";
     tag = tag.replace(/^(\s|#)+|(\s|#)+$/g, '');//去掉首尾空白符和#号
     that.setData({
       tagname:tag,
@@ -198,25 +221,42 @@ Page({
     that.checkIsLocation(tag);
     that.getTravels(tag);
     that.getPals(tag);
+
+    console.log(that.data)
   },
 
   getTravels:function(tag) {
     var that = this;
-
+    console.log(tag)
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
+    var url = utils.server_hostname + '/api/core/tags/searchTaggedTravels/?content=' + tag;
+
+    if(that.data.nextTravel != "init"){
+      url = that.data.nextTravel;
+    }
+
     wx.request({
-      url: utils.server_hostname + '/api/core/travels/',
+      url: url,
       method:"GET",
       header:{
         'content-type': 'application/json',
         'token-auth':token
       },
       success:function (res) {
-        // console.log(res);
+        console.log(res);
+        if (res.statusCode != 200 && res.statusCode != 204) {
+          //400-uncreated
+          that.setData({
+            visible:false,
+            visible_msg: res.data.replace('tag','该标签'),
+            travelfinish:true
+          })
+          return;
+        }
+
         var list = res.data.results;
         // console.log(list);
         
-
         var travel_ids = that.data.travel_ids
         var travel_covers = that.data.travel_covers
         var travel_names = that.data.travel_names
@@ -232,7 +272,7 @@ Page({
 
         var view = 0;
         for (var i in list) {
-          var travel = list[i]
+          var travel = list[i].travel
           // console.log(travel)
           if (travel.forbidden == 1) continue
 
@@ -281,10 +321,11 @@ Page({
           travel_travels:travel_travels,
           travel_liked:travel_liked,
           travel_liked_now:travel_liked_now,
-          // nextTravel: res.data.next
+          nextTravel: res.data.next,
+          hasMoreTravel: res.data.next == null ? false : true,
           views:view + that.data.views,
           travelfinish:true,
-        })
+        });
       },
       fail:function (err) {
         console.log(err)
@@ -298,14 +339,29 @@ Page({
   getPals:function (tag) {
     var that = this;
 
+    var url = utils.server_hostname + "/api/core/tags/searchTaggedCompanions/?content=" + tag;
+    if(that.data.nextPal != "init"){
+      url = that.data.nextPal
+    }
+
     wx.request({
-      url: utils.server_hostname + "/api/core/companions/",
+      url: url,
       method: 'GET',
       header: {
         'content-type': 'application/json',
       },
       success:function (res) {
         console.log(res)
+        if (res.statusCode != 200) {
+          if (res.statusCode == 400) {
+            that.setData({
+              created:false,
+            })
+          }
+          return;
+        }
+
+
         var list = res.data.results;
         console.log(list);
 
@@ -325,7 +381,7 @@ Page({
 
         var view = 0;
         for (var i in list) {
-            var pal = list[i]
+            var pal = list[i].companion
             // console.log(pal)
             if (pal.forbidden == 1) continue
   
@@ -369,7 +425,8 @@ Page({
             pal_genders: pal_genders,
             pal_cities: pal_cities,
             pal_travels: pal_travels,
-            // nextPal: res.data.next
+            nextPal: res.data.next,
+            hasMorePal:res.data.next == null? false : true,
             views:view + that.data.views
           })
       },
@@ -382,7 +439,7 @@ Page({
   checkIsLocation:function (tag) {
     var that = this;
     wx.request({
-      url: utils.server_hostname + "/api/core/position/?name=" + tag.split('市')[0],//todo：tag带不带市字
+      url: utils.server_hostname + "/api/core/position/?name=" + tag,
       method: 'GET',
       header: {
         'content-type': 'application/json',
@@ -390,7 +447,7 @@ Page({
       success:function (res) {
         console.log(res);
         var list = res.data.results;
-        if (list.length == 1 && tag.split('市')[0] == list[0].name.split('市')[0]) {
+        if (list.length == 1 && tag == list[0].name) {
           var loc = list[0];
           var cover;
           if (loc.cover == null) cover = utils.server_imagename + "/travelRecordCover/1.jpg";
@@ -411,9 +468,12 @@ Page({
             loc_images:loc.images,
             loc_description:description,
             loc_cover:cover,
-            locfinish:true,
           })
         }
+
+        that.setData({
+          locfinish:true,
+        })
       },
       fail:function (err) {
         console.log(err);

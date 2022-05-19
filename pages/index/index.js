@@ -341,7 +341,6 @@ Page({
       var liked = !that.data.travel_liked_now[index]
       var liked_edit = 'travel_liked_now['+index+']'  
       
-  
       var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
       wx.request({
         url: utils.server_hostname + '/api/core/travels/' + that.data.travel_ids[index] + '/like/',

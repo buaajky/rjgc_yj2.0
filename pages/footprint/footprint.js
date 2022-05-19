@@ -247,7 +247,6 @@ Page({
     }
 
     var url = type == "飞机" ? '/api/core/flights/getFlightInfo?flightid=': '/api/core/trains/getTrainInfo?id=';
-
     return new Promise (function (resolve, reject) {
       wx.request({
         url: utils.server_hostname + url + id,
@@ -273,7 +272,9 @@ Page({
             
             arr_l.push(line);
             resolve();
+            return;
           }
+          resolve();        
         },
         fail:function(err) {
           console.log(err);
