@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "mp-badge": "weui-miniprogram/badge/badge",
-    "l-card":"/miniprogram_npm/lin-ui/card/index"
+    "l-card":"/miniprogram_npm/lin-ui/card/index",
+    "l-tag":"/miniprogram_npm/lin-ui/tag/index"
   },
   "enablePullDownRefresh": true,
   "navigationBarTitleText": ""

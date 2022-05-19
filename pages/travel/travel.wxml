@@ -37,10 +37,29 @@
 
     <view class = "divline"></view>
 
-    <view class="travel_content">{{travel.content}}</view>
+    <!-- <view class="travel_content">{{travel.content}}</view> -->
+    <!-- 2022-05-15 -->
+
+    <view class="travel_content_view_with_tag">
+      <block wx:for="{{contentList}}" wx:key="list" wx:for-item="item">
+        <view class="travel_content_with_tag" wx:if="{{item.is_tag == false}}">{{item.content}}</view>
+        <view class="travel_content_tag" wx:if="{{item.is_tag == true}}" catchtap="navigate2tag" data-name="{{item.content}}">{{item.content}}</view>
+      </block>
+    </view>
+
     <view class="travel_time">
       <text space="ensp">发布于 {{travel.time}}  </text>
     </view>
+  </view>
+
+  <!-- <view class="divview"></view> -->
+  <!-- 始于2022-05-14 -->
+  <view class="tag_view">
+  <block wx:for="{{tagList}}" wx:key="list" wx:for-item="item">
+    <view class="tag_view_2" wx:if="{{item.type == 0}}">
+      <l-tag type="touch" plain="{{true}}" catchtap="navigate2tag" data-name="#{{item.tag.content}}#">{{item.tag.content}}</l-tag>
+    </view>
+  </block>
   </view>
 
   <view class="divview"></view>

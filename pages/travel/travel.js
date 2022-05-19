@@ -64,7 +64,9 @@ Page({
     animationData: {},
 
     dataList:[],
-    get_data: false
+    get_data: false,
+    tagList:[],
+    contentList:[]
   },
 
   reply: function(event) {
@@ -544,6 +546,7 @@ Page({
         that.getRelative()
         // console.log(that.data)
         that.get_traffic() // 2022
+        that.deal_tag_list() // 2022-05-15
         console.log(that.data)
       },
       fail: function(res) { console.log(res) }
@@ -1113,6 +1116,98 @@ fadeDown: function () {
     console.log(index)
     wx.navigateTo({
       url: '/pages/TrainDetail/TrainDetail?id=' + index,
+    })
+  },
+
+  is_legal_tag: function(e) {
+    var that = this;
+    var list = that.data.tagList;
+    var tag_name = e.slice(1, e.length - 1); // 去除##
+    for (let element in list) {
+      if (list[element].tag.content == tag_name && list[element].type == 1) {
+        return true;
+      }
+      else if (list[element].tag.content == tag_name && list[element].type != 1) {
+        return false;
+      }
+    }
+    return false;
+  },
+
+  deal_tag_list: function() {
+    var that = this;
+
+    var content = that.data.travel.content;
+    var i = 0;
+    var list = [];
+
+    wx.request({
+      url: utils.server_hostname + '/api/core/tags/getTravelTags',
+      data: {
+        travel_id: that.data.travel.id
+      },
+      method: 'GET',
+      success: (result) => {
+        // console.log(result)
+        that.setData({
+          tagList: result.data
+        })
+        while (content.indexOf('#', i) != -1) {
+          var left = content.indexOf('#', i);
+          var right = content.indexOf('#', left + 1);
+          if (i < left) {
+            var tmp = {
+              content: content.slice(i, left),
+              is_tag: false
+            };
+            list.push(tmp);
+          }
+          if (right != -1) {
+            var tmp = {
+              content: content.slice(left, right + 1),
+              is_tag: that.is_legal_tag(content.slice(left, right + 1))
+            };
+            list.push(tmp);
+            i = right + 1;
+            continue;
+          }
+          else {
+            var tmp = {
+              content: content.slice(left),
+              is_tag: false
+            };
+            list.push(tmp);
+            break;
+          }
+        }
+        if (list == false) {
+          var tmp = {
+            content: content,
+            is_tag: false
+          };
+          list.push(tmp);
+        }
+        else if (i < content.length) {
+          var tmp = {
+            content: content.slice(i),
+            is_tag: false
+          };
+          list.push(tmp);
+        }
+        console.log(list)
+        that.setData({
+          contentList: list
+        })
+      },
+      fail: (res) => {},
+      complete: (res) => {}
+    })
+  },
+
+  navigate2tag: function(e) {
+    console.log(e.currentTarget.dataset.name)
+    wx.navigateTo({
+      url: '/pages/TagDetail/TagDetail?value=' + e.currentTarget.dataset.name,
     })
   }
 })

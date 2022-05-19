@@ -32,7 +32,15 @@
 
     <view class = "divline"></view>
 
-    <view class="pal_content">{{pal.content}}</view>
+    <!-- <view class="pal_content">{{pal.content}}</view> -->
+    <!-- 2022-05-16 -->
+    <view class="pal_content_view_with_tag">
+      <block wx:for="{{contentList}}" wx:key="list" wx:for-item="item">
+        <view class="pal_content_with_tag" wx:if="{{item.is_tag == false}}">{{item.content}}</view>
+        <view class="pal_content_tag" wx:if="{{item.is_tag == true}}" catchtap="navigate2tag" data-name="{{item.content}}">{{item.content}}</view>
+      </block>
+    </view>
+
     <view class="pal_time">
       <text space="ensp">活动开始时间 {{pal.start_time}}  </text>
     </view>
@@ -45,6 +53,15 @@
     <view class="pal_time">
       <text space="ensp">报名人数 {{pal.num}} / {{pal.capacity}}  </text>
     </view>
+
+    <!-- 2022-05-16 -->
+    <view class="tag_view">
+  <block wx:for="{{tagList}}" wx:key="list" wx:for-item="item">
+    <view class="tag_view_2" wx:if="{{item.type == 0}}">
+      <l-tag type="touch" plain="{{true}}" catchtap="navigate2tag" data-name="#{{item.tag.content}}#">{{item.tag.content}}</l-tag>
+    </view>
+  </block>
+  </view>
 
     <view class = "divline"></view>
     <view class="textBox" hidden="{{isEntered}}">
