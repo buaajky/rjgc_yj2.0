@@ -218,11 +218,36 @@ Page({
       tagname:tag,
     })
 
+    that.getViews(tag);
     that.checkIsLocation(tag);
     that.getTravels(tag);
     that.getPals(tag);
 
     console.log(that.data)
+  },
+
+  getViews:function (tag) {
+    var that = this;
+    var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
+    wx.request({
+      url: utils.server_hostname + '/api/core/tags/getTagRead/?content=' + tag,
+      method:"GET",
+      header:{
+        'content-type': 'application/json',
+        'token-auth':token
+      },
+      success:function (res) {
+        console.log(res)
+        if (res.statusCode == 200) {
+            that.setData({
+              views: res.data.read
+            })
+        }
+      },
+      fail:function (err) {
+        console.log(err)
+      }
+    })
   },
 
   getTravels:function(tag) {
@@ -270,7 +295,7 @@ Page({
         var travel_liked = that.data.travel_liked
         var travel_liked_now = that.data.travel_liked_now
 
-        var view = 0;
+        //var view = 0;
         for (var i in list) {
           var travel = list[i].travel
           // console.log(travel)
@@ -305,7 +330,7 @@ Page({
           travel_travels.push(travel.owner.travels)
           travel_liked.push(travel.liked)
           travel_liked_now.push(travel.liked)
-          view = view + travel.read_total;
+          //view = view + travel.read_total;
         }
 
         that.setData({
@@ -323,7 +348,7 @@ Page({
           travel_liked_now:travel_liked_now,
           nextTravel: res.data.next,
           hasMoreTravel: res.data.next == null ? false : true,
-          views:view + that.data.views,
+          //views:view + that.data.views,
           travelfinish:true,
         });
       },
@@ -379,7 +404,7 @@ Page({
         var pal_cities = that.data.pal_cities
         var pal_travels = that.data.pal_travels
 
-        var view = 0;
+        //var view = 0;
         for (var i in list) {
             var pal = list[i].companion
             // console.log(pal)
@@ -427,7 +452,7 @@ Page({
             pal_travels: pal_travels,
             nextPal: res.data.next,
             hasMorePal:res.data.next == null? false : true,
-            views:view + that.data.views
+            //views:view + that.data.views
           })
       },
       fail:function (err) {

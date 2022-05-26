@@ -37,7 +37,7 @@
               <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
                 <view class="describe_container" slot="describe">
                   <view class="describe_text">{{item.costtime}}</view>
-                  <view class="describe_text">{{item.money}}元起</view>    
+                  <view class="describe_text">{{item.money == 0? '暂无价格': item.money + '元起'}}</view>    
                 </view>
               </l-step>
             </l-steps>
@@ -45,7 +45,7 @@
               <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
                 <view class="describe_container" slot="describe">
                   <view class="describe_text">{{item.costtime}}</view>
-                  <view class="describe_text">{{item.money}}元起</view>    
+                  <view class="describe_text">{{item.money == 0? '暂无价格': item.money + '元起'}}</view>    
                 </view>
               </l-step>
               <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
@@ -63,7 +63,7 @@
               <l-step title="{{item.departtime}} {{item.departport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2" id="test">
                 <view class="describe_container" slot="describe">
                   <view class="describe_text">{{item.costtime}}</view>
-                  <view class="describe_text">{{item.money}}元起</view>    
+                  <view class="describe_text">{{item.money == 0? '暂无价格': item.money + '元起'}}</view>    
                 </view>
               </l-step>
               <l-step title="{{item.arrivaltime}}{{item.day > 0? '(+' + item.day+'天)':''}} {{item.arrivalport}}{{item.type == 't'? '站':''}}" l-title-class="step_title2">
