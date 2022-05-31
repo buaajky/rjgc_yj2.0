@@ -222,7 +222,8 @@ compare_cancel(e) {
     compare_show: !self.data.compare_show,
     airplaneList: tmp1,
     trainList: tmp2,
-    transferList: tmp3
+    transferList: tmp3,
+    compare_num:0
   })
 },
 

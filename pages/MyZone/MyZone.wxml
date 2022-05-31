@@ -112,12 +112,6 @@
         <image src = "{{server_imagename}}/likes.png " class = "functionIconPic" mode = "heightFix"></image>
         <view class = "functionName">喜欢</view>
       </view>
-      <view class = "functionIcon" bindtap="navigate2Notification">
-        <image src = "{{server_imagename}}/comments.png" class = "functionIconPic" mode = "heightFix">
-          <mp-badge wx:if="{{notification}}"  class="badge"/>
-        </image>
-        <view class = "functionName">消息</view>
-      </view>
       <view class = "functionIcon" bindtap="navigate2footprint">
         <image src = "{{server_imagename}}/footprint.png" class = "functionIconPic" mode = "heightFix"></image>
         <view class = "functionName">足迹</view>
@@ -273,10 +267,10 @@
 <!-- 底部的tabbar -->
 <!-- 底部的tabbar有3个组件 -->
 <view wx:if="{{show}}">
-<cover-view  class="tabbar_cover_view_3" animation = "{{tabbar_3_animation}}" hidden="{{!tabbar_3}}">
+  <cover-view  class="tabbar_cover_view_3" animation = "{{tabbar_3_animation}}" hidden="{{!tabbar_3}}">
     <cover-view class="tabbar_box">
-        <cover-view class="flex-item_3" >
-            <cover-view class = "tabbar_pic_text"> 
+        <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text">
                 <cover-image  wx:if = "{{tabbar_homepage}}" class = "tabbar_pic" mode = "widthFix" src = "{{server_imagename}}/homepage_blue.png">
                 </cover-image>
                 <cover-image  wx:else class = "tabbar_pic" mode = "widthFix" src = "{{server_imagename}}/homepage_grey.png" bindtap = "changeTabbarHomepage">
@@ -286,16 +280,6 @@
                 </cover-view>
             </cover-view>
         </cover-view>
-
-        <cover-view class="flex-item_3">
-          <cover-view class = "tabbar_pic_text"> 
-                <cover-image class = "tabbar_pic" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release"></cover-image>
-                <cover-view class = "tabbar_text">
-                发布
-                </cover-view>
-            </cover-view>
-        </cover-view>
-
         <cover-view class="flex-item_3">
             <cover-view class = "tabbar_pic_text"> 
                 <cover-image class = "tabbar_pic" src = "/images/transport_grey.png" mode = "widthFix" bindtap="navigate2TrafficSearch"></cover-image>
@@ -304,13 +288,27 @@
                 </cover-view>
             </cover-view>
         </cover-view>
-
         <cover-view class="flex-item_3">
-        <cover-view class = "tabbar_pic_text"> 
-            <cover-image  wx:if = "{{tabbar_mine}}" class = "tabbar_pic" src = "{{server_imagename}}/mine_blue.png" mode = "widthFix" >
-                </cover-image>
-                <cover-image  wx:else  class = "tabbar_pic" src = "{{server_imagename}}/mine_grey.png" mode = "widthFix" bindtap = "changeTabbarMine">
-            </cover-image>
+          <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "{{server_imagename}}/plus_square_grey.png" mode = "widthFix" bindtap="navigate2Release"></cover-image>
+                <cover-view class = "tabbar_text">
+                发布
+                </cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view class="flex-item_3">
+          <cover-view class = "tabbar_pic_text"> 
+                <cover-image class = "tabbar_pic" src = "/images/message_grey.png" mode = "widthFix" bindtap="navigate2Notification"></cover-image>
+                <mp-badge wx:if="{{notification}}" class="badge"/>
+                <cover-view class = "tabbar_text">
+                消息
+                </cover-view>
+            </cover-view>
+        </cover-view>
+        <cover-view class="flex-item_3">
+            <cover-view class = "tabbar_pic_text"> 
+                <cover-image  wx:if = "{{tabbar_mine}}" class = "tabbar_pic" src = "{{server_imagename}}/mine_blue.png" mode = "widthFix"></cover-image>
+                <cover-image  wx:else  class = "tabbar_pic" src = "{{server_imagename}}/mine_grey.png" mode = "widthFix" bindtap="changeTabbarMine"></cover-image>
                 <cover-view class = "tabbar_text">
                 我的
                 </cover-view>

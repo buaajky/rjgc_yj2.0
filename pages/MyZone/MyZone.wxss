@@ -698,7 +698,7 @@
 .tabbar_cover_view_3 {
   position: fixed;
   top: calc(88%);
-  left: calc(9%);
+  left: calc(0.5%);
   opacity: .8;
   border: 100rpx;
   background:white;
@@ -731,7 +731,7 @@
   display: flex;
   justify-content: center;
   align-content:center;
-  width: 150rpx;
+  width: 145rpx;
   height: 100rpx;
 }
 
