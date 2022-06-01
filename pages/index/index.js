@@ -226,7 +226,8 @@ Page({
         })
         return
       }
-      var url = utils.server_hostname + "/api/core/travels/recommend/"
+      // var url = utils.server_hostname + "/api/core/travels/recommend/"
+      var url = utils.server_hostname + "/api/core/travels/newRecommend/"
       // if (that.data.next_travel == "init") {
       //   url = utils.server_hostname + "/api/core/travels/" 
       // } else {
@@ -581,8 +582,8 @@ Page({
         success: function(res) {
           //console.log(res);
   
-          var loclist = res.data.result
-          //var loclist = res.data.results
+          // var loclist = res.data.result
+          var loclist = res.data.results
           console.log(loclist)
   
           var loc_ids = that.data.loc_ids

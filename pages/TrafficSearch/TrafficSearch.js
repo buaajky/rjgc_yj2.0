@@ -7,67 +7,67 @@ Page({
    */
   data: {
     locList: [
-      [ // 热
-        {
-          id: 1,
-          name: "北京",
-        },
-        {
-          id: 2,
-          name: "成都",
-        },
-        {
-          id: 3,
-          name: "广州",
-        },
-        {
-          id: 4,
-          name: "深圳",
-        },
-        {
-          id: 5,
-          name: "长沙",
-        },
-        {
-          id: 6,
-          name: "杭州",
-        },
-        {
-          id: 7,
-          name: "武汉",
-        },
-        {
-          id: 8,
-          name: "苏州",
-        },
-      ],
-      [ // A
-        {
-          id: 11,
-          name: "鞍山",
-        },
-        {
-          id: 12,
-          name: "阿尔山",
-        },
-      ],
-      [ // B
-        {
-          id: 21,
-          name: "包头",
-        },
-        {
-          id: 22,
-          name: "宝鸡",
-        },
-        {
-          id: 7,
-          name: "北京",
-        },
-      ],
+      // [ // 热
+      //   {
+      //     id: 1,
+      //     name: "北京",
+      //   },
+      //   {
+      //     id: 2,
+      //     name: "成都",
+      //   },
+      //   {
+      //     id: 3,
+      //     name: "广州",
+      //   },
+      //   {
+      //     id: 4,
+      //     name: "深圳",
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "长沙",
+      //   },
+      //   {
+      //     id: 6,
+      //     name: "杭州",
+      //   },
+      //   {
+      //     id: 7,
+      //     name: "武汉",
+      //   },
+      //   {
+      //     id: 8,
+      //     name: "苏州",
+      //   },
+      // ],
+      // [ // A
+      //   {
+      //     id: 11,
+      //     name: "鞍山",
+      //   },
+      //   {
+      //     id: 12,
+      //     name: "阿尔山",
+      //   },
+      // ],
+      // [ // B
+      //   {
+      //     id: 21,
+      //     name: "包头",
+      //   },
+      //   {
+      //     id: 22,
+      //     name: "宝鸡",
+      //   },
+      //   {
+      //     id: 7,
+      //     name: "北京",
+      //   },
+      // ],
     ],
-    cityD: "北京",
-    cityA: "成都",
+    cityD: "",
+    cityA: "",
 
     showPageContainer: false,
     showChooseD: false,
@@ -77,8 +77,9 @@ Page({
     leaveDate: "添加单程日期",
     oTime: "",
 
-    minDate: new Date(2022, 4, 1).getTime(),
-    maxDate: new Date(2022, 12, 1).getTime(),
+    minDate: new Date(2022, 4, 1).getTime(), // onload
+    maxDate: new Date(2023, 12, 1).getTime(), // onload
+    curDate: new Date(2022, 4, 31).getTime(), // onload
 
     isSearchByNum: false,
     planeNum: "",
@@ -104,16 +105,30 @@ Page({
   },
 
   enterCityD: function(e) {
-    console.log(e)
+    // console.log(e.detail.value)
     this.setData({
       cityD: e.detail.value
     })
   },
 
+  clearCityD: function() {
+    // console.log('clearCityD')
+    this.setData({
+      cityD: ''
+    })
+  },
+
   enterCityA: function(e) {
-    console.log(e)
+    // console.log(e.detail.value)
     this.setData({
       cityA: e.detail.value
+    })
+  },
+
+  clearCityA: function() {
+    // console.log('clearCityA')
+    this.setData({
+      cityA: ''
     })
   },
 
@@ -150,7 +165,7 @@ Page({
         oTime = oYear + '-' + this.addZero(oMonth) + '-' + this.addZero(oDay);
         // oHour = oDate.getHours(), oMin = oDate.getMinutes(), oSen = oDate.getSeconds(),
     this.setData({
-      leaveDate: oMonth + "月" + oDay + "日",
+      leaveDate: oTime,
       oTime: oTime,
       showLeaveDate: false
     })
@@ -172,9 +187,16 @@ Page({
   },
 
   enterPlaneNum: function(e) {
-    console.log(e)
+    // console.log(e.detail.value)
     this.setData({
       planeNum: e.detail.value
+    })
+  },
+
+  clearPlaneNum: function() {
+    // console.log('clearPlaneNum')
+    this.setData({
+      PlaneNum: ''
     })
   },
 
@@ -187,6 +209,21 @@ Page({
     })*/
 
     if (this.data.isSearchByNum == false) { //综合查询
+      if (this.data.cityD == '') {
+        wx.showToast({
+          title: '请输入出发地',
+          duration: 1000,
+          icon: 'error'
+        })
+        return
+      } else if (this.data.cityA == '') {
+        wx.showToast({
+          title: '请输入目的地',
+          duration: 1000,
+          icon: 'error'
+        })
+        return
+      }
       var url = '/pages/IntegratedQuery/IntegratedQuery?'
       url = url + "departure=" + this.data.cityD
       url = url + "&" + "arrival=" + this.data.cityA
@@ -204,7 +241,7 @@ Page({
           oTime = oYear + '-' + this.addZero(oMonth) + '-' + this.addZero(oDay)
 
       var url = '/pages/AirplaneSearch/AirplaneSearch?'
-      url = url + "planeNum=" + this.data.planeNum
+      url = url + "planeNum=" + this.data.planeNum.toUpperCase()
       url = url + "&" + "date=" + oTime
       console.log(url)
       wx.navigateTo({
@@ -285,10 +322,17 @@ Page({
         oMonth = oDate.getMonth() + 1,
         oDay = oDate.getDate(),
         oTime = oYear + '-' + this.addZero(oMonth) + '-' + this.addZero(oDay)
-    var minDate = new Date().getTime()
+    var minDate = oYear + '-' + oMonth + '-01'
+    var curDate = new Date().getTime()
+    var nextYear = oYear + 1
+    var maxDate = nextYear + '-' + oMonth + '-' + oDay
     this.setData({
-      leaveDate: oMonth + "月" + oDay + "日",
-      // minDate: minDate,
+      // leaveDate: oYear + "年" + oMonth + "月" + oDay + "日",
+      // leaveDate: oYear + " 年 " + oMonth + " 月 " + oDay + " 日 ",
+      leaveDate: oTime,
+      minDate: minDate,
+      curDate: curDate,
+      maxDate: maxDate,
       oTime: oTime
     })
     /* 2022 */
@@ -395,3 +439,25 @@ Page({
     })
   },
 })
+
+// <!-- 使用 sidebar-data 自定义索引内容 -->
+// <l-index-list scroll-top="{{scrollTop}}" sidebar-data="{{sidebarData}}" bind:linselected="setCityIndex">
+//   <!-- 使用插槽自定义 Tip -->
+//   <view slot="tip" z-index="100">
+//     <view>{{indexText}}</view>
+//   </view>
+
+//   <view wx:for="{{locList}}" wx:key="key" wx:for-item="lList">
+//     <!-- 使用插槽自定义 Anchor -->
+//     <l-index-anchor>1</l-index-anchor>
+    
+//     <view wx:for="{{lList}}" wx:for-item="loc" z-index="99">
+//       <l-button l-class="loc_name_button" l-label-class="loc_name_label"
+//                 data-text="{{loc.name}}" size="long" width="650"
+//                 bg-color="#fff" bind:lintap="selectCity">
+//         <view class="loc_name_text">{{loc.name}}</view>
+//       </l-button>
+//       <!--{{loc.name}}-->
+//     </view>
+//   </view>
+// </l-index-list>

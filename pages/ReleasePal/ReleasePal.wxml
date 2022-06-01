@@ -83,9 +83,73 @@
   <view class="section">
     <view class="section-title">活动详情描述</view>
     <view class="detailBox">
-      <textarea placeholder="请输入活动详情" bindinput="inputDetail" maxlength="-1"></textarea>
+      <textarea placeholder="请输入活动详情" bindinput="inputDetail"
+                maxlength="-1" value="{{content}}"></textarea>
     </view>
   </view>
+
+  <!-- NEW -->
+
+  <view class="divLine"></view>
+
+  <view class="section">
+    <view class="add_bottom_tag" bindtap="chooseInsideTags">
+      <view class="tag_info_line">
+        <image class="tag_img" src='/images/tag.png' />
+        <view lass="bottom_tags_label">{{insideTags.length > 0 ? 
+              '已添加的文中标签：':'暂无文中标签'}}</view>
+      </view>
+      
+      <view wx:if="{{insideTags.length > 0}}" class="bottom_tags">
+        <view class="tag_view">
+          <block wx:for="{{insideTags}}" wx:key="key" wx:for-item="item">
+            <view class="tag_view_2">
+              <l-tag shape="circle" type="touch" plain="{{true}}"
+                    data-name="{{item.name}}" icon="close"
+                    catchtap="deleteInsideTag" icon-color="#888"
+                    location="right">#{{item.name}}#</l-tag>
+            </view>
+          </block>
+        </view>
+        <view class="new_divline" />
+      </view>
+    </view>
+  </view>
+
+  <view class="divLine"></view>
+
+  <view class="section">
+    <view class="add_bottom_tag" bindtap="chooseBottomTags">
+      <view class="tag_info_line">
+        <image class="tag_img" src='/images/tag.png' />
+        <view lass="bottom_tags_label">
+          {{bottomTags.length > 0 || location.address.city != '' ? 
+            '已添加的文末标签：':'添加文末标签'}}</view>
+      </view>
+      
+      <view wx:if="{{bottomTags.length > 0 || location.address.city != ''}}" class="bottom_tags">
+        <view class="tag_view">
+          <block wx:for="{{bottomTags}}" wx:key="key" wx:for-item="item">
+            <view class="tag_view_2">
+              <l-tag shape="circle" type="touch" plain="{{true}}"
+                    data-name="{{item.name}}" icon="close"
+                    catchtap="deleteBottomTag" icon-color="#888"
+                    location="right">#{{item.name}}#</l-tag>
+            </view>
+          </block>
+          <view wx:if="{{location.address.city != ''}}" class="tag_view_2">
+            <l-tag shape="circle" type="touch" plain="{{true}}"
+                    data-name="{{location.address.city}}"
+                    catchtap="emptyBehavior">
+                    #{{location.address.city}}#</l-tag>
+          </view>
+        </view>
+        <view class="new_divline" />
+      </view>
+    </view>
+  </view>
+
+  <!-- NEW end -->
 
   <view>
     <button form-type="submit" style="width:500rpx;margin-bottom:50rpx">发布</button>

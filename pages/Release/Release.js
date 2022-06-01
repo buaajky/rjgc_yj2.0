@@ -25,7 +25,33 @@ Page({
       }
     },
     access:1,
-    access_list: ["公开","仅自己可见"]
+    access_list: ["公开","仅自己可见"],
+
+
+    bottomTags: [
+      // {
+      //   name: "咱就是说",
+      // },
+      // {
+      //   name: "绝绝子",
+      // },
+      // {
+      //   name: "一整个美住了",
+      // },
+      // {
+      //   name: "浅拍一下",
+      // },
+      // {
+      //   name: "好看到翘jiojio",
+      // },
+      // {
+      //   name: "是谁心动了",
+      // },
+      // {
+      //   name: "北京市",
+      // }
+    ],
+    insideTags: []
   },
 
   //发布按钮事件
@@ -66,7 +92,7 @@ Page({
       },
 
       success: function(data) {
-        // console.log(data);
+        console.log(data);
         wx.hideLoading({
           success: (res) => {},
         })
@@ -86,6 +112,13 @@ Page({
         for (let i = 0; i < img_url.length; i++) {
           that.imageUpload(img_url[i], travel_id, 'image')
         }
+
+        // NEW
+
+        that.uploadTags(travel_id, 'inside')
+        that.uploadTags(travel_id, 'bottom')
+
+        // NEW end
 
         wx.showToast({
           title: '发布成功',
@@ -151,7 +184,6 @@ Page({
     this.setData({[key]:value})
   },
 
-
   chooseCover: function() {
     var that = this;
     wx.chooseImage({
@@ -165,7 +197,6 @@ Page({
         }
     })  
   },
-
 
   chooseimage:function(){
     var that = this;
@@ -188,7 +219,6 @@ Page({
       }
     })  
   },
-
 
   chooseLocation:function(){
     utils.authorize()
@@ -242,7 +272,177 @@ Page({
     var app = getApp()
     var show = app.globalData.show
     this.setData({
-      show:show
+      // show: show
+      show: true
     })
   },
+
+  /* NEW */
+
+  chooseBottomTags: function() {
+    var that = this
+    console.log("chooseBottomTags")
+    that.navigate2AddTag()
+  },
+
+  navigate2AddTag: function() {
+    var that = this
+    var url = '/pages/AddTag/AddTag?'
+    url = url + "bottomTags=" + JSON.stringify(that.data.bottomTags)
+    url = url + "&" + "city=" + that.data.location.address.city
+    wx.navigateTo({
+      url: url,
+    });
+  },
+
+  deleteBottomTag: function(e) {
+    var that = this
+    console.log("deleteBottomTag")
+    var bottomTags = that.data.bottomTags
+    var tagName = e.currentTarget.dataset.name
+    for (let i in bottomTags) {
+      if (tagName == bottomTags[i].name) {
+        bottomTags.splice(i, 1)
+        break
+      }
+    }
+    that.setData({
+      bottomTags: bottomTags
+    })
+    wx.showToast({
+      title: '已移除标签',
+      duration: 1000
+    })
+  },
+
+  deleteInsideTag: function(e) {
+    var that = this
+    console.log("deleteinsideTag")
+    var insideTags = that.data.insideTags
+    var tagName = e.currentTarget.dataset.name
+    for (let i in insideTags) {
+      if (tagName == insideTags[i].name) {
+        insideTags.splice(i, 1)
+        break
+      }
+    }
+    that.setData({
+      insideTags: insideTags
+    })
+
+    var content = that.data.content
+    var tagLen = tagName.length
+    for (var i = 0; i < content.length; ++i) {
+      if (tagName == content.substr(i, tagLen)) {
+        content = content.substring(0, i-1) + content.substring(i + tagLen + 1)
+        // content = content.substring(0, i-1)
+        //         + content.substring(i, i+tagLen)
+        //         + content.substring(i+tagLen+1)
+      }
+    }
+    that.setData({
+      content: content
+    })
+
+    wx.showToast({
+      title: '移除成功',
+      duration: 1000
+    })
+  },
+
+  isNewInsideTag: function(curTag, curInsideTags) {
+    for (let i in curInsideTags) {
+      if (curInsideTags[i].name == curTag.name) {
+        return false
+      }
+    }
+    return true
+  },
+
+  input_2: function(e) {
+    var that = this
+    var key = e.currentTarget.id
+    var value = e.detail.value
+    this.setData({[key]:value})
+
+    var cnt = 0
+    var curTag = {
+      name: ''
+    }
+    var curInsideTags = []
+    for (var i = 0; i < value.length; ++i) {
+      if (value[i] == '#') {
+        cnt++
+        if (cnt % 2 == 1) { // 左#
+          curTag.name = ''
+        } else if (that.isNewInsideTag(curTag, curInsideTags)) { // 右#
+          curInsideTags.push(JSON.parse(JSON.stringify(curTag)))
+        }
+        continue
+      }
+      if (cnt % 2 == 1) {
+        curTag.name += value[i]
+      }
+    }
+    that.setData({
+      insideTags: curInsideTags
+    })
+  },
+
+  uploadTags: function(travel_id, type) {
+    var that = this
+    console.log("uploadTags("+type+")")
+    
+    var url
+    var names = []
+    if (type == 'inside') {
+      url = utils.server_hostname + "/api/core/tags/saveTravelInTextTags/"
+      var insideTags = that.data.insideTags
+      for (let i in insideTags) {
+        names.push(insideTags[i].name)
+      }
+    } else if (type == 'bottom') {
+      url = utils.server_hostname + "/api/core/tags/saveTravelEndTextTags/"
+      var bottomTags = that.data.bottomTags
+      for (let i in bottomTags) {
+        names.push(bottomTags[i].name)
+      }
+      var city = that.data.location.address.city
+      names.push(city)
+    }
+
+    if (names.length > 0) {
+      wx.request({
+        url: url,
+        method: 'POST',
+        header: {
+          'content-type': 'application/json',
+        },
+        data: {
+          travel_id: travel_id,
+          names: names
+        },
+        success: function(res) {
+          // console.log(res)
+          if (res.data == false) {
+            wx.showToast({
+              title: '标签上传失败',
+              duration: 1000,
+              icon: 'error'
+            })
+          }
+        },
+        fail: function(err) {
+          console.log(err)
+          wx.showToast({
+            title: '标签上传失败',
+            duration: 1000,
+            icon: 'error'
+          })
+        }
+      })
+    }
+  },
+
+  emptyBehavior: function() {}
 })

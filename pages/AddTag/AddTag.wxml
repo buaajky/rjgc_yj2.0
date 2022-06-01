@@ -1,0 +1,97 @@
+<!--pages/AddTag/AddTag.wxml-->
+<view class="search_view">
+  <l-icon class="tag_icon" name="order" color="black" size="40"></l-icon>
+  <l-input class="input_tag_label" label="标签名" placeholder="请输入标签名"
+           clear="{{true}}" value="{{inputText}}" bind:lininput="inputChange"
+           bind:linclear="inputClear"
+           hide-label="{{true}}" label-width="400" width="400"/>
+  <l-button l-class="add_tag_botton"
+            type="default" size="medium" shape="semicircle" plain="{{true}}"
+            width="120"
+            bind:lintap="addInputTag">添加</l-button>
+  <l-button l-class="confirm_botton"
+            type="default" size="medium" shape="semicircle" plain="{{false}}"
+            width="120"
+            bind:lintap="confirmTags">确认</l-button>
+</view>
+
+<view hidden="{{inputText != ''}}">
+  <view class="tag_line">
+    <view class="tag_line_label">
+      已选标签
+    </view>
+  </view>
+
+  <view hidden="{{bottomTags.length == 0 && city == ''}}">
+    <view class="bottom_tags">
+      <view class="new_divline" />
+      <view class="tag_view">
+        <block wx:for="{{bottomTags}}" wx:key="key" wx:for-item="item">
+          <view class="tag_view_2">
+            <l-tag shape="circle" type="touch" plain="{{true}}"
+                  data-name="{{item.name}}" icon="close"
+                  catchtap="deleteBottomTag" icon-color="#888"
+                  location="right">#{{item.name}}#</l-tag>
+          </view>
+        </block>
+        <view wx:if="{{city != ''}}" class="tag_view_2">
+          <l-tag shape="circle" type="touch" plain="{{true}}"
+                data-name="{{city}}"
+                catchtap="emptyBehavior">
+                #{{city}}#</l-tag>
+        </view>
+      </view>
+      <view class="new_divline" />
+    </view>
+  </view>
+  <view hidden="{{bottomTags.length > 0 || city != ''}}" class="empty_text">
+    暂无已选标签
+  </view>
+
+  <view class="tag_line">
+    <view class="tag_line_label">
+      常用标签
+    </view>
+  </view>
+
+  <view hidden="{{tags.length == 0}}">
+    <view class="new_divline" />
+    <view wx:for="{{tags}}" wx:key="key" wx:for-item="item" wx:if="{{index < 10}}">
+      <l-card type="avatar" l-class="card" image="/images/tag_head_default_square.jpg"
+              image-mode="aspectFill"
+              title="{{item.content}}" describe="浏览 {{item.read}} 次">
+        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC"
+              data-name="{{item.content}}"
+              l-select-class="tag_selected" select="{{item.selected}}"
+              slot="more" size="large" bind:lintap="addExistingTag">
+          {{!item.selected ? "+ 添加" : "已添加"}}
+        </l-tag>
+      </l-card>
+    </view>
+  </view>
+  <view hidden="{{tags.length > 0}}" class="empty_text">加载中</view>
+</view>
+
+<view hidden="{{inputText == ''}}">
+  <view wx:for="{{tags}}" wx:key="key" wx:for-item="item">
+    <view hidden="{{!item.matched}}">
+      <l-card type="avatar" l-class="card" image="/images/tag_head_default_square.jpg"
+              image-mode="aspectFill"
+              title="{{item.content}}" describe="浏览 {{item.read}} 次">
+        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC"
+              data-name="{{item.content}}"
+              l-select-class="tag_selected" select="{{item.selected}}"
+              slot="more" size="large" bind:lintap="addExistingTag">
+          {{!item.selected ? "+ 添加" : "已添加"}}
+        </l-tag>
+      </l-card>
+    </view>
+  </view>
+
+  <view hidden="{{matchedNumber > 0}}" class="empty_text">
+    暂无匹配结果
+  </view>
+  <view hidden="{{matchedNumber == 0}}" class="empty_text">
+    共 {{matchedNumber}} 个相似结果
+  </view>
+</view>

@@ -173,16 +173,23 @@
   margin-top: 20rpx;
 }
 
-.have_select_date {
+/* .have_select_date {
   font-size: 1.1em;
+  color: #000000;
+} */
+
+.have_select_date_new {
+  margin-top: 14rpx;
+  margin-left: 86rpx;
+  font-size: 0.9em;
   color: #000000;
 }
 
-.have_select_date_desc {
+/* .have_select_date_desc {
   margin-left: 5%;
   font-size: 0.8em;
   color: #000000;
-}
+} */
 
 .havent_select_date {
   color: #999999

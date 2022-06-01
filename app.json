@@ -36,7 +36,8 @@
     "pages/MyLoc/MyLoc",
     "pages/TrafficSearch/TrafficSearch",
     "pages/TrafficPlan/TrafficPlan",
-    "pages/TagDetail/TagDetail"
+    "pages/TagDetail/TagDetail",
+    "pages/AddTag/AddTag"
   ],
   "window": {
     "backgroundTextStyle": "light",

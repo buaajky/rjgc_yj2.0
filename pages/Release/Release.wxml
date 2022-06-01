@@ -13,8 +13,10 @@
 <view class = "divline"></view>
 
 <view class="content_view">
-  <textarea class='content_textarea' placeholder="请输入正文" auto-height maxlength="-1"
-  id="content" bindinput="input"></textarea>
+  <!-- <input class='content_textarea' placeholder="请输入正文" auto-height maxlength="-1"
+  id="content" bindinput="input_2"></input> -->
+  <textarea class='content_textarea' placeholder="请输入正文" auto-height maxlength="-1" value="{{content}}"
+  id="content" bindinput="input_2"></textarea>
 </view>
 
 <view class="image_view">
@@ -25,16 +27,69 @@
       <image bindtap="chooseimage" class="moment_img" src='{{server_imagename}}/add.jpg'></image>
     </view>
 </view>
+<!--  hover-stop-propagation='true'-->
+<view class="btns_view">
+  <view class="add_bottom_tag" bindtap="chooseInsideTags">
+    <view class="tag_info_line">
+      <image class="tag_img" src='/images/tag.png' />
+      <view lass="bottom_tags_label">{{insideTags.length > 0 ? 
+            '已添加的文中标签：':'暂无文中标签'}}</view>
+    </view>
+    
+    <view wx:if="{{insideTags.length > 0}}" class="bottom_tags">
+      <view class="tag_view">
+        <block wx:for="{{insideTags}}" wx:key="key" wx:for-item="item">
+          <view class="tag_view_2">
+            <l-tag shape="circle" type="touch" plain="{{true}}"
+                  data-name="{{item.name}}" icon="close"
+                  catchtap="deleteInsideTag" icon-color="#888"
+                  location="right">#{{item.name}}#</l-tag>
+          </view>
+        </block>
+      </view>
+      <view class="new_divline" />
+    </view>
+  </view>
 
-<view class="btns_view">  
-  <button class="add_location" bindtap="chooseLocation">
-    <image class="img" src='{{server_imagename}}/add_location.jpg'></image>
-    {{(location.latitude == -1)? '添加地点' : location.address.city + " · " + location.name}}
-  </button>
-  <button class="add_location" bindtap="chooseVis">
-    <image class="img" src='{{server_imagename}}/visibility.jpg'></image>
-    {{access_list[access]}}
-  </button>
+  <view class="add_bottom_tag" bindtap="chooseBottomTags">
+    <view class="tag_info_line">
+      <image class="tag_img" src='/images/tag.png' />
+      <view lass="bottom_tags_label">
+        {{bottomTags.length > 0 || location.address.city != '' ? 
+          '已添加的文末标签：':'添加文末标签'}}</view>
+    </view>
+    
+    <view wx:if="{{bottomTags.length > 0 || location.address.city != ''}}" class="bottom_tags">
+      <view class="tag_view">
+        <block wx:for="{{bottomTags}}" wx:key="key" wx:for-item="item">
+          <view class="tag_view_2">
+            <l-tag shape="circle" type="touch" plain="{{true}}"
+                  data-name="{{item.name}}" icon="close"
+                  catchtap="deleteBottomTag" icon-color="#888"
+                  location="right">#{{item.name}}#</l-tag>
+          </view>
+        </block>
+        <view wx:if="{{location.address.city != ''}}" class="tag_view_2">
+          <l-tag shape="circle" type="touch" plain="{{true}}"
+                  data-name="{{location.address.city}}"
+                  catchtap="emptyBehavior">
+                  #{{location.address.city}}#</l-tag>
+        </view>
+      </view>
+      <view class="new_divline" />
+    </view>
+  </view>
+
+
+
+  <view class="add_loc_vis" bindtap="chooseLocation">
+    <image class="loc_img" src='/images/add_location.png'></image>
+    <view class="add_location_label">{{(location.latitude == -1)? '添加地点' : location.address.city + " · " + location.name}}</view>
+  </view>
+  <view class="add_loc_vis" bindtap="chooseVis">
+    <image class="vis_img" src='{{server_imagename}}/visibility.jpg'></image>
+    <view class="add_vis_label">{{access_list[access]}}</view>
+  </view>
   <button bindtap="post" class="send">发布</button>
 </view>
 </view>

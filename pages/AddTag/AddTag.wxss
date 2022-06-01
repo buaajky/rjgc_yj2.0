@@ -1,0 +1,84 @@
+/* pages/AddTag/AddTag.wxss */
+.search_view {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: flex-start; */
+  align-items: left;
+  margin-top: 10rpx;
+  margin-bottom: 20rpx;
+}
+
+.tag_icon {
+  margin-top: 10rpx;
+  margin-left: 30rpx;
+  margin-right: 0rpx;
+  /* color: #000; */
+}
+
+.input_tag_label {
+  width: 400rpx;
+  /* 30 + 40 + 400 + 120 + 10 + 120 + 30 == 700 */
+}
+
+.add_tag_botton {
+  margin-top: 5rpx;
+}
+
+.confirm_botton {
+  margin-top: 5rpx;
+  margin-left: 10rpx;
+  margin-right: 30rpx;
+}
+
+.tag_line {
+  width: 750rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  background-color: #eeeeee;
+}
+
+.tag_line_label {
+  margin-left: 30rpx;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+.empty_text {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+  /* font-size: 0.9em; */
+  font-size: 1.0em;
+  color: #999999;
+}
+
+.bottom_tags {
+  margin-left: 50rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tag_view {
+  display: flex;
+  flex-direction: row;  /* 默认横向 */
+  flex-wrap: wrap;
+}
+
+.tag_view_2 {
+  margin-left: 10rpx;
+  margin-right: 10rpx;
+  margin-top: 8rpx;
+  margin-bottom: 8rpx;
+}
+
+.new_divline {
+  margin-top: 14rpx;
+}
+
+.tag_selected {
+  opacity: 0.7;
+}

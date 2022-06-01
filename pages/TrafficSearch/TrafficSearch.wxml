@@ -42,7 +42,7 @@
         </l-button>
         <view>
           <l-input l-class="city_input_label" placeholder="请输入出发地" hide-label="{{true}}" width="400"
-                  clear="{{true}}" bind:linblur="enterCityD">
+                  clear="{{true}}" bind:lininput="enterCityD" bind:linclear="clearCityD">
           </l-input>
         </view>
       </view>
@@ -56,7 +56,7 @@
         </l-button>
         <view>
           <l-input l-class="city_input_label" placeholder="请输入目的地" hide-label="{{true}}" width="400"
-                  clear="{{true}}" bind:linblur="enterCityA">
+                  clear="{{true}}" bind:lininput="enterCityA" bind:linclear="clearCityA">
           </l-input>
         </view>
       </view>
@@ -68,12 +68,13 @@
           <view class="select_city_font_left">出行日</view>
           <!--<view class="have_select_date_desc">今天</view>-->
         </l-button>
-        <view class="leave_date_blank" />
+        <!-- <view class="leave_date_blank" />
         <l-button l-class="leave_date_button" icon=""
                   type="default" size="medium" shape="" 
                   bg-color="#ffffff" bind:lintap="">
           <view class="have_select_date">{{leaveDate}}</view>
-        </l-button>
+        </l-button> -->
+        <view class="have_select_date_new">{{leaveDate}}</view>
       </view>
 
       <!-- <view class="date" hidden="{{isSearchByNum}}">
@@ -105,7 +106,7 @@
         </l-button>
         <view>
           <l-input l-class="city_input_label" placeholder="请输入航班号" hide-label="{{true}}" width="400"
-                  clear="{{true}}" bind:linblur="enterPlaneNum">
+                  clear="{{true}}" bind:lininput="enterPlaneNum" bind:linclear="clearPlaneNum">
           </l-input>
         </view>
       </view>
@@ -140,13 +141,13 @@
 -->
 
 <l-calendar show="{{showLeaveDate}}" min-date="{{minDate}}"
-  max-date="{{maxDate}}" color="#3963bc" bind:linconfirm="setLeaveDate" />
+  max-date="{{maxDate}}" default-date="{{curDate}}" color="#3963bc" bind:linconfirm="setLeaveDate" />
 
-<view class="pop_select_leave_date">
+<!-- <view class="pop_select_leave_date">
   <page-container show="{{showPageContainer}}" duration="300" overlay="{{true}}"
                   position="bottom" round="{{true}}"
                   bind:clickoverlay="closePageContainer">
-    <!-- <scroll-view scroll-y="true"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class = "scroll_up"  showScrollbar="false"> -->
+    <scroll-view scroll-y="true"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}" class = "scroll_up"  showScrollbar="false">
       <view hidden="{{!showChooseD && !showChooseA}}">
         <view class="pop_select_city_label">
           <view wx:if="{{showChooseD}}">选择出发地</view>
@@ -154,43 +155,13 @@
         </view>
 
         <l-card type="primary" full="{{true}}" plaintext="{{true}}" title="">
-          <!-- 使用 sidebar-data 自定义索引内容 -->
-          <l-index-list scroll-top="{{scrollTop}}" sidebar-data="{{sidebarData}}" bind:linselected="setCityIndex">
-            <!-- 使用插槽自定义 Tip -->
-            <view slot="tip" z-index="100">
-              <view>{{indexText}}</view>
-            </view>
-
-            <view wx:for="{{locList}}" wx:key="key" wx:for-item="lList">
-              <!-- 使用插槽自定义 Anchor -->
-              <l-index-anchor>1</l-index-anchor>
-              
-              <view wx:for="{{lList}}" wx:for-item="loc" z-index="99">
-                <l-button l-class="loc_name_button" l-label-class="loc_name_label"
-                          data-text="{{loc.name}}" size="long" width="650"
-                          bg-color="#fff" bind:lintap="selectCity">
-                  <view class="loc_name_text">{{loc.name}}</view>
-                </l-button>
-                <!--{{loc.name}}-->
-              </view>
-            </view>
-          </l-index-list>
+          
         </l-card>
       </view>
-    <!-- </scroll-view> -->
+    </scroll-view>
   </page-container>
-</view>
-
-
-
-
-<!-- <view class="page-section-spacing">
-  <scroll-view scroll-y="true" style="height: 300rpx;" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-    <view id="demo1" class="scroll-view-item demo-text-1"> 1</view>
-    <view id="demo2"  class="scroll-view-item demo-text-2">2</view>
-    <view id="demo3" class="scroll-view-item demo-text-3">3</view>
-  </scroll-view>
 </view> -->
+
 <!--
 <scroll-view id="scroll_city" scroll-y="{{true}}" scroll-with-animation="{{true}}">
 </scroll-view>

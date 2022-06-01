@@ -26,6 +26,9 @@ Page({
       search_date:options.date,
       search_number:options.planeNum
     })
+    wx.setNavigationBarTitle({
+      title: that.data.search_number
+    })
     that.check_date(that.data.search_date)
   },
 

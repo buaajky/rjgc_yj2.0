@@ -223,7 +223,7 @@ compare_cancel(e) {
     airplaneList: tmp1,
     trainList: tmp2,
     transferList: tmp3,
-    compare_num:0
+    compare_num: 0
   })
 },
 
