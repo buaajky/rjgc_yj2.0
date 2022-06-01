@@ -1,7 +1,0 @@
-{
-  "usingComponents": {
-    "mp-badge": "weui-miniprogram/badge/badge"
-  },
-  "enablePullDownRefresh": true,
-  "navigationBarTitleText": ""
-}
