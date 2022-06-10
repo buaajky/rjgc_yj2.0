@@ -322,7 +322,8 @@ module.exports = {
       ans = ans + 'lh';
     }
     else {
-      ans = 'flight_icon';
+      ans = ans + 'default';
+      // ans = 'airline_default';
     }
     return ans;
   }

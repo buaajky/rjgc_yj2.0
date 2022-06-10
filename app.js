@@ -1,14 +1,20 @@
 // app.js
 const utils = require("utils/util.js");
 const monitor = require('./agent/tingyun-mp-agent.js');
-monitor.config({
-  beacon: 'https://beacon-mp.tingyun.com',
-  key: '1grv6zyz0jA',
-  id: 'svB-GMpYmCk',
-  // key: '2lxnd2Hj5ng',
-  // id: 'pZvINGj4-uI',
-  sampleRate: 1
-})
+  monitor.config({
+    beacon: 'https://beacon-mp.tingyun.com',
+    key: 'Y8DxdB4r2PU',
+    id: 'MSqV8OAGI1Y',
+    sampleRate: 1
+  })
+// monitor.config({
+//   beacon: 'https://beacon-mp.tingyun.com',
+//   key: '1grv6zyz0jA',
+//   id: 'svB-GMpYmCk',
+//   // key: '2lxnd2Hj5ng',
+//   // id: 'pZvINGj4-uI',
+//   sampleRate: 1
+// })
   
 App({
   onLaunch() {

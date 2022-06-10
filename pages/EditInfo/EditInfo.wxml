@@ -1,5 +1,6 @@
 <!--pages/EditInfo/EditInfo.wxml-->
-<view wx:if="{{show}}" style="overflow-x:hidden;width:100%;">
+<!-- <view wx:if="{{show}}" style="overflow-x:hidden;width:100%;"> -->
+<view wx:if="{{true}}" style="overflow-x:hidden;width:100%;">
 <view class = "bp_picture">
     <image src ="{{server_imagename}}/background.png" mode = "heightFix"></image>
 </view>

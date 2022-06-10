@@ -147,7 +147,7 @@ Page({
       success:function(res) {
         if (res.statusCode == 200 && res.data == true) {
           wx.showToast({
-            title: '已删除该出行计划',
+            title: '已删除出行计划',
             duration: 1000
           });
           that.setData({
