@@ -50,14 +50,14 @@ Page({
       data: {},
 
       success: function(res) {
-        // console.log(res)
-        var hasPlans = (res.data.length > 0) ? true : false
-        var plans = res.data
+        console.log(res)
+        var hasPlans = (res.data.plan.length > 0) ? true : false
+        var plans = res.data.plan
         for (let i in plans) {
           plans[i].key = i
         }
         that.setData({
-          plans: res.data,
+          plans: res.data.plan,
           hasPlans: hasPlans
         })
         that.getPlansDetail()

@@ -134,7 +134,7 @@ Page({
     });
     //为换乘补上中转城市
     if (plan1.length > 0 && plan1[0].arrivalcity == "") {
-      that.getCity(plan1[0].arrivalport).then(
+      that.getCity(plan1[0].arrivalport.split('站')[0]).then(
         function(data) {
           console.log(data)
           that.setData({
@@ -145,7 +145,7 @@ Page({
       )
     }
     if (plan2.length > 0 && plan2[0].arrivalcity == "") {
-      that.getCity(plan2[0].arrivalport).then(
+      that.getCity(plan2[0].arrivalport.split('站')[0]).then(
         function(data) {
           console.log(data)
           that.setData({

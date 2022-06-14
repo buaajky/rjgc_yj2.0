@@ -24,7 +24,7 @@ scale="{{5}}"
         <view class = "usr_info_nickname">
             <view class = "usr_info_nickname_text">{{nickname}}</view>
         </view>
-        <view class="get_more" bindtap="getFootprint">
+        <view wx:if="{{finish}}" class="get_more" bindtap="getFootprint">
             显示更多足迹
         </view>
     </view>

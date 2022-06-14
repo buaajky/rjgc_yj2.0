@@ -212,8 +212,9 @@ Page({
   onLoad(options) {
     var that = this;
 
-    var tag = options.value? options.value:"#北京市#";
-    tag = tag.replace(/^(\s|#)+|(\s|#)+$/g, '');//去掉首尾空白符和#号
+    var tag = options.value? options.value:"北京市";
+    tag = tag.replace(/^#|#$/g, '');//去掉首尾#号
+    console.log(tag)
     that.setData({
       tagname:tag,
     })
@@ -254,7 +255,7 @@ Page({
     var that = this;
     console.log(tag)
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token')
-    var url = utils.server_hostname + '/api/core/tags/searchTaggedTravels/?content=' + tag;
+    var url = utils.server_hostname + "/api/core/tags/searchTaggedTravels/?content=" + encodeURIComponent(tag);
 
     if(that.data.nextTravel != "init"){
       url = that.data.nextTravel;
@@ -363,8 +364,8 @@ Page({
 
   getPals:function (tag) {
     var that = this;
-
-    var url = utils.server_hostname + "/api/core/tags/searchTaggedCompanions/?content=" + tag;
+    
+    var url = utils.server_hostname + "/api/core/tags/searchTaggedCompanions/?content=" + encodeURIComponent(tag);
     if(that.data.nextPal != "init"){
       url = that.data.nextPal
     }

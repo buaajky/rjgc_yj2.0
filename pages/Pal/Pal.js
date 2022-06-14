@@ -878,7 +878,7 @@ Page({
         pal:that.data.pal.id
         },
         success: function(res) {
-          // console.log(res)
+          //console.log(res)
           // console.log(that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1))
           // console.log(token)
           if (res.data != false) {
@@ -995,6 +995,13 @@ Page({
     var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
     // console.log(e.currentTarget.dataset.index)
     // console.log(token)
+    var i = 0;
+    for (; i < that.data.dataList.length; i++) {
+      if (that.data.dataList[i].traffic_id == e.currentTarget.dataset.index && that.data.dataList[i].traffic_company != "zt") break;
+    }
+    //console.log(that.data.dataList[i])
+    //console.log(token)
+
     wx.request({
       url: utils.server_hostname + '/api/core/plans/addMyComp/',
       method: 'POST',
@@ -1007,8 +1014,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "飞机",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: that.data.dataList[i].traffic_city_start,
+        to1: that.data.dataList[i].traffic_city_end,
         id2: null,
         type2: null,
         from2: null,
@@ -1043,8 +1050,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "飞机",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: that.data.dataList[i].traffic_city_start,
+        to1: that.data.dataList[i].traffic_city_end,
         id2: null,
         type2: null,
         from2: null,
@@ -1073,11 +1080,32 @@ Page({
     })
   },
 
-  choose_train:function(e) {
+  choose_train: async function(e) {
     var that = this
     var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
-    // console.log(e.currentTarget.dataset.index)
-    // console.log(token)
+    //console.log(e.currentTarget.dataset.index)
+    var i = 0;
+    for (; i < that.data.dataList.length; i++) {
+      if (that.data.dataList[i].traffic_id == e.currentTarget.dataset.index && that.data.dataList[i].traffic_company == "zt") break;
+    }
+    console.log(that.data.dataList[i])
+    //console.log(token)
+    var city='', endcity='';
+    await that.getCity(that.data.dataList[i].traffic_city_start).then(
+      function(data) {
+        city = data.split("市")[0];
+      },
+      function(err) {console.log(err)}
+    );
+
+    await that.getCity(that.data.dataList[i].traffic_city_end).then(
+      function(data) {
+        endcity = data.split("市")[0];
+      },
+      function(err) {console.log(err)}
+    );
+    //console.log(city + " " + endcity)
+
     wx.request({
       url: utils.server_hostname + '/api/core/plans/addMyComp/',
       method: 'POST',
@@ -1090,8 +1118,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "火车",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: city,
+        to1: endcity,
         id2: null,
         type2: null,
         from2: null,
@@ -1126,8 +1154,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "火车",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: city,
+        to1: endcity,
         id2: null,
         type2: null,
         from2: null,
@@ -1173,8 +1201,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "飞机",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: that.data.myList[0].traffic_city_start,
+        to1: that.data.myList[0].traffic_city_end,
         id2: null,
         type2: null,
         from2: null,
@@ -1240,11 +1268,27 @@ Page({
     })
   },
 
-  undo_choose_train:function(e) {
+  undo_choose_train:async function(e) {
     var that = this
     var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
     // console.log(e.currentTarget.dataset.index)
-    // console.log(token)
+    //console.log(token)
+    var city='', endcity='';
+    await that.getCity(that.data.myList[0].traffic_city_start).then(
+      function(data) {
+        city = data.split("市")[0];
+      },
+      function(err) {console.log(err)}
+    );
+
+    await that.getCity(that.data.myList[0].traffic_city_end).then(
+      function(data) {
+        endcity = data.split("市")[0];
+      },
+      function(err) {console.log(err)}
+    );
+    console.log(city + " " + endcity)
+
     wx.request({
       url: utils.server_hostname + '/api/core/plans/deleteMyComp/',
       method: 'POST',
@@ -1257,8 +1301,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "火车",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: city,
+        to1: endcity,
         id2: null,
         type2: null,
         from2: null,
@@ -1294,8 +1338,8 @@ Page({
         type: "直达",
         id1: String(e.currentTarget.dataset.index),
         type1: "火车",
-        from1: that.data.from_city,
-        to1: that.data.pal.position.city.substring(0, that.data.pal.position.city.length - 1),
+        from1: city,
+        to1: endcity,
         id2: null,
         type2: null,
         from2: null,
@@ -1414,5 +1458,23 @@ Page({
     wx.navigateTo({
       url: '/pages/TagDetail/TagDetail?value=' + e.currentTarget.dataset.name,
     })
-  }
+  },
+
+  getCity:function(port) {
+    var apiUrl = "https://apis.map.qq.com/ws/geocoder/v1/?address=";
+    //var getLocationUrl = apiUrl + port + "站" + "&key=" + utils.subkey;
+    var getLocationUrl = apiUrl + port + "&key=" + utils.subkey;
+    return new Promise(function (resolve, reject) {
+      wx.request({        
+        url: getLocationUrl,
+        success: function (res) {
+          console.log(res)   
+          var address = res.data.result;
+          resolve(address? address.address_components.city:"未知");
+        },
+        fail: function(res) { console.log(res); reject();}
+      })
+    }
+    )
+  },
 })

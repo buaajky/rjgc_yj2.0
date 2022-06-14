@@ -246,24 +246,22 @@
   color:white;
   z-index:0;
   font-weight: bolder;
-  margin-left:380rpx;
-  margin-top:30rpx;
+  margin-left:360rpx;
+  margin-top:10rpx;
   font-size:33rpx;
 }
 
 .swiper_item_future_citys{
   color:white;
   z-index:0;
-  margin-left:390rpx;
-  margin-top:30rpx;
+  margin-left:360rpx;
   display: flex;
   flex-direction: column;
 }
 
-.swiper_item_future_citys{
+.swiper_item_future_city{
   font-weight: bold;
-  font-size:30rpx;
-  height: 30rpx;
-  margin-top:10rpx;
-  font-size:30rpx;
+  font-size:23rpx;
+  /* height: 30rpx; */
+  margin-top:12rpx; 
 }

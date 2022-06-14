@@ -30,6 +30,7 @@ Page({
 
     prices: [],
     hasAdd:false,//是否加入出行计划
+    isPal:false,//是否与同行绑定
     
     //交互控制
     screen_h: 750,//手机屏幕高度，onLoad中获取
@@ -120,6 +121,14 @@ Page({
 
   deleteFromPlan:function() {//删除出行计划  按钮
     var that = this;
+    if (that.data.isPal) {//若与同行绑定，不允许在详情页取消绑定
+      wx.showModal({
+        title: "操作提示", 
+        content: "该方案已和同行绑定。若需删除，请前往同行页面解除绑定。",
+        showCancel: false,
+      })
+      return;
+    }
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
     //console.log(token)
     wx.request({
@@ -278,7 +287,8 @@ Page({
               console.log(res)
               if (res.statusCode == 200) {
                 that.setData({
-                  hasAdd:res.data
+                  hasAdd:res.data.isAdd,
+                  isPal:res.data.isPal
                 })  
               }  
             },
@@ -296,14 +306,15 @@ Page({
 
   getCity:function(port) {
     var apiUrl = "https://apis.map.qq.com/ws/geocoder/v1/?address=";
-    var getLocationUrl = apiUrl + port + "站" + "&key=" + utils.subkey;
+    //var getLocationUrl = apiUrl + port + "站" + "&key=" + utils.subkey;
+    var getLocationUrl = apiUrl + port + "&key=" + utils.subkey;
     return new Promise(function (resolve, reject) {
       wx.request({        
         url: getLocationUrl,
         success: function (res) {
           console.log(res)   
           var address = res.data.result;
-          resolve(address? address.address_components.city:"");
+          resolve(address? address.address_components.city:"未知");
         },
         fail: function(res) { console.log(res); reject();}
       })
@@ -372,6 +383,9 @@ Page({
       }
     })
   },
+
+
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

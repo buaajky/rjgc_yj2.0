@@ -1080,7 +1080,7 @@ fadeDown: function () {
             tmp1.traffic_price = res.data[i].price
             tmp1.traffic_city_start = res.data[i].owner.station
             tmp1.traffic_city_end = res.data[i].owner.endstation
-            tmp1.traffic_id = res.data[i].id
+            tmp1.traffic_id = res.data[i].owner.id
             k++
             tmp.push(tmp1)
           }

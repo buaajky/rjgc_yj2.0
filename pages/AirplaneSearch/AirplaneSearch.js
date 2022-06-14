@@ -14,7 +14,10 @@ Page({
     end_city: '兰州',
     get_data:false,
     dataList:[],
-    alldataList:[]
+    alldataList:[],
+    start: "2022-01-01",
+    end: "2023-12-31",
+    result_null: "没有对应航班"
   },
 
   /**
@@ -125,6 +128,9 @@ Page({
  searchByDate:function(date) {
   var tmp = [];
   var that = this;
+  that.setData({
+    result_null: "查询中"
+  })
   for (var i in that.data.alldataList) {
     if (that.data.alldataList[i].departdate == date) tmp.push(that.data.alldataList[i]);
   }
@@ -132,7 +138,8 @@ Page({
     tmp[i].airline = utils.airline_Chinese_to_number(tmp[i].airline)
   }
   that.setData({
-    dataList:tmp
+    dataList:tmp,
+    result_null: "没有对应航班"
   })
  },
 

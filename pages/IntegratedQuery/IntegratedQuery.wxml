@@ -1,7 +1,7 @@
 <!--pages/IntegratedQuery/IntegratedQuery.wxml-->
 <view>
   <view class="section">  
-    <picker mode="date" value="{{date}}" start="2022-01-01" end="2023-12-31" field="day" bindchange="bindDateChange" class="time_picker">  
+    <picker mode="date" value="{{date}}" start="{{start}}" end="{{end}}" field="day" bindchange="bindDateChange" class="time_picker">  
       <view class="picker">  
         查询日期: {{search_date}}  
       </view>  
@@ -67,7 +67,7 @@
         </view>
       </block>
     </view>
-    <view wx:else class="no_air">没有合适结果</view>
+    <view wx:else class="no_air">{{result_null_air}}</view>
   </l-tabpanel>
 
   <l-tabpanel tab="火车" key="two" slot="two">
@@ -110,7 +110,7 @@
         </view>
       </block>
     </view>
-    <view wx:else class="no_air">没有合适结果</view>
+    <view wx:else class="no_air">{{result_null_train}}</view>
   </l-tabpanel>
 
   <l-tabpanel tab="换乘方案" key="three" slot="three">
@@ -181,7 +181,7 @@
         </view>
       </block>
     </view>
-    <view wx:else class="no_air">没有合适结果</view>
+    <view wx:else class="no_air">{{result_null_transfer}}</view>
   </l-tabpanel>
 
 </l-tabs>

@@ -622,7 +622,7 @@ get_traffic: function(){
     },
     
     success: function(res) {
-      // console.log(res.data)
+      console.log(res.data)
       var size_list = res.data.length > 2 ? 1 : res.data.length
       var k = 0
       // console.log(res.data.length)
@@ -647,7 +647,7 @@ get_traffic: function(){
           tmp1.traffic_price = res.data[i].price
           tmp1.traffic_city_start = res.data[i].owner.departstation
           tmp1.traffic_city_end = res.data[i].owner.endstation
-          tmp1.traffic_id = res.data[i].id
+          tmp1.traffic_id = res.data[i].owner.id
           k++
           tmp.push(tmp1)
         }

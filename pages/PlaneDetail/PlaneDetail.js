@@ -32,6 +32,7 @@ Page({
     craft:"",//"738",
     overdate:"",
     hasAdd:false,//是否已加入用户的出行计划
+    isPal:false,//是否与同行绑定
 
     jjcPrices:[],
     gwcPrices:[],
@@ -124,6 +125,14 @@ Page({
 
   deleteFromPlan:function() {//删除出行计划  按钮
     var that = this;
+    if (that.data.isPal) {//若与同行绑定，不允许在详情页取消绑定
+      wx.showModal({
+        title: "操作提示", 
+        content: "该方案已和同行绑定。若需删除，请前往同行页面解除绑定。",
+        showCancel: false,
+      })
+      return;
+    }
     var token = (wx.getStorageSync('token') == '')? "notoken" : wx.getStorageSync('token');
     //console.log(token)
     wx.request({
@@ -260,7 +269,8 @@ Page({
               console.log(res)
               if (res.statusCode == 200) {
                 that.setData({
-                  hasAdd:res.data
+                  hasAdd:res.data.isAdd,
+                  isPal:res.data.isPal
                 }) 
               }   
             },

@@ -2,7 +2,7 @@
 show-compass="true" enable-3D="true" skew="25" enable-overlooking = "true" 
 markers="{{markers}}" polyline="{{polyline}}"
 longitude="{{(longitude == null)? 116.397827 : longitude}}" latitude="{{(latitude == null)? 39.90374 : latitude}}" 
-scale="{{scale}}"
+scale="{{scale}}" max-scale="10"
 >
 </map>
 

@@ -2,7 +2,7 @@
 <!--<l-calendar show="{{ true }}" />-->
 <view>
   <view class="section">  
-    <picker mode="date" value="{{date}}" start="2022-01-01" end="2023-12-31" field="day" bindchange="bindDateChange">  
+    <picker mode="date" value="{{date}}" start="{{start}}" end="{{end}}" field="day" bindchange="bindDateChange">  
       <view class="picker">  
         当前查询日期: {{search_date}}  
       </view>  
@@ -53,6 +53,6 @@
   </view>
   </block>
   </view>
-  <view wx:else class="no_air">没有对应航班</view>
+  <view wx:else class="no_air">{{result_null}}</view>
 
 </view>

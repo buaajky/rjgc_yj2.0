@@ -40,6 +40,8 @@ Page({
       "#33C9FFDD",
       "#38B0DEDD"
     ],
+
+    hasError:false//是否有定位不了的地方
   },
 
   /**
@@ -57,6 +59,14 @@ Page({
         await that.getLngLat(plans[i].city2, plans[i].port2,
           i + 1 < plans.length? plans[i+1].port1 :"",
           i + 1, points, false, i == plans.length - 1);
+    }
+
+    if (that.data.hasError) {
+      wx.showToast({
+        title: '腾讯定位出错',
+        icon:'none',
+        duration:2000
+      })
     }
 
     //adding route
@@ -107,13 +117,15 @@ Page({
       }
 
       var tool = {
-          longitude: (points[i].longitude + points[i + 1].longitude)/2 + 1.5*side,
+          // longitude: (points[i].longitude + points[i + 1].longitude)/2 + 1.5*side,
+          longitude: (points[i].longitude + points[i + 1].longitude)/2,
           latitude: (points[i].latitude + points[i + 1].latitude)/2,
           width: 180 - 40 * pl,
           height: 180 - 40 * pl,
           rotate:rotate,
           id: pl + 1 +i,
           iconPath: icon,
+          anchor: {x: .5, y: .5}
       };
       points.push(tool);
     }
@@ -131,14 +143,21 @@ Page({
   },
 
   getLngLat:function(city, port, nextport, index, arr, start, end) {
+    var that = this;
     var apiUrl = "https://apis.map.qq.com/ws/geocoder/v1/?address=";
     var getLocationUrl = apiUrl + city + "市" + "&key=" + utils.subkey;
     return new Promise(function (resolve, reject) {
       wx.request({        
         url: getLocationUrl,
         success: function (res) {
-          console.log(res)   
+          console.log(res)
           var address = res.data.result;
+          if (address == undefined) {
+            that.setData({
+              hasError:true
+            });
+            resolve();
+          }
           var content = "";
           if (start) {
             content = "始发地点：" + address.address_components.city + " · "+ port;
@@ -178,7 +197,13 @@ Page({
           console.log("here"+city);
           resolve();
         },
-        fail: function(res) { console.log(res); reject();}
+        fail: function(res) { 
+          console.log(res);
+          that.setData({
+            hasError:true
+          });
+          resolve();
+        }
       })
     }
     )

@@ -50,6 +50,9 @@ Page({
     recommend_0:"",
     recommend_1:"",
     recommend_2:"",
+
+    hasError:false,//定位出错
+    finish:false,//第一次加载是否完成
   },
 
   /**
@@ -65,18 +68,13 @@ Page({
       cities: options.cities,
       travels: options.travels,
       isMine: options.id == wx.getStorageSync('id'),
-      today: utils.formatTime(new Date()).split(" ")[0].replace(/\//g, "-")
+      //today: utils.formatTime(new Date()).split(" ")[0].replace(/\//g, "-")
     })
-
-    console.log(this.data.today)
 
     this.getFootprint()
   },
 
   getFootprint: function() {
-    wx.showLoading({
-      title: '正在生成足迹'
-    })
     var that = this
     var url
     if (that.data.next == "init") {
@@ -91,9 +89,12 @@ Page({
         icon: "none",
         duration: 1000
       })
-      return
+      return;
     }
 
+    wx.showLoading({
+      title: '正在生成足迹'
+    })
     var token = (wx.getStorageSync('token') == '')? 'notoken' : wx.getStorageSync('token')
 
     wx.request({
@@ -171,7 +172,10 @@ Page({
           },
           success:async function(res) {
             console.log(res.data);
-            var plans = res.data;
+            var plans = res.data.plan;
+            that.setData({
+              today:res.data.today
+            })
             var prel = markers.length;
             for (var i in plans) {
               if (markers.length - prel == 4) {//腾讯地图api一秒内不允许访问过多次
@@ -199,9 +203,19 @@ Page({
     
             console.log(that.data)
             that.analyseFootprint()
+            that.setData({
+              finish:true
+            })
             wx.hideLoading({
               success: (res) => {},
             });
+            if (that.data.hasError) {
+              wx.showToast({
+                title: '部分足迹的腾讯定位出错',
+                icon:'none',
+                duration:2000
+              })
+            }
           },
           fail:function(err) {
             console.log(err);
@@ -214,10 +228,24 @@ Page({
     
             // console.log(that.data)
             that.analyseFootprint()
+            that.setData({
+              finish:true
+            })
+            wx.hideLoading({
+              success: (res) => {},
+            });
           }
         })
       },
-      fail: function(res) { console.log(res); }
+      fail: function(res) { 
+        console.log(res);
+        that.setData({
+          finish:true
+        })
+        wx.hideLoading({
+          success: (res) => {},
+        });
+       }
     })
   },
 
@@ -252,11 +280,16 @@ Page({
         url: utils.server_hostname + url + id,
         success: async function(res) {
           if (res.data[0].departdate < that.data.today) {
+            var flag = false;
             await that.getLngLat(city1, arr_p).then(
               function(data) {
                 console.log(data)
-                line.points[0].longitude = data.lng;
-                line.points[0].latitude = data.lat;
+                if (data == undefined) {
+                  flag = true;
+                }else {
+                  line.points[0].longitude = data.lng;
+                  line.points[0].latitude = data.lat;
+                }          
               },
               function(err) {console.log(err)}
             );
@@ -264,13 +297,17 @@ Page({
             await that.getLngLat(city2, arr_p).then(
               function(data) {
                 console.log(data)
-                line.points[1].longitude = data.lng;
-                line.points[1].latitude = data.lat;
+                if (data == undefined) {
+                  flag = true;
+                }else {
+                  line.points[1].longitude = data.lng;
+                  line.points[1].latitude = data.lat;
+                }
               },
               function(err) {console.log(err)}
             );
-            
-            arr_l.push(line);
+            console.log(flag)
+            if (!flag) arr_l.push(line);
             resolve();
             return;
           }
@@ -286,14 +323,23 @@ Page({
   },
 
   getLngLat:function(city, arr) {//获取城市经纬度
+    var that = this;
     var apiUrl = "https://apis.map.qq.com/ws/geocoder/v1/?address=";
     var getLocationUrl = apiUrl + city + "市" + "&key=" + utils.subkey;
+    console.log(getLocationUrl)
     return new Promise(function (resolve, reject) {
       wx.request({        
         url: getLocationUrl,
         success: function (res) {
           console.log(res)   
           var address = res.data.result;
+          if (address == undefined) {
+            that.setData({
+              hasError:true
+            })
+            resolve();
+            return;
+          }
           arr.push({
             longitude: address.location.lng,
             latitude: address.location.lat,

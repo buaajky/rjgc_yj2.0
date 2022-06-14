@@ -22,7 +22,12 @@ Page({
     transferList:[],
 
     search_type:"one",//控制tab初始页面
-    search_type_map:{"飞机":"one", "火车":"two", "换乘":"three"}
+    search_type_map:{"飞机":"one", "火车":"two", "换乘":"three"},
+    start: "2022-01-01",
+    end: "2023-12-31",
+    result_null_air: "没有合适结果",
+    result_null_train: "没有合适结果",
+    result_null_transfer: "没有合适结果"
   },
 
   /**
@@ -317,6 +322,9 @@ compare_do: function(e) {
 
 get_air_list:function(date) {
   var that = this
+  that.setData({
+    result_null_air: "查询中"
+  })
   wx.request({
     url: server_hostname + '/api/core/flights/getThroughFlight',
     method: 'GET',
@@ -337,7 +345,8 @@ get_air_list:function(date) {
       }
       lll.sort((a, b)=>{return a.minprice - b.minprice});
       that.setData({
-        airplaneList: lll
+        airplaneList: lll,
+        result_null_air: "没有合适结果"
       })
       if (that.data.airplaneList != false) {
         that.setData({
@@ -351,6 +360,9 @@ get_air_list:function(date) {
 
 get_train_list:function(e) {
   var that = this
+  that.setData({
+    result_null_train: "查询中"
+  })
   wx.request({
     url: server_hostname + '/api/core/trains/getThroughTrain',
     method: 'GET',
@@ -376,7 +388,8 @@ get_train_list:function(e) {
       }
       lll.sort((a, b)=>{return a.train_price - b.train_price});
       that.setData({
-        trainList: lll
+        trainList: lll,
+        result_null_train: "没有合适结果"
       })
       if (that.data.trainList != false) {
         that.setData({
@@ -390,6 +403,9 @@ get_train_list:function(e) {
 
 get_transfer_list: function(date) {
   var that = this
+  that.setData({
+    result_null_transfer: "查询中"
+  })
   var trans = {
     t1_type:'',
     t1_number:'',
@@ -456,6 +472,9 @@ get_transfer_list: function(date) {
           })
         }
       }
+      that.setData({
+        result_null_transfer: "没有合适结果"
+      })
     },
     fail: (res) => {},
   })

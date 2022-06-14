@@ -161,7 +161,10 @@
               <!--avatar-->
               <image class="comment_li_img" id="{{comment_dict[item].owner.id}}"
               src="{{server_hostname}}/api/core/images/{{comment_dict[item].owner.icon}}/data/"
-              catchtap="navigate2Replyer"></image>
+              catchtap="navigate2Replyer" wx:if="{{comment_dict[item].owner.icon != null}}"></image>
+              <image class="comment_li_img" id="{{comment_dict[item].owner.id}}"
+              src="{{server_hostname}}/media/male.png"
+              catchtap="navigate2Replyer" wx:else></image>
               <view class="comment_li_info">
                 <!--nickname-->
                 <view class="comment_li_name" id="{{comment_dict[item].owner.id}}" 
@@ -182,8 +185,10 @@
 
               <image class="reply_img" id="{{comment_dict[reply_id].owner.id}}"
               src="{{server_hostname}}/api/core/images/{{comment_dict[reply_id].owner.icon}}/data/"
-              catchtap="navigate2Replyer"></image>
-
+              catchtap="navigate2Replyer" wx:if="{{comment_dict[reply_id].owner.icon != null}}"></image>
+              <image class="reply_img" id="{{comment_dict[reply_id].owner.id}}"
+              src="{{server_hostname}}/media/male.png"
+              catchtap="navigate2Replyer" wx:else></image>
               
               <view class="reply_info">
                 <!--username-->
